@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>マイクラ教育版 コマンド図鑑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7EFF3; --surface:#FFFFFF; --surface-2:#F3F7F9; --ink:#1D2830; --muted:#55666F; --line:#C7D5DC;
+  --cmd:#D96A08; --req:#23874A; --opt:#7149CF;
+  --chat:#1A2026; --chat-ink:#F1F1F1;
+  --c-cmd:#FFAE5C; --c-req:#7FE0A0; --c-opt:#C7AEFF; --c-sel:#FFE27A; --c-num:#8FD3FF; --c-str:#FFB3C8;
+  --pass:#3F9B4F; --neutral:#C9961A; --hostile:#C8413A; --boss:#7149CF; --thing:#2F7DBF;
+  --pass-bg:#DDF1DF; --neutral-bg:#F7ECCB; --hostile-bg:#F7DCDA; --boss-bg:#E7DEFA; --thing-bg:#D9E9F7;
+  --tip:#FFF6D6; --tip-line:#E8CF73; --warn:#FDE3E0; --warn-line:#E5938B;
+  --focus:#2F7DBF;
+  --font:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;
+  --pixel:"DotGothic16","Osaka-Mono","MS Gothic",ui-monospace,monospace;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11171B; --surface:#1A2228; --surface-2:#212B32; --ink:#E6EDF1; --muted:#9AAEB8; --line:#2E3C45;
+    --cmd:#FF9A3D; --req:#4FC277; --opt:#A88BF2;
+    --chat:#090C0F;
+    --pass-bg:#1E3324; --neutral-bg:#3A3018; --hostile-bg:#3D2120; --boss-bg:#2C2445; --thing-bg:#1B2E40;
+    --tip:#3A3418; --tip-line:#7A6A2A; --warn:#3D2120; --warn-line:#8A4A44;
+    --focus:#8FC6FF;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11171B; --surface:#1A2228; --surface-2:#212B32; --ink:#E6EDF1; --muted:#9AAEB8; --line:#2E3C45;
+  --cmd:#FF9A3D; --req:#4FC277; --opt:#A88BF2;
+  --chat:#090C0F;
+  --pass-bg:#1E3324; --neutral-bg:#3A3018; --hostile-bg:#3D2120; --boss-bg:#2C2445; --thing-bg:#1B2E40;
+  --tip:#3A3418; --tip-line:#7A6A2A; --warn:#3D2120; --warn-line:#8A4A44;
+  --focus:#8FC6FF;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 140px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* header */
+.top{padding:22px 20px 10px;max-width:1180px;margin:0 auto;display:flex;gap:16px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+.brand h1{margin:0;font-family:var(--pixel);font-weight:400;font-size:clamp(26px,4.4vw,40px);line-height:1.15;letter-spacing:.02em}
+.brand p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.theme-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:2px solid var(--line)}
+.tabs-in{max-width:1180px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:8px 14px 0;scrollbar-width:thin}
+.tab{flex:0 0 auto;border:0;background:none;padding:8px 12px 10px;border-radius:10px 10px 0 0;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tab .tn{font-family:var(--pixel);font-size:16px}
+.tab .tj{font-size:11.5px;color:var(--muted)}
+.tab:hover{background:var(--surface-2)}
+.tab[aria-selected="true"]{border-bottom-color:var(--cmd);background:var(--surface-2)}
+.tab[aria-selected="true"] .tn{color:var(--cmd)}
+
+main{max-width:1180px;margin:0 auto;padding:22px 20px 60px}
+.sec-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;margin:4px 0 6px}
+.sec-head h2{margin:0;font-family:var(--pixel);font-weight:400;font-size:clamp(32px,6vw,52px);line-height:1;color:var(--cmd)}
+.sec-head .jp{font-size:clamp(18px,2.6vw,24px);font-weight:800}
+.lead{margin:0 0 18px;max-width:46em;color:var(--muted)}
+h3{font-size:19px;font-weight:800;margin:34px 0 10px;display:flex;align-items:center;gap:10px}
+h3 .count{font-size:13px;font-weight:500;color:var(--muted)}
+
+/* chat bar */
+.chat{background:var(--chat);color:var(--chat-ink);font-family:var(--pixel);font-size:clamp(16px,2.1vw,20px);line-height:1.5;padding:10px 14px;border-radius:4px;overflow-x:auto;white-space:pre;flex:1;min-width:0;box-shadow:inset 0 0 0 2px rgba(255,255,255,.06)}
+.chat .t-cmd{color:var(--c-cmd)} .chat .t-sel{color:var(--c-sel)} .chat .t-num{color:var(--c-num)} .chat .t-id{color:var(--c-req)} .chat .t-str{color:var(--c-str)}
+.chat .s-cmd{color:var(--c-cmd)} .chat .s-req{color:var(--c-req)} .chat .s-opt{color:var(--c-opt)} .chat .s-lit{color:var(--chat-ink)}
+.chat-row{display:flex;gap:8px;align-items:stretch}
+.copy{flex:0 0 auto;border:0;border-radius:4px;background:var(--cmd);color:#fff;font-weight:700;padding:0 14px;cursor:pointer;font-size:14px;min-height:44px}
+.copy:hover{filter:brightness(1.08)}
+.copy.done{background:var(--req)}
+
+/* maker */
+.maker{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--nav-h,64px));z-index:10;background:var(--surface);border:2px solid var(--cmd);border-radius:12px;padding:12px 14px 14px;margin:6px 0 8px;box-shadow:0 6px 18px -12px rgba(0,0,0,.45)}
+.maker.flash{animation:flash .5s ease}
+@keyframes flash{0%{border-color:var(--req);transform:scale(1.01)}100%{border-color:var(--cmd);transform:none}}
+.maker-top{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin-bottom:8px}
+.maker-title{font-weight:800;font-size:15px}
+.maker-pick{font-size:14px;color:var(--muted)}
+.maker-pick b{color:var(--ink)}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 12px;font-size:13.5px;cursor:pointer;line-height:1.6}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.chip:hover{border-color:var(--muted)}
+
+/* syntax */
+.syntax{display:grid;gap:8px;margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);margin:8px 0 4px}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:currentColor}
+.legend .l-cmd{color:var(--cmd)} .legend .l-req{color:var(--req)} .legend .l-opt{color:var(--opt)}
+.legend span b{color:var(--muted);font-weight:500}
+.parts{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:0;margin:12px 0 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.parts dt,.parts dd{margin:0;padding:10px 14px;border-top:1px solid var(--line)}
+.parts dt:first-of-type,.parts dt:first-of-type + dd{border-top:0}
+.parts dt{font-family:var(--pixel);font-size:16px;background:var(--surface-2);white-space:nowrap}
+.parts dt.k-req{color:var(--req)} .parts dt.k-opt{color:var(--opt)} .parts dt.k-cmd{color:var(--cmd)}
+.parts dd small{display:block;color:var(--muted);font-size:13.5px}
+@media (max-width:560px){.parts{grid-template-columns:1fr}.parts dd{border-top:0;padding-top:0}.parts dt{background:none;padding-bottom:2px}}
+
+/* examples */
+.examples{display:grid;gap:12px}
+.ex .what{margin:4px 2px 0;font-size:14.5px}
+.ex .what::before{content:"↳ ";color:var(--muted)}
+
+.notes{display:grid;gap:10px;margin-top:18px}
+.note{border-left:5px solid var(--tip-line);background:var(--tip);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px}
+.note.warn{border-left-color:var(--warn-line);background:var(--warn)}
+.note b{font-weight:800}
+
+/* tables (basics/execute) */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:9px 12px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+thead th{border-top:0;background:var(--surface-2);font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
+td code,.inline-code{font-family:var(--pixel);font-size:15px;background:var(--surface-2);padding:1px 6px;border-radius:4px;white-space:nowrap}
+td:first-child code{color:var(--cmd)}
+
+.steps{counter-reset:s;display:grid;gap:10px;padding:0;margin:0;list-style:none}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+.steps li::before{content:counter(s);font-family:var(--pixel);font-size:18px;width:34px;height:34px;display:grid;place-items:center;background:var(--req);color:#fff;border-radius:6px}
+
+/* id finder */
+.finder{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:4px 0 14px}
+.search{flex:1 1 220px;min-width:0;border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-size:16px}
+.search:focus{border-color:var(--focus);outline:none}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;background:var(--surface);border:2px solid var(--line);border-radius:10px;overflow:hidden;position:relative}
+.card:hover{border-color:var(--muted)}
+.card:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.card[aria-pressed="true"]{border-color:var(--cmd);box-shadow:0 0 0 2px var(--cmd)}
+.vis{height:104px;display:grid;place-items:center;position:relative;font-size:46px;line-height:1}
+.vis canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+.vis.mob[data-c="pass"]{background:var(--pass-bg)} .vis.mob[data-c="neutral"]{background:var(--neutral-bg)} .vis.mob[data-c="hostile"]{background:var(--hostile-bg)} .vis.mob[data-c="boss"]{background:var(--boss-bg)} .vis.mob[data-c="thing"]{background:var(--thing-bg)}
+.vis.ptc{background:linear-gradient(#1f2a35,#2c3a46 78%,#4a8f3c 78%,#4a8f3c 84%,#7a5434 84%)}
+.vis.eff .orb{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:32px;box-shadow:inset -6px -8px 0 rgba(0,0,0,.18),inset 6px 6px 0 rgba(255,255,255,.25)}
+.vis.eff{background:var(--surface-2)}
+.vis.ench{background:var(--surface-2);font-size:30px;gap:2px;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;padding:8px}
+.vis.snd{background:var(--surface-2)}
+.vis.mus{background:var(--surface-2)}
+.disc{width:78px;height:78px;border-radius:50%;background:repeating-radial-gradient(circle,#1c1c1c 0 2px,#2a2a2a 2px 4px);display:grid;place-items:center;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.disc i{width:28px;height:28px;border-radius:50%;display:block;box-shadow:inset 0 0 0 9px var(--lab),inset 0 0 0 14px #111}
+.card:hover .disc,.card[aria-pressed="true"] .disc{animation:spin 2.4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.body{padding:8px 10px 10px;display:flex;flex-direction:column;gap:3px;flex:1}
+.nm{font-weight:800;font-size:15.5px;line-height:1.35}
+.id{font-family:var(--pixel);font-size:13.5px;color:var(--req);word-break:break-all;line-height:1.35}
+.ds{font-size:12.5px;color:var(--muted);line-height:1.5}
+.badges{position:absolute;top:6px;left:6px;right:6px;display:flex;justify-content:space-between;pointer-events:none}
+.bd{font-size:11px;font-weight:800;padding:1px 7px;border-radius:999px;background:var(--surface);color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.bd.star{color:#B07A00}
+.bd.warn{background:var(--hostile);color:#fff}
+.bd.edu{background:var(--thing);color:#fff}
+.bd.new{background:var(--opt);color:#fff}
+.bd.lv{background:var(--ink);color:var(--surface)}
+.empty{padding:30px;text-align:center;color:var(--muted);border:2px dashed var(--line);border-radius:12px}
+.grp-title{grid-column:1/-1;font-weight:800;font-size:14px;color:var(--muted);margin:10px 0 -4px;display:flex;gap:8px;align-items:center}
+.grp-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.give{display:flex;flex-wrap:wrap;gap:8px}
+.give button{border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;cursor:pointer;font-family:var(--pixel);font-size:14px}
+.give button:hover{border-color:var(--cmd)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;transition:.2s;z-index:50;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+footer{max-width:1180px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:13px}
+
+
+
+.groups-in{max-width:1180px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:10px 14px 2px;scrollbar-width:thin}
+.gchip{flex:0 0 auto;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 13px;font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6;color:var(--muted)}
+.gchip:hover{border-color:var(--muted)}
+.gchip[aria-pressed="true"]{background:var(--cmd);border-color:var(--cmd);color:#fff}
+.vis.fmt{background:#2B2F33;padding-top:16px}
+.fmtx{font-family:var(--pixel);font-size:26px;text-shadow:3px 3px 0 rgba(0,0,0,.45)}
+.tab-sep{flex:0 0 1px;align-self:center;height:28px;background:var(--line);margin:0 6px}
+.vis.simple{background:var(--surface-2)}
+.vis.sky{font-size:44px;overflow:hidden}
+.vis.sky .overlay{position:absolute;inset:0;width:100%;height:100%}
+.vis.sky .skyemo{position:relative}
+.vis.compass{background:var(--surface-2)}
+.dial{width:78px;height:78px;border-radius:50%;border:3px solid var(--line);background:var(--surface);position:relative;font-size:11px;font-weight:800;color:var(--muted)}
+.dial span{position:absolute;line-height:1}
+.dial .n{top:3px;left:50%;transform:translateX(-50%);color:var(--hostile)} .dial .s{bottom:3px;left:50%;transform:translateX(-50%)}
+.dial .e{right:4px;top:50%;transform:translateY(-50%)} .dial .w{left:4px;top:50%;transform:translateY(-50%)}
+.dial .arrow{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-size:22px;color:var(--cmd);transform-origin:50% 50%}
+.dial .arrow::after{content:"";}
+.vis.blkv{background:var(--surface-2)}
+canvas.blk{width:60px!important;height:60px!important;image-rendering:pixelated;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+canvas.blk.air{outline:2px dashed var(--muted);outline-offset:-2px;box-shadow:none}
+.lvl{margin-top:4px;padding-top:5px;border-top:1px dashed var(--line);font-size:12.5px;line-height:1.5;color:var(--ink)}
+.lvl b{font-family:var(--pixel);font-weight:400;color:var(--opt);margin-right:2px}
+.lvl.none{color:var(--muted)}
+.lv-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:10px}
+.lv-label{font-size:14px;font-weight:800}
+.step{width:40px;height:36px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);font-size:20px;font-weight:800;cursor:pointer;line-height:1}
+.step:disabled{opacity:.35;cursor:default}
+.lv-val{font-family:var(--pixel);font-size:17px;min-width:4.5em;text-align:center}
+.lv-txt{font-size:14.5px;font-weight:700;color:var(--opt)}
+details.lvtable summary{cursor:pointer;font-weight:700;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+details.lvtable[open] summary{margin-bottom:10px}
+details.lvtable td{font-size:13px;min-width:110px}
+td.muted{color:var(--muted)}
+.modes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.mode{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.mode.before{background:var(--surface-2)}
+.mode figcaption{font-size:13px;color:var(--muted);line-height:1.5}
+.mode figcaption b{display:block;color:var(--ink);font-family:var(--pixel);font-weight:400;font-size:15px}
+.mgrid{display:grid;grid-template-columns:repeat(5,18px);gap:2px}
+.mc{width:18px;height:18px;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:800;color:#5E3D14}
+.m-G,.m-D{background:#F5D33C;box-shadow:inset -2px -2px 0 rgba(0,0,0,.15)}
+.m-S{background:#8A8A8A;box-shadow:inset -2px -2px 0 rgba(0,0,0,.2)}
+.m-air{outline:1.5px dashed var(--line);outline-offset:-2px}
+@media (max-width:700px),(max-height:560px){.maker{position:static}}
+@media (prefers-reduced-motion:reduce){.maker.flash{animation:none}.card:hover .disc,.card[aria-pressed="true"] .disc{animation:none}.toast{transition:none}}
+@media print{nav.tabs,.maker,.finder,.theme-btn,.copy{display:none!important}body{background:#fff}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>マイクラ教育版 コマンド図鑑</h1>
+    <p>図鑑のカードをタップすると、そのIDでコマンドができるよ。コピーしてマイクラにはりつけよう。</p>
+  </div>
+  <button class="theme-btn" id="themeBtn" type="button">画面の明るさ：自動</button>
+</header>
+<nav class="tabs" aria-label="コマンドをえらぶ"><div class="groups-in" id="groups" role="group" aria-label="なかま"></div><div class="tabs-in" id="tabs" role="tablist"></div></nav>
+<main id="main"></main>
+<footer>マイクラ教育版（統合版ベース）向け。バージョンによって使えないIDや、見え方・音がちがうことがあります。カードの絵や、レベルごとの数字は「だいたい」の目安です。</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ====================== データ ====================== */
+const MOBS = [
+ // id, 名前, 絵, 分類, せつめい, ★, 注意/タグ
+ ["chicken","ニワトリ","🐔","pass","たまごをうむ",1],
+ ["cow","ウシ","🐄","pass","ミルクがとれる",1],
+ ["pig","ブタ","🐖","pass","ニンジンつき棒で乗れる",1],
+ ["sheep","ヒツジ","🐑","pass","毛を染められる",1],
+ ["rabbit","ウサギ","🐇","pass","ぴょんぴょんはねる",1],
+ ["horse","ウマ","🐎","pass","くらをつけて乗れる",1],
+ ["donkey","ロバ","🐴","pass","チェストをつけられる"],
+ ["mule","ラバ","🐴","pass","ウマとロバの子ども"],
+ ["llama","ラマ","🦙","pass","おこるとつばをとばす"],
+ ["camel","ラクダ","🐫","pass","2人で乗れる"],
+ ["cat","ネコ","🐈","pass","クリーパーがこわがる",1],
+ ["ocelot","ヤマネコ","🐆","pass","すばしっこい"],
+ ["fox","キツネ","🦊","pass","アイテムをくわえる",1],
+ ["parrot","オウム","🦜","pass","かたに乗る",1],
+ ["panda","パンダ","🐼","pass","竹が大好き",1],
+ ["turtle","カメ","🐢","pass","砂浜にたまごをうむ"],
+ ["axolotl","ウーパールーパー","🦎","pass","水の中の仲間",1],
+ ["frog","カエル","🐸","pass","すむ場所で色がかわる"],
+ ["armadillo","アルマジロ","🦔","pass","こわいとまるくなる",0,"new"],
+ ["sniffer","スニッファー","🦕","pass","古い種をほりだす"],
+ ["mooshroom","ムーシュルーム","🍄","pass","キノコシチューがとれる"],
+ ["squid","イカ","🦑","pass","すみをはく"],
+ ["glow_squid","ヒカリイカ","🦑","pass","からだが光る"],
+ ["cod","タラ","🐟","pass","海にいる魚"],
+ ["salmon","サケ","🐟","pass","川にいる魚"],
+ ["tropicalfish","熱帯魚","🐠","pass","色がいろいろ",1],
+ ["pufferfish","フグ","🐡","pass","近づくとふくらむ（毒）"],
+ ["bat","コウモリ","🦇","pass","洞窟をとびまわる"],
+ ["strider","ストライダー","🔥","pass","溶岩の上を歩く"],
+ ["allay","アレイ","🧚","pass","アイテムを集めてくれる",1],
+ ["villager_v2","村人","🧑‍🌾","pass","エメラルドで取引できる",1],
+ ["wandering_trader","行商人","🧳","pass","めずらしい物を売る"],
+ ["npc","NPC","💬","pass","話しかけられるキャラ",1,"edu"],
+ ["snow_golem","スノーゴーレム","⛄","pass","雪玉をなげる"],
+ ["wolf","オオカミ","🐺","neutral","骨をあげると仲間になる",1],
+ ["polar_bear","シロクマ","🐻‍❄️","neutral","子どもがいるとおこる"],
+ ["bee","ミツバチ","🐝","neutral","花のまわりをとぶ",1],
+ ["dolphin","イルカ","🐬","neutral","泳ぎがはやい",1],
+ ["goat","ヤギ","🐐","neutral","頭つきしてくる"],
+ ["iron_golem","アイアンゴーレム","🤖","neutral","村を守る力もち",1],
+ ["enderman","エンダーマン","🕴️","neutral","目を見るとおこる"],
+ ["zombie_pigman","ゾンビピグリン","🐷","neutral","ネザーにいる"],
+ ["piglin","ピグリン","🐽","neutral","金が大好き"],
+ ["zombie","ゾンビ","🧟","hostile","夜にあらわれる",1],
+ ["husk","ハスク","🧟","hostile","砂漠のゾンビ"],
+ ["drowned","ドラウンド","🧟","hostile","水の中のゾンビ"],
+ ["skeleton","スケルトン","💀","hostile","弓でうってくる",1],
+ ["stray","ストレイ","💀","hostile","雪原のスケルトン"],
+ ["bogged","ボグド","💀","hostile","毒の矢をうつ",0,"new"],
+ ["creeper","クリーパー","💥","hostile","近づくとばくはつ",1],
+ ["spider","クモ","🕷️","hostile","かべをのぼる",1],
+ ["cave_spider","洞窟グモ","🕷️","hostile","毒でこうげき"],
+ ["slime","スライム","🟩","hostile","たおすと分かれる",1],
+ ["magma_cube","マグマキューブ","🟧","hostile","ネザーのスライム"],
+ ["witch","ウィッチ","🧙","hostile","ポーションをなげる"],
+ ["phantom","ファントム","🦇","hostile","夜空からおそってくる"],
+ ["silverfish","シルバーフィッシュ","🐛","hostile","ブロックにかくれる"],
+ ["blaze","ブレイズ","🔥","hostile","火の玉をうつ"],
+ ["ghast","ガスト","👻","hostile","大きな火の玉",1],
+ ["hoglin","ホグリン","🐗","hostile","ネザーのイノシシ"],
+ ["wither_skeleton","ウィザースケルトン","💀","hostile","ネザー要塞にいる"],
+ ["guardian","ガーディアン","🐡","hostile","ビームをうつ"],
+ ["shulker","シュルカー","📦","hostile","当たると浮かぶ弾"],
+ ["pillager","ピリジャー","🏹","hostile","クロスボウでうつ"],
+ ["vindicator","ヴィンディケーター","🪓","hostile","斧でおそう"],
+ ["evocation_illager","エヴォーカー","🧙‍♂️","hostile","魔法をつかう"],
+ ["ravager","ラヴェジャー","🐂","hostile","大きくて力もち"],
+ ["breeze","ブリーズ","🌪️","hostile","風の弾をうつ",0,"new"],
+ ["warden","ウォーデン","👁️","hostile","とても強い。音に反応",0,"warn"],
+ ["ender_dragon","エンダードラゴン","🐉","boss","エンドのボス",0,"warn"],
+ ["wither","ウィザー","☠️","boss","まわりをこわしまくる",0,"warn"],
+ ["lightning_bolt","かみなり","⚡","thing","その場所に雷が落ちる",1],
+ ["fireworks_rocket","花火","🎆","thing","花火が打ち上がる",1],
+ ["tnt","TNT","🧨","thing","少しするとばくはつ",0,"warn"],
+ ["xp_orb","経験値オーブ","🟢","thing","拾うと経験値"],
+ ["armor_stand","防具立て","🧍","thing","防具をかざれる"],
+ ["minecart","トロッコ","🛒","thing","レールの上を走る"],
+ ["boat","ボート","🛶","thing","水の上を進む"],
+ ["ender_crystal","エンドクリスタル","💎","thing","さわるとばくはつ",0,"warn"]
+];
+const MOB_CATS = {pass:"なかよし",neutral:"おこらせると×",hostile:"てき",boss:"ボス",thing:"モノ"};
+
+/* パーティクル: id, 名前, 分類, せつめい, ★, 見た目プリセット */
+const PTC = [
+ ["minecraft:heart_particle","ハート","いきもの","赤いハートが1つ出る",1,{s:"heart",c:["#E8343A"],m:"rise"}],
+ ["minecraft:villager_happy","みどりのキラキラ","いきもの","正解・クリアの合図に",1,{s:"plus",c:["#4ED35A","#2A9C3A"],m:"float"}],
+ ["minecraft:villager_angry","おこりぐも","いきもの","失敗・ブブーの合図に",1,{s:"cloud",c:["#3A3A40","#5A5A62"],m:"rise"}],
+ ["minecraft:note_particle","音符","いきもの","カラフルな音符",1,{s:"note",c:["#FF5A5A","#FFD23F","#5AD35A","#4FB0FF","#C77DFF"],m:"rise",multi:1}],
+ ["minecraft:ink_emitter","イカスミ","いきもの","黒いすみがとびちる",0,{s:"dot",c:["#111","#2a2a2a"],m:"pop",z:3}],
+ ["minecraft:totem_particle","トーテムのキラキラ","まほう","金と緑のキラキラ",1,{s:"spark",c:["#F2D33C","#8CDB4E","#FFF2A0"],m:"spray",multi:1}],
+ ["minecraft:enchanting_table_particle","エンチャントもじ","まほう","ふしぎな文字がすいこまれる",1,{s:"rune",c:["#FFFFFF","#D7CCFF"],m:"swirl"}],
+ ["minecraft:basic_portal_particle","ポータルのつぶ","まほう","むらさきの粒がうずをまく",1,{s:"sq",c:["#A04DFF","#D69CFF"],m:"swirl",multi:1}],
+ ["minecraft:portal_reverse_particle","ぎゃくポータル","まほう","むらさきの粒が広がる",0,{s:"sq",c:["#A04DFF","#D69CFF"],m:"pop",multi:1}],
+ ["minecraft:end_chest","エンダーチェストの粒","まほう","むらさきの粒がただよう",0,{s:"dot",c:["#8E3CE0","#C68CFF"],m:"float",multi:1}],
+ ["minecraft:endrod","エンドロッドの光","まほう","白い光がふわふわ",0,{s:"spark",c:["#FFFFFF","#E6F4FF"],m:"float"}],
+ ["minecraft:glow_particle","ヒカリイカの光","まほう","水色の光の粒",0,{s:"dot",c:["#7FF5D0","#C8FFF0"],m:"float",multi:1}],
+ ["minecraft:electric_spark_particle","でんきの火花","まほう","白い火花がパチッ",0,{s:"spark",c:["#FFFFFF","#BFF3FF"],m:"pop",z:2}],
+ ["minecraft:large_explosion","ばくはつ","ばくはつ","白いけむりのばくはつ（音なし）",1,{s:"puff",c:["#E8E8E8","#BDBDBD"],m:"blast",n:7}],
+ ["minecraft:huge_explosion_emitter","大ばくはつ","ばくはつ","TNTのような大ばくはつ（音なし）",1,{s:"puff",c:["#F2F2F2","#C9C9C9"],m:"blast",n:16}],
+ ["minecraft:critical_hit_emitter","クリティカル","ばくはつ","こうげきが当たったときの星",1,{s:"spark",c:["#D9C27A","#FFF3B0"],m:"pop"}],
+ ["minecraft:basic_crit_particle","小さいクリティカル","ばくはつ","星が1つだけ出る",0,{s:"spark",c:["#D9C27A","#FFF3B0"],m:"pop",z:2,few:1}],
+ ["minecraft:sonic_explosion","ソニックブーム","ばくはつ","ウォーデンのこうげきの輪",0,{s:"ring",c:["#5FE3E8","#B6FFFF"],m:"rings"}],
+ ["minecraft:basic_flame_particle","ほのお","ほのお","オレンジの小さな火",1,{s:"flame",c:["#F07A1A","#FFD24A"],m:"rise"}],
+ ["minecraft:blue_flame_particle","青いほのお","ほのお","青い火が上がる",0,{s:"flame",c:["#2D7BE0","#9FE3FF"],m:"rise"}],
+ ["minecraft:candle_flame_particle","ろうそくの火","ほのお","小さくゆれる火",0,{s:"flame",c:["#F07A1A","#FFD24A"],m:"still"}],
+ ["minecraft:soul_particle","たましい","ほのお","水色のたましいがのぼる",1,{s:"soul",c:["#7FE6F0","#3BB6C8"],m:"rise"}],
+ ["minecraft:sculk_soul_particle","スカルクのたましい","ほのお","青みどりのたましい",0,{s:"soul",c:["#3FD1C0","#1C8F86"],m:"rise"}],
+ ["minecraft:basic_smoke_particle","けむり","ほのお","灰色のけむり",1,{s:"puff",c:["#7B7B7B","#9A9A9A"],m:"smoke"}],
+ ["minecraft:white_smoke_particle","白いけむり","ほのお","白いけむりがふわっと",0,{s:"puff",c:["#F0F0F0","#D8D8D8"],m:"smoke"}],
+ ["minecraft:campfire_smoke_particle","たき火のけむり","ほのお","高くのぼるけむり（のろし）",0,{s:"puff",c:["#BEBEBE","#9E9E9E"],m:"smoke",tall:1}],
+ ["minecraft:lava_particle","溶岩のしぶき","ほのお","オレンジの粒がはねる",0,{s:"sq",c:["#FF7A1A","#FFC23A"],m:"spray"}],
+ ["minecraft:water_splash_particle","水しぶき","みず","水がパシャッとはねる",1,{s:"drop",c:["#4A8EF0","#9CC8FF"],m:"spray"}],
+ ["minecraft:basic_bubble_particle","あわ","みず","水の中で出すと見える",0,{s:"ring",c:["#BFE3FF","#E6F5FF"],m:"rise"}],
+ ["minecraft:rain_splash_particle","雨のしぶき","みず","雨つぶがはねる",0,{s:"dot",c:["#7FB2F0","#B9D6FF"],m:"pop",z:2}],
+ ["minecraft:water_drip_particle","水のしずく","みず","ぽたっと落ちる",0,{s:"drop",c:["#4A8EF0","#9CC8FF"],m:"drip"}],
+ ["minecraft:lava_drip_particle","溶岩のしずく","みず","オレンジのしずく",0,{s:"drop",c:["#FF7A1A","#FFC23A"],m:"drip"}],
+ ["minecraft:cherry_leaves_particle","さくらの花びら","しぜん","ピンクの花びらがまう",1,{s:"petal",c:["#F6A6C8","#FFD3E5"],m:"fall"}],
+ ["minecraft:snowflake_particle","雪","しぜん","雪がひらひら",1,{s:"snow",c:["#FFFFFF","#D8ECFF"],m:"fall"}],
+ ["minecraft:spore_blossom_ambient_particle","花粉","しぜん","ふわふわした粒",0,{s:"dot",c:["#B6E07A","#E9F7C8"],m:"fall",z:2}],
+ ["minecraft:mycelium_dust_particle","菌糸のちり","しぜん","むらさきがかった粒",0,{s:"dot",c:["#9A8AA8","#C9B9D8"],m:"float",z:2}],
+ ["minecraft:wax_particle","ろう","しぜん","オレンジの粒がとぶ",0,{s:"spark",c:["#F5A623","#FFD27A"],m:"pop",z:2}],
+ ["minecraft:dragon_breath_trail","ドラゴンの息","しぜん","むらさきの粒がたなびく",0,{s:"dot",c:["#C04BD8","#F08CFF"],m:"float",multi:1}]
+];
+
+const EFF = [
+ // id, 名前, 絵, 色, せつめい, 分類(good/bad), ★
+ ["speed","移動速度上昇","🏃","#7CAFC6","はやく走れる","good",1],
+ ["jump_boost","跳躍力上昇","🦘","#3FD15A","高くジャンプできる","good",1],
+ ["slow_falling","落下速度低下","🪶","#F3CFB9","ゆっくり落ちる（落下ダメージなし）","good",1],
+ ["levitation","浮遊","🎈","#CEFFFF","空にふわふわうかぶ","good",1],
+ ["haste","採掘速度上昇","⛏️","#D9C043","ブロックをはやくこわせる","good"],
+ ["strength","攻撃力上昇","💪","#932423","こうげきが強くなる","good"],
+ ["resistance","耐性","🛡️","#99453A","ダメージがへる（つよさ4＝Lv.5で無敵）","good"],
+ ["regeneration","再生能力","💗","#CD5CAB","HPがじわじわ回復","good"],
+ ["instant_health","即時回復","❤️","#F82423","HPがすぐ回復","good",1],
+ ["health_boost","体力増強","➕","#F87D23","ハートの数がふえる","good"],
+ ["absorption","衝撃吸収","💛","#E8C52B","黄色いハートがふえる","good"],
+ ["saturation","満腹度回復","🍗","#F82423","おなかがへらない","good"],
+ ["fire_resistance","火炎耐性","🔥","#E49A3A","火や溶岩でもへいき","good",1],
+ ["water_breathing","水中呼吸","🫧","#2E5299","水の中で息ができる","good",1],
+ ["night_vision","暗視","👁️","#1F1FA1","暗いところも明るく見える","good",1],
+ ["invisibility","透明化","👻","#7F8392","すがたが見えなくなる","good",1],
+ ["conduit_power","コンジットパワー","🌊","#1DC2D1","水の中で強くなる","good"],
+ ["village_hero","村の英雄","🏅","#44FF44","村人が安く売ってくれる","good"],
+ ["slowness","移動速度低下","🐢","#5A6C81","歩くのがおそくなる","bad"],
+ ["mining_fatigue","採掘速度低下","🥱","#4A4217","ブロックをこわすのがおそい","bad"],
+ ["weakness","弱体化","🥀","#484D48","こうげきが弱くなる","bad"],
+ ["instant_damage","即時ダメージ","💔","#430A09","すぐダメージを受ける","bad"],
+ ["poison","毒","🤢","#4E9331","HPがへる（ハート半分で止まる）","bad"],
+ ["fatal_poison","致死毒","☠️","#4E9331","HPがへる（止まらない）","bad"],
+ ["wither","衰弱","🖤","#352A27","HPがへる（止まらない）","bad"],
+ ["hunger","空腹","🍽️","#587653","おなかがすぐへる","bad"],
+ ["nausea","吐き気","😵‍💫","#551D4A","画面がぐにゃぐにゃ","bad",1],
+ ["blindness","盲目","🙈","#1F1F23","まわりがまっくら","bad",1],
+ ["darkness","暗闇","🌑","#292721","画面が暗くなったり明るくなったり","bad"],
+ ["bad_omen","不吉な予感","🚩","#0B6138","村に入るとレイドが始まる","bad",0,"warn"]
+];
+
+const ITEM = {sw:"⚔️",ax:"🪓",bow:"🏹",cb:"🎯",tool:"⛏️",hd:"🪖",ch:"👕",lg:"👖",bt:"👢",tr:"🔱",rod:"🎣",mace:"🔨",all:"✨"};
+const ITEM_JP = {sw:"剣",ax:"斧",bow:"弓",cb:"クロスボウ",tool:"ツルハシなど",hd:"ヘルメット",ch:"チェストプレート",lg:"レギンス",bt:"ブーツ",tr:"トライデント",rod:"釣りざお",mace:"メイス",all:"ほぼ何でも"};
+const ENC = [
+ // id, 名前, 最大Lv, つけられる物, せつめい, 分類, ★
+ ["sharpness","ダメージ増加",5,"sw ax","こうげきが強くなる","こうげき",1],
+ ["smite","アンデッド特効",5,"sw ax","ゾンビやスケルトンに強い","こうげき"],
+ ["bane_of_arthropods","虫特効",5,"sw ax","クモなどに強い","こうげき"],
+ ["knockback","ノックバック",2,"sw","あいてを遠くにふきとばす","こうげき"],
+ ["fire_aspect","火属性",2,"sw","あいてに火をつける","こうげき",1],
+ ["looting","ドロップ増加",3,"sw","たおすとアイテムが多く出る","こうげき"],
+ ["protection","ダメージ軽減",4,"hd ch lg bt","いろいろなダメージがへる（防具ぜんぶ合わせて最大80%まで）","まもり",1],
+ ["fire_protection","火炎耐性",4,"hd ch lg bt","火のダメージがへる","まもり"],
+ ["blast_protection","爆発耐性",4,"hd ch lg bt","ばくはつのダメージがへる","まもり"],
+ ["projectile_protection","飛び道具耐性",4,"hd ch lg bt","矢のダメージがへる","まもり"],
+ ["thorns","棘の鎧",3,"hd ch lg bt","こうげきしてきた相手にもダメージ","まもり"],
+ ["respiration","水中呼吸",3,"hd","水の中で息が長くつづく","まもり"],
+ ["aqua_affinity","水中採掘",1,"hd","水の中でもはやくほれる","まもり"],
+ ["feather_falling","落下耐性",4,"bt","落ちたときのダメージがへる","まもり",1],
+ ["depth_strider","水中歩行",3,"bt","水の中をはやく歩ける","まもり"],
+ ["frost_walker","氷渡り",2,"bt","水の上を歩くと氷になる","まもり",1],
+ ["soul_speed","ソウルスピード",3,"bt","ソウルサンドの上をはやく歩ける","まもり"],
+ ["swift_sneak","スニーク速度上昇",3,"lg","しゃがんだまま速く歩ける","まもり"],
+ ["efficiency","効率強化",5,"tool ax","ブロックをはやくこわせる","どうぐ",1],
+ ["silk_touch","シルクタッチ",1,"tool ax","ブロックをそのまま回収","どうぐ",1],
+ ["fortune","幸運",3,"tool ax","ほったときのアイテムがふえる","どうぐ",1],
+ ["unbreaking","耐久力",3,"all","こわれにくくなる","どうぐ",1],
+ ["mending","修繕",1,"all","経験値で自動修理","どうぐ",1],
+ ["power","射撃ダメージ増加",5,"bow","矢のダメージが上がる","弓・クロスボウ",1],
+ ["punch","パンチ",2,"bow","矢で遠くにふきとばす","弓・クロスボウ"],
+ ["flame","フレイム",1,"bow","火のついた矢がとぶ","弓・クロスボウ",1],
+ ["infinity","無限",1,"bow","矢がへらない（1本は必要）","弓・クロスボウ",1],
+ ["multishot","拡散",1,"cb","3本いっぺんにうてる","弓・クロスボウ",1],
+ ["quick_charge","高速装填",3,"cb","矢をはやくセットできる","弓・クロスボウ"],
+ ["piercing","貫通",4,"cb","矢がつきぬける","弓・クロスボウ"],
+ ["loyalty","忠誠",3,"tr","なげると手元にもどってくる","トライデント",1],
+ ["impaling","水生特効",5,"tr","水の生き物に強い","トライデント"],
+ ["riptide","激流",3,"tr","雨や水の中で自分ごとびゅーん","トライデント"],
+ ["channeling","召雷",1,"tr","雷雨のとき雷を落とす","トライデント",1],
+ ["luck_of_the_sea","宝釣り",3,"rod","いいものが釣れやすい","釣り・メイス"],
+ ["lure","入れ食い",3,"rod","はやく釣れる","釣り・メイス"],
+ ["density","重量",5,"mace","落ちながらのこうげきが強い","釣り・メイス",0,"new"],
+ ["breach","防具貫通",4,"mace","防具をつらぬく","釣り・メイス",0,"new"],
+ ["wind_burst","風爆",3,"mace","当てると上にとびあがる","釣り・メイス",0,"new"],
+ ["binding","束縛の呪い",1,"hd ch lg bt","防具がはずせなくなる","のろい",0,"warn"],
+ ["vanishing","消滅の呪い",1,"all","たおれるとアイテムが消える","のろい"]
+];
+
+const SND = [
+ // id, せつめい, 絵, 使いどころ, 分類, ★
+ ["note.pling","ピン！と高い音","🔔","正解・ポイント","音ブロック",1],
+ ["note.harp","ポロン♪ハープ","🎵","おしらせ・演出","音ブロック",1],
+ ["note.bass","ボン！と低い音","🔈","カウントダウン","音ブロック",1],
+ ["note.bell","チーン！ベル","🛎️","クリア・おわり","音ブロック",1],
+ ["note.bit","ピコピコ音","👾","ゲームっぽさ","音ブロック",1],
+ ["note.bd","ドン！大だいこ","🥁","スタートの合図","音ブロック"],
+ ["note.snare","スネアドラム","🥁","リズム","音ブロック"],
+ ["note.hat","ハイハット","🥁","リズム","音ブロック"],
+ ["note.flute","フルート","🪈","やさしい演出","音ブロック"],
+ ["note.chime","チャイム","🎐","きれいな演出","音ブロック"],
+ ["note.guitar","ギター","🎸","アクション","音ブロック"],
+ ["note.xylophone","木琴","🎶","明るい演出","音ブロック"],
+ ["note.iron_xylophone","鉄琴","🎶","明るい演出","音ブロック"],
+ ["note.cow_bell","カウベル","🐄","おもしろ演出","音ブロック"],
+ ["note.didgeridoo","ぶぉーん低い音","🌀","ふしぎ・こわい","音ブロック"],
+ ["note.banjo","バンジョー","🪕","のんびり","音ブロック"],
+ ["random.levelup","レベルアップ","⭐","クリア・達成","ゲーム",1],
+ ["random.orb","経験値をひろう音","🟢","ポイントゲット","ゲーム",1],
+ ["random.pop","ポコッ","🫧","アイテムゲット","ゲーム",1],
+ ["random.click","カチッ","🖱️","ボタン","ゲーム"],
+ ["random.toast","ふわっと通知音","📣","おしらせ","ゲーム"],
+ ["random.totem","トーテムの音","🗿","ふっかつ","ゲーム"],
+ ["block.bell.hit","かねの音","🔔","集合の合図","ゲーム",1],
+ ["random.anvil_land","金床が落ちる音","🔨","ガーン！","ゲーム"],
+ ["random.chestopen","チェストをあける","📦","アイテムゲット","ゲーム"],
+ ["random.chestclosed","チェストをしめる","📦","しまう","ゲーム"],
+ ["random.door_open","ドアがあく","🚪","入場","ゲーム"],
+ ["random.door_close","ドアがしまる","🚪","退場","ゲーム"],
+ ["random.explode","ばくはつ音","💥","ばくはつ演出","ドカン",1],
+ ["random.glass","ガラスがわれる","🪟","しっぱい","ドカン"],
+ ["random.break","アイテムがこわれる","💔","しっぱい","ドカン"],
+ ["firework.launch","花火の打ち上げ","🎆","おいわい","ドカン",1],
+ ["firework.blast","花火がひらく","🎇","おいわい","ドカン",1],
+ ["firework.twinkle","花火のパチパチ","✨","おいわい","ドカン"],
+ ["ambient.weather.thunder","かみなり","⛈️","びっくり","しぜん",1],
+ ["ambient.weather.rain","雨の音","🌧️","ふんいき","しぜん"],
+ ["random.splash","水にとびこむ","💦","水の演出","しぜん"],
+ ["random.fizz","ジュッ！","♨️","やられた","しぜん"],
+ ["mob.villager.yes","村人「うん」","🙆","正解","いきもの",1],
+ ["mob.villager.no","村人「ううん」","🙅","不正解","いきもの",1],
+ ["mob.villager.idle","村人「ふーん」","💬","会話","いきもの"],
+ ["mob.cat.meow","ネコの鳴き声","🐈","かわいい","いきもの",1],
+ ["mob.wolf.bark","イヌのほえる声","🐺","合図","いきもの"],
+ ["mob.cow.say","ウシの鳴き声","🐄","のんびり","いきもの"],
+ ["mob.pig.say","ブタの鳴き声","🐖","おもしろ","いきもの"],
+ ["mob.chicken.say","ニワトリの鳴き声","🐔","朝・スタート","いきもの"],
+ ["mob.sheep.say","ヒツジの鳴き声","🐑","のんびり","いきもの"],
+ ["mob.zombie.say","ゾンビのうめき声","🧟","こわい","いきもの"],
+ ["mob.ghast.scream","ガストのさけび","👻","おどかす","いきもの"],
+ ["mob.endermen.portal","エンダーマンのワープ音","🌀","テレポート","いきもの"],
+ ["mob.enderdragon.growl","ドラゴンのほえ声","🐉","ボス登場","いきもの",1],
+ ["mob.wither.spawn","ウィザー登場の音","☠️","ボス登場","いきもの"],
+ ["mob.wither.death","ウィザーがたおれる音","🏆","ボス撃破","いきもの"],
+ ["game.player.hurt","ダメージを受けた音","🤕","やられた","いきもの"]
+];
+
+const MUS = [
+ // id, 曲名, ふんいき, 長さ, ラベル色, 分類, ★, タグ
+ ["record.cat","Cat","明るくてかわいい","約3分","#6FCF4A","レコード",1],
+ ["record.otherside","Otherside","さわやか・人気","約3分","#3FB6E0","レコード",1],
+ ["record.pigstep","Pigstep","ノリノリ・ダンス","約2分半","#E04A4A","レコード",1],
+ ["record.blocks","Blocks","のんびり","約5分45秒","#E8853A","レコード",1],
+ ["record.mall","Mall","明るい・お店みたい","約3分","#8A62E0","レコード",1],
+ ["record.wait","Wait","アップテンポ","約4分","#3A6FE0","レコード",1],
+ ["record.strad","Strad","南の島・リゾート","約3分","#F2F2F2","レコード",1],
+ ["record.chirp","Chirp","レトロ・ポップ","約3分","#C83232","レコード"],
+ ["record.far","Far","おちついた","約3分","#9FE04A","レコード"],
+ ["record.stal","Stal","ジャズ・大人っぽい","約2分半","#333333","レコード"],
+ ["record.mellohi","Mellohi","ゆっくり・すこしさみしい","約1分半","#C77DD8","レコード"],
+ ["record.ward","Ward","クラシック・どうどう","約4分","#3FA34D","レコード"],
+ ["record.13","13","ふしぎ・洞窟みたい","約3分","#E8D23A","レコード"],
+ ["record.11","11","こわい・なぞめいた","約1分","#5A5A5A","レコード"],
+ ["record.5","5","しんぴてき","約3分","#4A8FA8","レコード"],
+ ["record.relic","Relic","古代の遺跡","約3分半","#2FB3A8","レコード"],
+ ["record.creator","Creator","わくわく","約3分","#F0B43A","レコード",0,"new"],
+ ["record.creator_music_box","Creator (オルゴール)","やさしいオルゴール","約1分","#F7D27A","レコード",0,"new"],
+ ["record.precipice","Precipice","ぼうけん","約5分","#B0683A","レコード",0,"new"],
+ ["music.game","ふつうのBGM","ワールドで流れる曲（ランダム）","曲による","#8CC860","ゲームBGM"],
+ ["music.game.creative","クリエイティブのBGM","明るく自由な感じ","曲による","#6CC0E0","ゲームBGM"],
+ ["music.menu","タイトル画面のBGM","おちついた","曲による","#C0C0C0","ゲームBGM"],
+ ["music.game.nether","ネザーのBGM","ぶきみ・きんちょう","曲による","#B03A3A","ゲームBGM"],
+ ["music.game.end","エンドのBGM","しんぴてき・広い","曲による","#E0E0A0","ゲームBGM"],
+ ["music.game.endboss","ボス戦のBGM","きんちょう・ボス戦","曲による","#7A3AB0","ゲームBGM",1]
+];
+
+/* ---- レベルでどう変わる？ ---- */
+const sec=(t,L)=>parseFloat((Math.max(1,t>>(L-1))/20).toFixed(2));
+const dmg=v=>`+${v}ダメージ（ハート約${Math.round(v/2*10)/10}こ分）`;
+const JUMP=[0,1.8,2.5,3.3,4.2,5.1];
+const LV_EFF={
+ speed:L=>`走る速さ +${20*L}%`,
+ slowness:L=>L>=7?"ほとんど動けない":`走る速さ −${15*L}%`,
+ haste:L=>`ほる速さ +${20*L}%`,
+ mining_fatigue:L=>["","ほる速さ 約3分の1","ほる速さ 約10分の1","ほぼほれない"][Math.min(L,3)],
+ strength:L=>L===1?"こうげきが強くなる":`さらに強くなる（${L}段階目）`,
+ weakness:L=>L===1?"こうげきが弱くなる":`さらに弱くなる（${L}段階目）`,
+ jump_boost:L=>L<=5?`約${JUMP[L]}ブロックの高さまでジャンプ`:"とても高い（落下ダメージに注意）",
+ instant_health:L=>L<=5?`ハート${2*2**(L-1)}こ分 回復`:"ほぼ全回復",
+ instant_damage:L=>L<=5?`ハート${3*2**(L-1)}こ分 ダメージ`:"とても大きなダメージ",
+ resistance:L=>L>=5?"ダメージ 0（むてき）":`受けるダメージ −${20*L}%`,
+ regeneration:L=>`${sec(50,L)}秒ごとにハート半分 回復`,
+ poison:L=>`${sec(25,L)}秒ごとにハート半分へる`,
+ fatal_poison:L=>`${sec(25,L)}秒ごとにハート半分へる`,
+ wither:L=>`${sec(40,L)}秒ごとにハート半分へる`,
+ absorption:L=>`黄色いハート +${2*L}こ`,
+ health_boost:L=>`ハートの数 +${2*L}こ`,
+ saturation:L=>L===1?"食べ物ゲージがどんどん回復":"さらに速く回復（Lv.1で十分）",
+ hunger:L=>L===1?"おなかが早くへる":`Lv.1の${L}倍の速さでへる`,
+ levitation:L=>`1秒に約${(0.9*L).toFixed(1)}ブロック上がる`,
+ village_hero:L=>L===1?"取引が安くなる":`もっと安くなる（${L}段階目）`,
+ bad_omen:L=>`Lv.${Math.min(L,5)}のレイド（高いほど強いてき）`
+};
+const LV_ENC={
+ sharpness:L=>dmg(1.25*L), smite:L=>"アンデッドに "+dmg(2.5*L), bane_of_arthropods:L=>"虫に "+dmg(2.5*L),
+ knockback:L=>`ふきとばす力 ${L}段階アップ`, fire_aspect:L=>`相手が約${4*L}秒もえる`, looting:L=>`ドロップが最大 +${L}こ`,
+ protection:L=>`いろいろなダメージ −${4*L}%`, fire_protection:L=>`火のダメージ −${8*L}%`,
+ blast_protection:L=>`ばくはつダメージ −${8*L}%`, projectile_protection:L=>`矢などのダメージ −${8*L}%`,
+ thorns:L=>`${15*L}%の確率で相手にダメージ`, respiration:L=>`息が約${15*L}秒 長くもつ`,
+ feather_falling:L=>`落下ダメージ −${12*L}%`, depth_strider:L=>L>=3?"水の中でも陸と同じ速さ":`水の中のおそさが${L}/3なくなる`,
+ frost_walker:L=>`まわり${2+L}ブロックが氷になる`, soul_speed:L=>`ソウルサンドの上が速い（${L}段階目）`,
+ swift_sneak:L=>`しゃがみ歩きの速さ +${15*L}%`, efficiency:L=>`ほる力 +${L*L+1}（上げるほどぐんと速い）`,
+ fortune:L=>`鉱石が平均 約${(2/(L+2)+L/(L+2)*(L+3)/2).toFixed(1)}倍`, unbreaking:L=>`道具が約${L+1}倍 長もち`,
+ power:L=>`矢のダメージ +${25*(L+1)}%`, punch:L=>`矢のふきとばし ${L}段階アップ`,
+ quick_charge:L=>`装填 ${parseFloat((1.25-0.25*L).toFixed(2))}秒（ふつう1.25秒）`, piercing:L=>`${L+1}体までつらぬく`,
+ loyalty:L=>`もどる速さ ${L}段階目`, impaling:L=>"水・雨の中の相手に "+dmg(2.5*L), riptide:L=>`とぶきょり ${L}段階目`,
+ luck_of_the_sea:L=>`宝が釣れやすい（${L}段階目）`, lure:L=>`待ち時間 −${5*L}秒`,
+ density:L=>`落ちた1ブロックごとに +${0.5*L}ダメージ`, breach:L=>`相手の防具の効果 −${15*L}%`, wind_burst:L=>`とびあがる高さ ${L}段階目`
+};
+
+/* ---- give: アイテム ---- */
+const ITEMS=[
+ // id, 名前, 絵, 分類, せつめい, ★, タグ
+ ["diamond_sword","ダイヤの剣","⚔️","ぶき・どうぐ","いちばん使われる剣",1],
+ ["bow","弓","🏹","ぶき・どうぐ","矢といっしょに使う",1],
+ ["arrow","矢","➶","ぶき・どうぐ","弓・クロスボウでうつ",1],
+ ["crossbow","クロスボウ","🎯","ぶき・どうぐ","強い弓"],
+ ["trident","トライデント","🔱","ぶき・どうぐ","なげられるやり"],
+ ["shield","盾","🛡️","ぶき・どうぐ","こうげきをふせぐ"],
+ ["mace","メイス","🔨","ぶき・どうぐ","落ちながらこうげき",0,"new"],
+ ["diamond_pickaxe","ダイヤのツルハシ","⛏️","ぶき・どうぐ","石や鉱石をほる",1],
+ ["diamond_axe","ダイヤの斧","🪓","ぶき・どうぐ","木を切る"],
+ ["diamond_shovel","ダイヤのシャベル","🥄","ぶき・どうぐ","土や砂をほる"],
+ ["fishing_rod","釣りざお","🎣","ぶき・どうぐ","魚を釣る",1],
+ ["shears","ハサミ","✂️","ぶき・どうぐ","ヒツジの毛をかる"],
+ ["flint_and_steel","火打石と打ち金","🔥","ぶき・どうぐ","火をつける",0,"warn"],
+ ["bucket","バケツ","🪣","ぶき・どうぐ","水や溶岩をくむ"],
+ ["water_bucket","水入りバケツ","💧","ぶき・どうぐ","水を置ける"],
+ ["compass","コンパス","🧭","ぶき・どうぐ","スタート地点をさす"],
+ ["clock","時計","🕰️","ぶき・どうぐ","昼か夜かわかる"],
+ ["spyglass","望遠鏡","🔭","ぶき・どうぐ","遠くを見る"],
+ ["lead","リード","🪢","ぶき・どうぐ","動物をつなぐ"],
+ ["name_tag","名札","🏷️","ぶき・どうぐ","生き物に名前をつける",1],
+ ["saddle","くら","🐎","ぶき・どうぐ","ウマやブタに乗る"],
+ ["elytra","エリトラ","🪽","ぶき・どうぐ","空をすべるように飛ぶ",1],
+ ["totem_of_undying","不死のトーテム","🗿","ぶき・どうぐ","1回だけ生きかえる"],
+ ["ender_pearl","エンダーパール","🟣","ぶき・どうぐ","なげた場所にワープ"],
+ ["snowball","雪玉","⚪","ぶき・どうぐ","なげて遊ぶ",1],
+ ["firework_rocket","ロケット花火","🎆","ぶき・どうぐ","花火を打ち上げる"],
+ ["diamond_helmet","ダイヤのヘルメット","🪖","ぼうぐ","頭を守る"],
+ ["diamond_chestplate","ダイヤのチェストプレート","👕","ぼうぐ","体を守る"],
+ ["diamond_leggings","ダイヤのレギンス","👖","ぼうぐ","足を守る"],
+ ["diamond_boots","ダイヤのブーツ","👢","ぼうぐ","足もとを守る"],
+ ["turtle_helmet","カメの甲羅","🐢","ぼうぐ","水の中で息が長もち"],
+ ["apple","リンゴ","🍎","たべもの","ふつうの食べ物",1],
+ ["golden_apple","金のリンゴ","🍏","たべもの","回復と衝撃吸収",1],
+ ["enchanted_golden_apple","エンチャントされた金のリンゴ","✨","たべもの","とても強い回復"],
+ ["bread","パン","🍞","たべもの","ふつうの食べ物"],
+ ["cooked_beef","ステーキ","🥩","たべもの","たくさん回復",1],
+ ["cooked_chicken","焼き鳥","🍗","たべもの","よく回復"],
+ ["baked_potato","ベイクドポテト","🥔","たべもの","よく回復"],
+ ["carrot","ニンジン","🥕","たべもの","ウサギやブタが好き"],
+ ["golden_carrot","金のニンジン","🥕","たべもの","とてもよく回復"],
+ ["cookie","クッキー","🍪","たべもの","おやつ",1],
+ ["cake","ケーキ","🎂","たべもの","置いてみんなで食べる",1],
+ ["pumpkin_pie","パンプキンパイ","🥧","たべもの","よく回復"],
+ ["melon_slice","スイカ","🍉","たべもの","少し回復"],
+ ["sweet_berries","スイートベリー","🫐","たべもの","キツネが好き"],
+ ["honey_bottle","はちみつ入りびん","🍯","たべもの","毒を消す"],
+ ["diamond","ダイヤモンド","💎","そざい","みんな大好き",1],
+ ["emerald","エメラルド","💚","そざい","村人と取引できる",1],
+ ["gold_ingot","金インゴット","🟨","そざい","金の道具の材料"],
+ ["iron_ingot","鉄インゴット","⬜","そざい","鉄の道具の材料"],
+ ["redstone","レッドストーン","🔴","そざい","回路をつくる"],
+ ["coal","石炭","⚫","そざい","燃料になる"],
+ ["lapis_lazuli","ラピスラズリ","🔵","そざい","エンチャントに使う"],
+ ["stick","棒","🪵","そざい","道具の持ち手"],
+ ["string","糸","🧵","そざい","弓や釣りざおの材料"],
+ ["paper","紙","📄","そざい","本や地図の材料"],
+ ["book","本","📕","そざい","エンチャントやかざりに"],
+ ["wheat","小麦","🌾","そざい","ウシやヒツジが好き"],
+ ["wheat_seeds","小麦の種","🌱","そざい","畑にまく・ニワトリが好き"],
+ ["bone","骨","🦴","そざい","オオカミを仲間にする"],
+ ["bone_meal","骨粉","🤍","そざい","植物がすぐ育つ"],
+ ["cow_spawn_egg","ウシのスポーンエッグ","🥚","スポーンエッグ","置くとウシが出る",1],
+ ["pig_spawn_egg","ブタのスポーンエッグ","🥚","スポーンエッグ","置くとブタが出る"],
+ ["chicken_spawn_egg","ニワトリのスポーンエッグ","🥚","スポーンエッグ","置くとニワトリが出る"],
+ ["villager_spawn_egg","村人のスポーンエッグ","🥚","スポーンエッグ","置くと村人が出る"],
+ ["camera","カメラ","📷","教育版","スクリーンショットをとる",1,"edu"],
+ ["portfolio","ポートフォリオ","📒","教育版","とった写真をまとめる",1,"edu"],
+ ["writable_book","本と羽根ペン","✍️","教育版","文字を書ける本",1],
+ ["allow","許可ブロック","🟩","教育版","この上ではブロックを置ける",0,"edu"],
+ ["deny","拒否ブロック","🟥","教育版","この上ではブロックを置けない",0,"edu"],
+ ["border_block","ボーダーブロック","🧱","教育版","通りぬけられないかべ",0,"edu"]
+];
+
+/* ---- setblock / fill: ブロック ---- */
+const BLOCKS=[
+ // id, 名前, 分類, せつめい, ★, タグ, 見た目{p:模様,c:色,c2:色2}
+ ["stone","石","きほん","いちばんふつうのブロック",1,0,{p:"noise",c:"#8A8A8A",c2:"#727272"}],
+ ["grass_block","草ブロック","きほん","上が草の土",1,0,{p:"grass",c:"#866043",c2:"#5FA442"}],
+ ["dirt","土","きほん","草ブロックの下",0,0,{p:"noise",c:"#866043",c2:"#6E4E36"}],
+ ["sand","砂","きほん","下に何もないと落ちる",0,0,{p:"noise",c:"#DCCF9C",c2:"#CBBD86"}],
+ ["cobblestone","丸石","きほん","石をほると出る",0,0,{p:"cobble",c:"#7E7E7E",c2:"#5C5C5C"}],
+ ["oak_planks","オークの板","きほん","家づくりの定番",1,0,{p:"plank",c:"#B8945F",c2:"#9C7A48"}],
+ ["oak_log","オークの原木","きほん","木のみき",0,0,{p:"log",c:"#6B5235",c2:"#4F3B26"}],
+ ["brick_block","レンガ","きほん","赤いレンガのかべ",0,0,{p:"brick",c:"#9A4F3F",c2:"#C9B8A8"}],
+ ["glass","ガラス","きほん","すきとおったまど",1,0,{p:"glass",c:"#D6EEF5",c2:"#FFFFFF"}],
+ ["white_wool","白い羊毛","カラフル","やわらかいブロック",0,0,{p:"wool",c:"#EDEDED",c2:"#D9D9D9"}],
+ ["red_wool","赤い羊毛","カラフル","",1,0,{p:"wool",c:"#B02E26",c2:"#9A2620"}],
+ ["orange_wool","オレンジの羊毛","カラフル","",0,0,{p:"wool",c:"#F07613",c2:"#D9650C"}],
+ ["yellow_wool","黄色の羊毛","カラフル","",1,0,{p:"wool",c:"#F8C527",c2:"#E5B31A"}],
+ ["lime_wool","黄緑の羊毛","カラフル","",0,0,{p:"wool",c:"#70B919",c2:"#5FA312"}],
+ ["light_blue_wool","空色の羊毛","カラフル","",0,0,{p:"wool",c:"#3AAFD9",c2:"#2E9BC4"}],
+ ["blue_wool","青い羊毛","カラフル","",1,0,{p:"wool",c:"#35399D",c2:"#2B2F88"}],
+ ["purple_wool","紫の羊毛","カラフル","",0,0,{p:"wool",c:"#792AAC",c2:"#672295"}],
+ ["pink_wool","ピンクの羊毛","カラフル","",0,0,{p:"wool",c:"#ED8DAC",c2:"#DB7A9A"}],
+ ["black_wool","黒い羊毛","カラフル","",0,0,{p:"wool",c:"#1D1D21",c2:"#141417"}],
+ ["white_concrete","白いコンクリート","カラフル","つるつるの色ブロック",0,0,{p:"flat",c:"#CFD5D6",c2:"#C4CACB"}],
+ ["red_concrete","赤いコンクリート","カラフル","",0,0,{p:"flat",c:"#8E2121",c2:"#842020"}],
+ ["blue_concrete","青いコンクリート","カラフル","",0,0,{p:"flat",c:"#2C2E8F",c2:"#282A85"}],
+ ["gold_block","金ブロック","きらきら","ゴールの目印に",1,0,{p:"metal",c:"#F5D33C",c2:"#FFF39A"}],
+ ["diamond_block","ダイヤモンドブロック","きらきら","ごうか！",1,0,{p:"metal",c:"#62DBD5",c2:"#C8FFFB"}],
+ ["emerald_block","エメラルドブロック","きらきら","",0,0,{p:"metal",c:"#2ECC5A",c2:"#9BF5B4"}],
+ ["iron_block","鉄ブロック","きらきら","",0,0,{p:"metal",c:"#DCDCDC",c2:"#FFFFFF"}],
+ ["redstone_block","レッドストーンブロック","きらきら","置くと信号が出る",0,0,{p:"metal",c:"#AF1A05",c2:"#E24A2E"}],
+ ["glowstone","グロウストーン","きらきら","明るく光る",1,0,{p:"glow",c:"#C99A4E",c2:"#FFE9A6"}],
+ ["sea_lantern","シーランタン","きらきら","水の中でも光る",0,0,{p:"glow",c:"#AEC9C2",c2:"#F2FFFB"}],
+ ["beacon","ビーコン","きらきら","光の柱が出る",0,0,{p:"glass",c:"#7FE3E0",c2:"#FFFFFF"}],
+ ["water","水","しぜん・ふしぎ","水を置く",1,0,{p:"liquid",c:"#3F76E4",c2:"#6E9BF0"}],
+ ["lava","溶岩","しぜん・ふしぎ","さわると燃える",0,"warn",{p:"liquid",c:"#E8590C",c2:"#FFB23A"}],
+ ["ice","氷","しぜん・ふしぎ","つるつるすべる",1,0,{p:"ice",c:"#91B7FD",c2:"#D6E6FF"}],
+ ["packed_ice","氷塊","しぜん・ふしぎ","とけない氷",0,0,{p:"ice",c:"#8DB1F5",c2:"#C3D8FF"}],
+ ["snow","雪ブロック","しぜん・ふしぎ","真っ白",0,0,{p:"noise",c:"#F4FBFC",c2:"#E3EEF0"}],
+ ["slime","スライムブロック","しぜん・ふしぎ","のるとぼよーんとはねる",1,0,{p:"slime",c:"#76BE6D",c2:"#A8E29E"}],
+ ["honey_block","ハチミツブロック","しぜん・ふしぎ","ねばねば、ジャンプしにくい",0,0,{p:"slime",c:"#F5A623",c2:"#FBCB5C"}],
+ ["magma","マグマブロック","しぜん・ふしぎ","上に乗るとあつい",0,0,{p:"glow",c:"#5E2210",c2:"#F07A1A"}],
+ ["obsidian","黒曜石","しぜん・ふしぎ","とてもかたい",0,0,{p:"noise",c:"#1D1426",c2:"#3B2A4F"}],
+ ["tnt","TNT","しぜん・ふしぎ","火をつけるとばくはつ",0,"warn",{p:"tnt",c:"#DB2F1F",c2:"#F2F2F2"}],
+ ["air","空気","しぜん・ふしぎ","ブロックを消す",1,0,{p:"air"}],
+ ["chest","チェスト","べんり","アイテムをしまう",1,0,{p:"chest",c:"#A2702F",c2:"#5E3D14"}],
+ ["crafting_table","作業台","べんり","クラフトする",0,0,{p:"table",c:"#9C7A48",c2:"#5E4426"}],
+ ["furnace","かまど","べんり","焼く・とかす",0,0,{p:"furnace",c:"#7E7E7E",c2:"#2B2B2B"}],
+ ["bookshelf","本棚","べんり","エンチャントを強くする",0,0,{p:"shelf",c:"#B8945F",c2:"#5E4426"}],
+ ["torch","たいまつ","べんり","明かり",1,0,{p:"torch",c:"#6B5235",c2:"#FFC23A"}],
+ ["jukebox","ジュークボックス","べんり","レコードを流す",0,0,{p:"box",c:"#6B4A33",c2:"#2B1D14"}],
+ ["noteblock","音ブロック","べんり","たたくと音が鳴る",0,0,{p:"box",c:"#6B4A33",c2:"#3A281B"}],
+ ["command_block","コマンドブロック","べんり","コマンドを入れておく",1,0,{p:"cmd",c:"#C77A3A",c2:"#3A3A3A"}],
+ ["barrier","バリア","べんり","見えないかべ",0,0,{p:"barrier",c:"#E0312A"}],
+ ["bedrock","岩盤","べんり","こわせないブロック",0,0,{p:"noise",c:"#555555",c2:"#2A2A2A"}],
+ ["allow","許可ブロック","教育版","この上はブロックを置ける",1,"edu",{p:"edu",c:"#3FA34D",c2:"#C9F2CF"}],
+ ["deny","拒否ブロック","教育版","この上はブロックを置けない",1,"edu",{p:"edu",c:"#C8413A",c2:"#F8D0CD"}],
+ ["border_block","ボーダーブロック","教育版","上も通りぬけられないかべ",0,"edu",{p:"border",c:"#C8413A",c2:"#F2F2F2"}]
+];
+
+/* ---- time ---- */
+const TIMES=[
+ // id, 名前, 絵, 数字, せつめい, 空の色, ★
+ ["sunrise","日の出","🌅",23000,"朝が来る直前","linear-gradient(#5B6FB5,#F2A36B)",0],
+ ["day","朝","☀️",1000,"1日のはじまり","linear-gradient(#7FB8F0,#CFE7FF)",1],
+ ["noon","お昼","🌞",6000,"太陽がいちばん高い","linear-gradient(#4A9EF0,#BFE0FF)",1],
+ ["sunset","夕方","🌇",12000,"日がしずむ","linear-gradient(#5C4C9E,#F08A5D)",0],
+ ["night","夜","🌙",13000,"モンスターが出はじめる","linear-gradient(#0F1B3D,#33477A)",1],
+ ["midnight","真夜中","🌌",18000,"月がいちばん高い","linear-gradient(#050A1A,#1A2240)",0]
+];
+/* ---- weather ---- */
+const WEATHERS=[
+ ["clear","晴れ","☀️","雨も雪もふらない","linear-gradient(#4A9EF0,#BFE0FF)",null,1],
+ ["rain","雨","🌧️","寒い場所では雪になる","linear-gradient(#56606B,#8D99A6)",{s:"drop",c:["#9CC8FF","#C8E0FF"],m:"rain"},1],
+ ["thunder","かみなり雨","⛈️","雷が落ちることもある","linear-gradient(#20252C,#4A535E)",{s:"drop",c:["#9CC8FF","#C8E0FF"],m:"rain",flash:1},1]
+];
+/* ---- tp: 向き ---- */
+const DIRS=[
+ // id(向きの数字), 名前, 種類, 角度/絵, せつめい, ★
+ ["180 0","北を向く","yaw",0,"よこ向き 180",1],
+ ["-90 0","東を向く","yaw",90,"よこ向き -90",0],
+ ["0 0","南を向く","yaw",180,"よこ向き 0",1],
+ ["90 0","西を向く","yaw",270,"よこ向き 90",0],
+ ["~180 ~","うしろをふりむく","yaw","↩️","~180 で今の向きから半回転",1],
+ ["~ -90","真上を見る","pitch","⬆️","たて向き -90",0],
+ ["~ 0","まっすぐ前を見る","pitch","➡️","たて向き 0",0],
+ ["~ 90","真下を見る","pitch","⬇️","たて向き 90",0]
+];
+/* ---- playanimation ---- */
+const ANIMS=[
+ // id, 名前, 絵, 分類, せつめい, ★
+ ["animation.player.sleeping","ねる","😴","ポーズ","ベッドでねているポーズ",1],
+ ["animation.player.riding.legs","すわる","🪑","ポーズ","足を前に出してすわる",1],
+ ["animation.player.sneaking","しゃがむ","🧎","ポーズ","スニークのポーズ"],
+ ["animation.player.swim","およぐ","🏊","ポーズ","横になっておよぐ",1],
+ ["animation.player.crawl","はう","🐛","ポーズ","ふせて進むポーズ"],
+ ["animation.player.glide","空をとぶ","🪽","ポーズ","エリトラでとぶポーズ"],
+ ["animation.player.base_pose.upside_down","さかさま","🙃","ポーズ","体が上下さかさまになる",1],
+ ["animation.player.move.arms.statue_of_liberty","自由の女神","🗽","うで","片手をまっすぐ上げる",1],
+ ["animation.player.move.arms.zombie","ゾンビのうで","🧟","うで","両うでを前につき出す",1],
+ ["animation.player.riding.arms","乗り物のうで","🛶","うで","乗り物に乗っているうで"],
+ ["animation.player.attack.rotations","こうげき","👊","うで","うでをふる"],
+ ["animation.player.bow_equipped","弓をかまえる","🏹","うで","弓をひくポーズ"],
+ ["animation.player.crossbow_hold","クロスボウをかまえる","🎯","うで","クロスボウのポーズ"],
+ ["animation.player.shield_block_main_hand","盾をかまえる","🛡️","うで","盾でふせぐポーズ"],
+ ["animation.piglin.celebrate_hunt_special","ダンス","💃","ほかの生き物から","ピグリンのよろこびダンス",1]
+];
+/* ---- camera ---- */
+const CAMS=[
+ ["minecraft:first_person","ふつうの目線","👀","いつもの画面（1人称）",1],
+ ["minecraft:third_person","うしろから","🎥","自分の背中が見える",1],
+ ["minecraft:third_person_front","前から","🤳","自分の顔が見える",1],
+ ["minecraft:free","自由カメラ","🚁","pos や rot で場所と向きを決める",1],
+ ["minecraft:follow_orbit","ついていくカメラ","🛰️","自分のまわりを回りながらついてくる",0,"new"],
+ ["minecraft:fixed_boom","ななめ上から","📐","ななめ上から見下ろす",0,"new"]
+];
+/* ---- fill のモード図 ---- */
+const FILL_BEFORE=["..S..",".....","S...S",".....","..S.."];
+const FILL_MODES=[
+ ["replace（書かないとこれ）","ぜんぶ置きかえる",(r,c,b)=>"G"],
+ ["destroy","こわしてから置く（こわしたブロックはアイテムに）",(r,c,b)=>b==="S"?"D":"G"],
+ ["keep","空気のところだけに置く",(r,c,b)=>b==="S"?"S":"G"],
+ ["hollow","まわりだけ置いて、中は空気にする",(r,c,b)=>(r===0||c===0||r===4||c===4)?"G":"."],
+ ["outline","まわりだけ置いて、中はそのまま",(r,c,b)=>(r===0||c===0||r===4||c===4)?"G":b]
+];
+
+/* ---- 文字の色・かざり（title / say / titleraw） ---- */
+const FMT=[
+ // id, 名前, 色, 分類, せつめい, ★
+ ["§0","黒","#000000","色","",0],["§1","こん色","#0000AA","色","",0],["§2","みどり","#00AA00","色","",0],["§3","青みどり","#00AAAA","色","",0],
+ ["§4","こい赤","#AA0000","色","",0],["§5","むらさき","#AA00AA","色","",0],["§6","金色","#FFAA00","色","クリア！におすすめ",1],["§7","灰色","#AAAAAA","色","",0],
+ ["§8","こい灰色","#555555","色","",0],["§9","青","#5555FF","色","",1],["§a","黄みどり","#55FF55","色","正解！におすすめ",1],["§b","水色","#55FFFF","色","",1],
+ ["§c","赤","#FF5555","色","ざんねん！におすすめ",1],["§d","ピンク","#FF55FF","色","",1],["§e","黄色","#FFFF55","色","",1],["§f","白","#FFFFFF","色","",0],
+ ["§g","コインの金色","#DDD605","色","",0],
+ ["§l","太字","#FFFFFF","かざり","文字が太くなる",1],["§o","ななめ","#FFFFFF","かざり","文字がななめになる",0],
+ ["§k","ぐちゃぐちゃ","#FFFFFF","かざり","文字がずっと変わり続ける（ひみつの言葉に）",0],["§r","もとにもどす","#FFFFFF","かざり","色やかざりをリセット",0]
+];
+/* ---- hud ---- */
+const HUDS=[
+ ["all","ぜんぶ","🖥️","画面の表示をぜんぶ",1],["hotbar","アイテム欄","🧰","下のアイテムの列",1],["health","ハート","❤️","体力ゲージ",0],
+ ["hunger","食べ物ゲージ","🍗","おなかのゲージ",0],["armor","防具ゲージ","🛡️","防具のゲージ",0],["air_bubbles","息のゲージ","🫧","水の中のあわ",0],
+ ["progress_bar","経験値バー","🟩","みどりのバー",0],["crosshair","まん中の十字","➕","ねらいの印",1],["paperdoll","自分の人形","🧍","左上に出る自分の姿",0],
+ ["status_effects","こうかのアイコン","✨","effectのマーク",0],["item_text","アイテム名","🏷️","持ちかえたときの名前",0],["tooltips","ボタンの説明","💡","操作のヒント",0],
+ ["touch_controls","タッチボタン","📱","タブレットの操作ボタン",0,"warn"],["horse_health","乗り物のハート","🐎","ウマなどの体力",0]
+];
+/* ---- gamemode ---- */
+const MODES=[
+ ["survival","サバイバル","🛠️","材料を集めてくらす。ダメージもある（s でもOK）",1],
+ ["creative","クリエイティブ","🎨","なんでも使える・空を飛べる（c でもOK）",1],
+ ["adventure","アドベンチャー","🗺️","ブロックをこわせない・置けない（a でもOK）",1],
+ ["spectator","スペクテイター","👻","かべをすりぬけて見るだけ",0,"new"],
+ ["default","ワールドの設定","↩️","ワールドを作ったときのモードにもどす",0]
+];
+/* ---- gamerule ---- */
+const RULES=[
+ // id, 名前, 絵, 分類, せつめい, はじめの値, おすすめ値, ★, タグ
+ ["pvp","プレイヤー同士のこうげき","⚔️","みんなの安全","false で友だちをこうげきできない","true","false",1],
+ ["keepinventory","持ち物を守る","🎒","みんなの安全","true でたおれても持ち物が消えない","false","true",1],
+ ["falldamage","落下ダメージ","🪂","みんなの安全","false で落ちてもへいき","true","false",0],
+ ["firedamage","火のダメージ","🔥","みんなの安全","false で火や溶岩でもへいき","true","false",0],
+ ["drowningdamage","おぼれるダメージ","🫧","みんなの安全","false で水の中でもへいき","true","false",0],
+ ["freezedamage","こおるダメージ","🥶","みんなの安全","false で粉雪でもへいき","true","false",0],
+ ["doimmediaterespawn","すぐ復活","⚡","みんなの安全","true でたおれてもすぐ生きかえる","false","true",0],
+ ["naturalregeneration","自然回復","💗","みんなの安全","false でハートが自然にもどらない","true","false",0],
+ ["showdeathmessages","たおれたメッセージ","💬","みんなの安全","false でチャットに出さない","true","false",0],
+ ["dodaylightcycle","時間が進む","🌞","世界の動き","false で時間が止まる","true","false",1],
+ ["doweathercycle","天気がかわる","🌦️","世界の動き","false で天気が止まる","true","false",1],
+ ["domobspawning","生き物が自然にわく","🐾","世界の動き","false でモンスターも動物もわかない","true","false",1],
+ ["dofiretick","火が広がる","🔥","世界の動き","false で火事にならない","true","false",1],
+ ["tntexplodes","TNTのばくはつ","🧨","世界の動き","false でTNTがばくはつしない","true","false",1],
+ ["mobgriefing","モブがこわす","💥","世界の動き","false でクリーパーなどがブロックをこわさない","true","false",0],
+ ["doinsomnia","ファントム","🦇","世界の動き","false でねなくてもファントムが出ない","true","false",0],
+ ["dotiledrops","ブロックのアイテム","🧱","世界の動き","false でこわしてもアイテムが出ない","true","false",0],
+ ["domobloot","モブのドロップ","🍖","世界の動き","false でたおしてもアイテムが出ない","true","false",0],
+ ["randomtickspeed","植物が育つ速さ","🌱","世界の動き","数字。0 で育たない、大きいほど速い","1","0",0],
+ ["showcoordinates","座標の表示","📍","表示・コマンド","true で画面に座標が出る","false","true",1],
+ ["showdaysplayed","何日目かの表示","📅","表示・コマンド","true で画面に日数が出る","false","true",0],
+ ["commandblockoutput","コマンドブロックのおしらせ","🧾","表示・コマンド","false でチャットにたくさん出なくなる","true","false",1],
+ ["sendcommandfeedback","コマンドの結果","📝","表示・コマンド","false でコマンドの結果を出さない","true","false",0],
+ ["commandblocksenabled","コマンドブロックを使う","🟧","表示・コマンド","false でコマンドブロックが止まる","true","false",0],
+ ["spawnradius","復活する場所の広さ","🎯","表示・コマンド","数字。0 でワールドのスタート地点ぴったり","5","0",0],
+ ["globalmute","全員のチャット","🔇","教育版","true で全員チャットができない","false","true",1,"edu"],
+ ["allowdestructiveitems","こわす道具","💣","教育版","false でTNTや火打石などが使えない","true","false",0,"edu"],
+ ["allowmobs","モブを出す","🐮","教育版","false でモブが出なくなる","true","false",0,"edu"],
+ ["showbordereffect","ボーダーブロックの光","🧱","教育版","false でボーダーブロックの光のかべをかくす","true","false",0,"edu"]
+];
+/* ---- ability ---- */
+const ABILS=[
+ ["mute","チャットを止める","🔇","true にするとチャットに書きこめない",1,"edu"],
+ ["mayfly","空を飛べる","🕊️","サバイバルやアドベンチャーでも飛べる",1,"edu"],
+ ["worldbuilder","ワールドビルダー","🏗️","許可・拒否ブロックをこわしたり置いたりできる",1,"edu"]
+];
+/* ---- inputpermission ---- */
+const INPUTS=[
+ ["camera","視点を動かす","🎥","まわりを見回すこと",1],["movement","動く（ぜんぶ）","🚶","歩く・ジャンプなど",1],
+ ["jump","ジャンプ","⬆️","",0,"new"],["sneak","しゃがむ","🧎","",0,"new"],["lateral_movement","左右に動く","↔️","",0,"new"],
+ ["move_forward","前に進む","⏫","",0,"new"],["move_backward","うしろに進む","⏬","",0,"new"],["move_left","左に動く","⏪","",0,"new"],["move_right","右に動く","⏩","",0,"new"],
+ ["mount","乗り物に乗る","🐎","",0,"new"],["dismount","乗り物からおりる","🚪","",0,"new"]
+];
+/* ---- clone ---- */
+const CLONES=[
+ // id, 名前, 絵, せつめい, ★, タグ, 分類
+ ["replace normal","そのままコピー","📋","空気もふくめて全部コピー",1],
+ ["masked normal","空気はコピーしない","🫥","ブロックのあるところだけコピー",1],
+ ["replace move","引っこし","🚚","コピーして、もとの場所は消える",1],
+ ["replace force","重なってもコピー","🧩","コピー元とコピー先が重なっているとき",0],
+ ["filtered normal stone","石だけコピー","🔍","filtered のあとに書いたブロックだけ",0]
+];
+/* ---- structure の読みこみ方 ---- */
+const STRUCTS=[
+ ["0_degrees none","そのまま","⬆️","保存したときの向き",1,0,"向き・反転"],
+ ["90_degrees none","90°回す","↪️","右に1/4回転",0,0,"向き・反転"],
+ ["180_degrees none","180°回す","🔄","反対向き",0,0,"向き・反転"],
+ ["270_degrees none","270°回す","↩️","左に1/4回転",0,0,"向き・反転"],
+ ["0_degrees x","左右反転（x）","🪞","鏡にうつしたように",0,0,"向き・反転"],
+ ["0_degrees z","前後反転（z）","🪞","鏡にうつしたように",0,0,"向き・反転"],
+ ["0_degrees none block_by_block 5","1ブロックずつ（5秒）","🧱","できていく様子が見える",1,0,"アニメーション"],
+ ["0_degrees none layer_by_layer 5","1段ずつ（5秒）","🏗️","下から順に組み上がる",1,0,"アニメーション"]
+];
+
+/* ====================== コマンドの説明 ====================== */
+const S = (t,k)=>[t,k]; // 構文のパーツ
+const CMDS = [
+ {key:"basics", name:"きほん", jp:"はじめに読もう", lead:"コマンドを使う前のじゅんびと、どのコマンドでも使う「だれに」「どこに」の書き方です。"},
+ {key:"summon", name:"/summon", jp:"生き物やモノを出す",
+  lead:"動物やモンスター、かみなりや花火まで、いろいろなものをその場に出せます。",
+  syntax:[[S("/summon","cmd"),S("<なにを>","req"),S("[どこに]","opt")],
+          [S("/summon","cmd"),S("<なにを>","req"),S("[なまえ]","opt"),S("[どこに]","opt")]],
+  parts:[["<なにを>","req","出したいもののID","下の図鑑からえらぼう。例: cow（ウシ）"],
+         ["[どこに]","opt","出す場所","書かないと自分の場所。^ ^ ^3 で目の前3ブロック"],
+         ["[なまえ]","opt","頭の上に出る名前","\"ポチ\" のように \" \" でかこむ"]],
+  examples:[["/summon cow","自分のいる場所にウシを出す"],
+            ["/summon pig ^ ^ ^3","目の前3ブロックのところにブタを出す"],
+            ["/summon cat \"タマ\" ^ ^ ^2","「タマ」という名前のネコを出す"],
+            ["/summon sheep ^ ^ ^3 minecraft:entity_born","子どものヒツジを出す（動物だけ）"],
+            ["/execute as @a at @s run summon chicken ~ ~5 ~","全員の頭の上からニワトリがふってくる"],
+            ["/kill @e[type=chicken]","出したニワトリをぜんぶ消す（おかたづけ）"]],
+  notes:[["tip","<b>ピースフル</b>（むずかしさ）だと、てきのモンスターは出してもすぐ消えます。"],
+         ["warn","<b>⚠ マーク</b>のものは、まわりをこわしたり、とても強かったりします。出す前に先生に聞こう。"]],
+  maker:[["そのまま","/summon {id}"],["目の前に","/summon {id} ^ ^ ^3"],["名前つき","/summon {id} \"なまえ\" ^ ^ ^3"],["子ども","/summon {id} ^ ^ ^3 minecraft:entity_born"],["おかたづけ","/kill @e[type={id}]"]],
+  list:{type:"mob", data:MOBS, title:"生き物・モノ図鑑"}},
+ {key:"particle", name:"/particle", jp:"つぶつぶ演出を出す",
+  lead:"ハートやほのお、ばくはつなどの「見た目だけ」の演出を出せます。ダメージはありません。",
+  syntax:[[S("/particle","cmd"),S("<どのつぶつぶ>","req"),S("[どこに]","opt")]],
+  parts:[["<どのつぶつぶ>","req","パーティクルのID","minecraft: から始まる。下の図鑑からえらぼう"],
+         ["[どこに]","opt","出す場所","書かないと自分の場所。~ ~2 ~ で頭の上"]],
+  examples:[["/particle minecraft:heart_particle ~ ~2 ~","自分の頭の上にハートを出す"],
+            ["/particle minecraft:huge_explosion_emitter ^ ^1 ^4","目の前で大ばくはつ（見た目だけ）"],
+            ["/execute as @a at @s run particle minecraft:totem_particle ~ ~1 ~","全員のまわりにキラキラを出す"]],
+  notes:[["tip","1回打つと<b>一瞬だけ</b>出ます。出しつづけたいときは、コマンドブロックを「くりかえし・つねに動作」にしよう。"],
+         ["tip","IDの前の <b>minecraft:</b> をわすれずに。カードの動きは「こんな感じ」というイメージです。"]],
+  maker:[["頭の上","/particle {id} ~ ~2 ~"],["目の前","/particle {id} ^ ^1 ^3"],["全員から","/execute as @a at @s run particle {id} ~ ~2 ~"]],
+  list:{type:"ptc", data:PTC, title:"パーティクル図鑑"}},
+ {key:"effect", name:"/effect", jp:"ふしぎなこうかをつける",
+  lead:"はやく走る、高くジャンプする、すがたを消す…などのこうか（ステータス効果）をつけたり消したりできます。",
+  syntax:[[S("/effect","cmd"),S("<だれに>","req"),S("<どのこうか>","req"),S("[びょう数]","opt"),S("[つよさ]","opt"),S("[つぶつぶをかくす]","opt")],
+          [S("/effect","cmd"),S("<だれに>","req"),S("clear","lit")]],
+  parts:[["<だれに>","req","こうかをつける人","@s 自分 / @a 全員 / @p いちばん近い人"],
+         ["<どのこうか>","req","こうかのID","下の図鑑からえらぼう"],
+         ["[びょう数]","opt","何秒つづくか","書かないと30秒。999999 でほぼずっと"],
+         ["[つよさ]","opt","こうかの強さ","0 = Lv.1、1 = Lv.2、2 = Lv.3 …（書かないと0）"],
+         ["[つぶつぶをかくす]","opt","まわりのつぶつぶを見えなくする","true でかくす / false で見せる"],
+         ["clear","lit","こうかをぜんぶ消す","つけたこうかをリセットしたいときに"]],
+  examples:[["/effect @s speed 30 1","自分に「はやく走れる Lv.2」を30秒"],
+            ["/effect @a jump_boost 60 2","全員に「高くジャンプ Lv.3」を60秒"],
+            ["/effect @s night_vision 999999 0 true","暗いところが明るく見える（ほぼずっと・つぶつぶなし）"],
+            ["/effect @a clear","全員のこうかをぜんぶ消す"]],
+  notes:[["tip","<b>つよさは0から数えます。</b>「Lv.2にしたい」ときは 1 と書こう。"],
+         ["tip","カードの「Lv.1／Lv.2」を見ると、レベルを上げると何がかわるかわかります。コマンドメーカーの <b>＋ −</b> でほかのレベルも計算できます。"],
+         ["warn","つよさを大きくしすぎると、ジャンプしすぎて落下ダメージを受けることがあります。数字は「だいたい」の目安です。"]],
+  level:"eff", maker:[["30秒","/effect @s {id} 30 {amp}"],["全員に","/effect @a {id} 30 {amp}"],["ずっと・つぶなし","/effect @s {id} 999999 {amp} true"],["ぜんぶ消す","/effect @s clear"]],
+  list:{type:"eff", data:EFF, title:"こうか図鑑"}},
+ {key:"enchant", name:"/enchant", jp:"アイテムを強くする",
+  lead:"手に持っている道具や防具に、エンチャント（特別な力）をつけられます。",
+  syntax:[[S("/enchant","cmd"),S("<だれの>","req"),S("<どのエンチャント>","req"),S("[レベル]","opt")]],
+  parts:[["<だれの>","req","手に持っているアイテムの持ち主","@s 自分 / @a 全員"],
+         ["<どのエンチャント>","req","エンチャントのID","下の図鑑からえらぼう"],
+         ["[レベル]","opt","強さ","書かないとLv.1。カードの「最大Lv」までつけられる"]],
+  examples:[["/give @s diamond_sword","まずダイヤの剣を手に入れる（手に持とう）"],
+            ["/enchant @s sharpness 5","持っている剣に「ダメージ増加 Lv.5」"],
+            ["/enchant @s fire_aspect 2","持っている剣に「火属性 Lv.2」"]],
+  notes:[["warn","<b>手に持っているアイテムにだけ</b>つきます。剣にブーツ用のエンチャントなど、合わない組み合わせや最大Lvより大きい数はエラーになります。"],
+         ["tip","シルクタッチと幸運、無限と修繕など、いっしょにつけられないものもあります。"],
+         ["tip","カードの「Lv.1／Lv.2」と、下の「レベル早見表」で、レベルごとのちがいがわかります。数字は「だいたい」の目安です。"]],
+  give:["diamond_sword","diamond_pickaxe","diamond_axe","bow","crossbow","trident","diamond_helmet","diamond_chestplate","diamond_leggings","diamond_boots","fishing_rod","mace"],
+  level:"ench", maker:[["自分の","/enchant @s {id} {lv}"],["全員の","/enchant @a {id} {lv}"]],
+  list:{type:"ench", data:ENC, title:"エンチャント図鑑"}},
+ {key:"playsound", name:"/playsound", jp:"効果音を鳴らす",
+  lead:"正解の「ピン！」、クリアの「レベルアップ音」など、ゲームの音を鳴らせます。",
+  syntax:[[S("/playsound","cmd"),S("<どの音>","req"),S("[だれに]","opt"),S("[どこから]","opt"),S("[音量]","opt"),S("[高さ]","opt")],
+          [S("/stopsound","cmd"),S("<だれの>","req")]],
+  parts:[["<どの音>","req","音のID","下の図鑑からえらぼう"],
+         ["[だれに]","opt","聞かせる人","@a 全員 / @p いちばん近い人"],
+         ["[どこから]","opt","音が鳴る場所","~ ~ ~ で自分の場所"],
+         ["[音量]","opt","音の大きさ","1 がふつう。大きくすると遠くまでとどく"],
+         ["[高さ]","opt","音の高さ（ピッチ）","1 がふつう、2 で高い、0.5 で低い"],
+         ["/stopsound","cmd","鳴っている音を止める","/stopsound @a で全員の音を止める"]],
+  examples:[["/playsound random.levelup @a","全員にレベルアップの音"],
+            ["/playsound note.pling @a ~ ~ ~ 1 2","高い「ピン！」を鳴らす"],
+            ["/playsound mob.villager.no @p","いちばん近い人に村人の「ううん」"],
+            ["/execute as @a at @s run playsound note.bell @s","はなれた場所にいる人にも、全員にベルを聞かせる"]],
+  notes:[["tip","遠くの人に聞こえないときは、いちばん下の例のように <b>execute</b> を使うと全員にとどきます。"]],
+  maker:[["全員に","/playsound {id} @a"],["高い音","/playsound {id} @a ~ ~ ~ 1 2"],["低い音","/playsound {id} @a ~ ~ ~ 1 0.5"],["どこにいても","/execute as @a at @s run playsound {id} @s"]],
+  list:{type:"snd", data:SND, title:"効果音図鑑"}},
+ {key:"music", name:"/music", jp:"BGMを流す",
+  lead:"レコードの曲などをBGMとして流せます。くりかえし、フェードアウト、止めることもできます。",
+  syntax:[[S("/music","cmd"),S("play","lit"),S("<どの曲>","req"),S("[音量]","opt"),S("[フェード秒]","opt"),S("[くりかえし]","opt")],
+          [S("/music","cmd"),S("queue","lit"),S("<どの曲>","req"),S("[音量]","opt"),S("[フェード秒]","opt"),S("[くりかえし]","opt")],
+          [S("/music","cmd"),S("stop","lit"),S("[フェード秒]","opt")],
+          [S("/music","cmd"),S("volume","lit"),S("<音量>","req")]],
+  parts:[["play","lit","すぐに曲を流す",""],
+         ["queue","lit","今の曲のつぎに流す曲を予約",""],
+         ["stop","lit","曲を止める",""],
+         ["volume","lit","音量だけかえる",""],
+         ["<どの曲>","req","曲のID","下の図鑑からえらぼう"],
+         ["[音量]","opt","音の大きさ","0〜1（1が最大）"],
+         ["[フェード秒]","opt","じわっと始まる・終わる秒数","0 ですぐ"],
+         ["[くりかえし]","opt","くりかえすかどうか","loop でくりかえす / play_once で1回だけ"]],
+  examples:[["/music play record.cat","Catを流す"],
+            ["/music play record.otherside 1 2 loop","Othersideを2秒でじわっと始めて、ずっとくりかえす"],
+            ["/music queue record.blocks","今の曲が終わったらBlocksを流す"],
+            ["/music stop 3","3秒かけてじわっと止める"],
+            ["/music volume 0.5","音量を半分にする"]],
+  notes:[["tip","/music は<b>ワールドの全員</b>に流れます。止めたり、くりかえしたりできるので、BGMには /playsound より /music がおすすめ。"]],
+  maker:[["流す","/music play {id}"],["くりかえし","/music play {id} 1 2 loop"],["つぎに予約","/music queue {id}"],["止める","/music stop 3"]],
+  list:{type:"mus", data:MUS, title:"音楽図鑑"}},
+ {key:"execute", name:"/execute", jp:"条件つき・みんなで実行", lead:"「全員の場所で」「もし金ブロックの上にいたら」のように、ほかのコマンドに条件や場所をつけて実行できます。少し上級者むけです。",
+  syntax:[[S("/execute","cmd"),S("<サブコマンド…>","opt"),S("run","lit"),S("<コマンド>","req")]],
+  parts:[["<サブコマンド…>","opt","だれとして・どこで・どんなときに","下の表から組み合わせる。いくつでもつなげられる"],
+         ["run","lit","ここから実行するコマンド","かならず最後に書く"],
+         ["<コマンド>","req","実行したいコマンド","はじめの / はいらない"]],
+  examples:[["/execute as @a at @s run summon chicken ~ ~5 ~","全員の頭の上にニワトリを出す"],
+            ["/execute as @a at @s if block ~ ~-1 ~ gold_block run effect @s speed 1 2 true","金ブロックの上に立った人だけはやくなる（くりかえしコマンドブロックで）"],
+            ["/execute if entity @e[type=zombie] run say ゾンビがいるぞ！","ゾンビが1体でもいたら、チャットでおしらせ"],
+            ["/execute unless entity @e[type=zombie] run say ゾンビをぜんぶたおした！","ゾンビがいなくなったら、おしらせ"],
+            ["/execute as @a if score @s points matches 10.. run title @s title クリア！","ポイントが10以上の人に「クリア！」"],
+            ["/execute positioned 0 64 0 run summon lightning_bolt","座標 0 64 0 にかみなりを落とす"]],
+  table:{head:["サブコマンド","何をするの？","書き方の例"],rows:[
+   ["as <だれ>","その人になりきって実行","as @a"],
+   ["at <だれ>","その人の場所で実行","at @s"],
+   ["positioned <x y z>","指定した座標で実行","positioned 0 64 0"],
+   ["rotated <よこ> <たて>","向きをかえて実行","rotated 0 0"],
+   ["facing <x y z>","その座標の方を向いて実行","facing 0 64 0"],
+   ["align <xyz>","座標を整数にそろえる","align xz"],
+   ["anchored <eyes|feet>","目の高さ／足もとを基準にする","anchored eyes"],
+   ["in <世界>","べつのディメンションで実行","in nether"],
+   ["if entity <だれ>","その生き物がいたら","if entity @e[type=cow]"],
+   ["unless entity <だれ>","その生き物がいなかったら","unless entity @a[r=5]"],
+   ["if block <x y z> <ブロック>","そこにそのブロックがあったら","if block ~ ~-1 ~ gold_block"],
+   ["if blocks <始点> <終点> <くらべる場所> all","2つの場所の形が同じなら","if blocks 0 64 0 2 64 2 10 64 10 all"],
+   ["if score <だれ> <スコア> matches <数>","スコアが条件に合ったら","if score @s points matches 10.."],
+   ["if score <A> <スコア> <記号> <B> <スコア>","2つのスコアをくらべて","if score @s points > @p points"],
+   ["run <コマンド>","最後に実行するコマンド","run say やったね"]]},
+  notes:[["tip","<b>unless</b> は if の反対（〜でなかったら）。<b>matches 10..</b> は「10以上」、<b>..9</b> は「9以下」、<b>1..5</b> は「1〜5」。"],
+         ["tip","教育版（統合版）の execute には store はありません。"]]},
+ {key:"scoreboard", name:"/scoreboard", jp:"点数をつける", lead:"ポイントやタイマーなど、数字を記録してゲームを作れます。execute と組み合わせると「10点でクリア」などができます。",
+  syntax:[[S("/scoreboard","cmd"),S("objectives","lit"),S("add","lit"),S("<スコア名>","req"),S("dummy","lit"),S("[表示名]","opt")],
+          [S("/scoreboard","cmd"),S("objectives","lit"),S("setdisplay","lit"),S("<表示場所>","req"),S("[スコア名]","opt")],
+          [S("/scoreboard","cmd"),S("players","lit"),S("<set|add|remove>","req"),S("<だれ>","req"),S("<スコア名>","req"),S("<数>","req")]],
+  parts:[["<スコア名>","req","スコアのなまえ（英語）","points や timer など。半角英数字で"],
+         ["dummy","lit","コマンドで数字をかえるタイプ","ふつうはこれでOK"],
+         ["[表示名]","opt","画面に出るなまえ","日本語でもOK。例: ポイント"],
+         ["<表示場所>","req","どこに表示するか","sidebar 画面の右 / list プレイヤー一覧 / belowname 頭の下"],
+         ["<set|add|remove>","req","数字をどうするか","set ちょうどにする / add ふやす / remove へらす"]],
+  examples:[["/scoreboard objectives add points dummy ポイント","「ポイント」というスコアを作る"],
+            ["/scoreboard objectives setdisplay sidebar points","画面の右にポイントを表示する"],
+            ["/scoreboard players set @a points 0","全員のポイントを0にする"],
+            ["/scoreboard players add @p points 1","いちばん近い人のポイントを1ふやす"],
+            ["/scoreboard players random @p dice 1 6","サイコロ：1〜6のどれかにする（dice というスコアを作っておく）"],
+            ["/scoreboard players operation @a total += @a points","全員の total に points を足す"]],
+  table:{head:["コマンド","何をするの？","例"],rows:[
+   ["objectives add","スコアを作る","objectives add points dummy"],
+   ["objectives remove","スコアを消す","objectives remove points"],
+   ["objectives list","作ったスコアを見る","objectives list"],
+   ["objectives setdisplay","画面に表示する（名前なしで消す）","objectives setdisplay sidebar points"],
+   ["players set","数字をちょうどにする","players set @a points 0"],
+   ["players add","数字をふやす","players add @p points 1"],
+   ["players remove","数字をへらす","players remove @p points 1"],
+   ["players random","ランダムな数にする","players random @p dice 1 6"],
+   ["players reset","記録を消す","players reset @a points"],
+   ["players list","スコアを見る","players list @s"],
+   ["players test","数字が範囲内か調べる","players test @p points 10 *"],
+   ["players operation","スコアどうしを計算する（+= -= *= /= %= = < > ><）","players operation @a total += @a points"]]},
+  notes:[["tip","スコア名は<b>半角の英語</b>にしよう。日本語の名前は「表示名」で。"]]}
+];
+
+const BASICS = {
+ steps:[["チートをONにする","ワールドの設定（または一時停止 → 設定）で「チートを有効にする」をONにします。マルチプレイではホスト（先生）がONにします。"],
+        ["チャット欄をひらく","パソコンは T キーか / キー。iPadやChromebookは画面上の💬ボタン。"],
+        ["コマンドを入力して Enter","はじめの / をわすれずに。この図鑑の「コピー」ではりつけてもOK。"]],
+ sel:[["@s","自分","/effect @s speed 30 0"],
+      ["@p","いちばん近いプレイヤー","/give @p apple"],
+      ["@a","全員（プレイヤー）","/tp @a @s"],
+      ["@r","ランダムな1人","/give @r diamond"],
+      ["@e","すべてのエンティティ（動物やモノもふくむ）","/kill @e[type=cow]"],
+      ["@c","自分のエージェント（教育版）","/tp @c @s"],
+      ["@v","すべてのエージェント（教育版）","/tp @v @s"]],
+ filt:[["@e[type=cow]","ウシだけ"],["@a[r=10]","10ブロック以内の人だけ"],["@e[type=chicken,c=3]","近いニワトリ3羽だけ"],["@a[name=Steve]","Steve という名前の人だけ"],["@e[type=!player]","プレイヤー以外ぜんぶ（! は「〜以外」）"]],
+ pos:[["10 64 -5","ぴったりその座標","世界のどこでも同じ場所"],["~ ~ ~","自分のいる場所","~ は「今いる場所から」"],["~ ~3 ~","自分の3ブロック上","まん中が上下（y）"],["~5 ~ ~","東へ5ブロック","左が東西（x）、右が南北（z）"],["^ ^ ^3","目の前3ブロック","^ は「向いている方向から」"],["^ ^ ^-3","うしろ3ブロック","マイナスで反対"],["^2 ^ ^","左へ2ブロック","左右・上下・前後の順"]],
+ teacher:[["/tp @a @s","全員を先生のところに集める"],
+          ["/kill @e[type=chicken]","ニワトリを全部消す（type= をかえれば何でも）"],
+          ["/difficulty peaceful","モンスターを消して、出なくする"],
+          ["/gamerule domobspawning false","モンスターや動物が自然にわかないようにする"],
+          ["/gamerule showcoordinates true","画面に座標を表示する"],
+          ["/time set day","昼にする"],
+          ["/weather clear","晴れにする"],
+          ["/give @s command_block","コマンドブロックをもらう"],
+          ["/effect @a clear","全員のこうかを消す"],
+          ["/music stop","BGMを止める"],
+          ["/stopsound @a","全員の効果音を止める"]],
+ trouble:["コマンドのとちゅうに<b>全角のスペース</b>や全角の文字（ａｂｃ、＠）が入っていないかな？ 日本語入力をOFFにして打とう。",
+          "スペルはあってる？ <b>chicken</b> を chiken、<b>minecraft:</b> を minecraft; にしていないかな？",
+          "スペースが2つ続いていたり、スペースがぬけていたりしないかな？",
+          "チートがOFFだと、コマンドは使えません。"]
+};
+
+
+/* ---- 追加コマンド ---- */
+CMDS.push(
+ {key:"give", name:"/give", jp:"アイテムをわたす",
+  lead:"道具や食べ物、ブロックなどのアイテムを、だれかの持ち物に入れられます。",
+  syntax:[[S("/give","cmd"),S("<だれに>","req"),S("<なにを>","req"),S("[いくつ]","opt"),S("[データ値]","opt"),S("[とくべつなルール]","opt")]],
+  parts:[["<だれに>","req","アイテムをもらう人","@s 自分 / @a 全員 / @p いちばん近い人"],
+         ["<なにを>","req","アイテムのID","下の図鑑からえらぼう"],
+         ["[いくつ]","opt","個数","書かないと1こ"],
+         ["[データ値]","opt","種類のちがい","ふつうは 0 でOK（ルールをつけるときに書く）"],
+         ["[とくべつなルール]","opt","「なくさない」「すてられない」など","{ } で書く。下の例を見てね"]],
+  examples:[["/give @s diamond 64","自分にダイヤモンドを64こ"],
+            ["/give @a apple 5","全員にリンゴを5こ"],
+            ["/give @s cow_spawn_egg","ウシのスポーンエッグ（○○_spawn_egg でいろいろな生き物）"],
+            ["/give @a camera","全員に教育版のカメラ"],
+            ["/give @s diamond_sword 1 0 {\"minecraft:keep_on_death\":{}}","たおれてもなくならない剣"],
+            ["/give @a writable_book 1 0 {\"minecraft:item_lock\":{\"mode\":\"lock_in_inventory\"}}","すてられない「本と羽根ペン」（ワークシートに）"],
+            ["/give @a diamond_pickaxe 1 0 {\"minecraft:can_destroy\":{\"blocks\":[\"stone\"]}}","アドベンチャーモードでも石だけこわせるツルハシ"]],
+  notes:[["tip","剣や道具は1つずつしか重ならないので、10こ わたすと持ち物が10マスうまります。"],
+         ["tip","<b>can_destroy</b>（こわせる）と <b>can_place_on</b>（置ける）は、アドベンチャーモードの授業で便利です。"]],
+  maker:[["1こ","/give @s {id}"],["10こ","/give @s {id} 10"],["全員に","/give @a {id}"],["なくさない","/give @s {id} 1 0 {\"minecraft:keep_on_death\":{}}"]],
+  list:{type:"item", data:ITEMS, title:"アイテム図鑑"}},
+ {key:"tp", name:"/tp", jp:"ワープする",
+  lead:"自分やほかの人、生き物を、ほかの場所や人のところへ一瞬で動かせます。向きも決められます。",
+  syntax:[[S("/tp","cmd"),S("<だれを>","req"),S("<だれのところへ>","req")],
+          [S("/tp","cmd"),S("<だれを>","req"),S("<x y z>","req"),S("[よこ向き]","opt"),S("[たて向き]","opt")],
+          [S("/tp","cmd"),S("<だれを>","req"),S("<x y z>","req"),S("facing","lit"),S("<見る人・場所>","req")]],
+  parts:[["<だれを>","req","ワープする人や生き物","書かないと自分（/tp 0 64 0 だけでもOK）"],
+         ["<だれのところへ>","req","この人の場所へワープ","@s 先生のところ、など"],
+         ["<x y z>","req","ワープ先の座標","~ や ^ も使える"],
+         ["[よこ向き]","opt","東西南北の向き","下の「向き図鑑」を見てね"],
+         ["[たて向き]","opt","上下の向き","-90 で真上、0 でまっすぐ、90 で真下"],
+         ["facing","lit","ワープしたあと、この方を向く","facing @p で近くの人を見る"]],
+  examples:[["/tp @a @s","全員を自分（先生）のところに集める"],
+            ["/tp @s 0 100 0","座標 0 100 0 にワープ"],
+            ["/tp @s ^ ^ ^10","向いている方へ10ブロック先へ"],
+            ["/tp @s ~ ~20 ~","20ブロック上へ（空中！）"],
+            ["/tp @e[type=cow] @s","ウシを全部自分のところへ"],
+            ["/tp @a 0 64 0 facing 0 64 10","全員を 0 64 0 に集めて、同じ方向を向かせる"]],
+  notes:[["warn","かべの中や地面の中の座標にワープすると、うまって息ができなくなります。^ ^ ^10 も前にかべがあると注意。"],
+         ["tip","座標がわからないときは <b>/gamerule showcoordinates true</b> で画面に表示しよう。"]],
+  maker:[["自分","/tp @s ~ ~ ~ {id}"],["全員その場で","/execute as @a at @s run tp @s ~ ~ ~ {id}"],["全員を集めて","/tp @a @s"]],
+  list:{type:"dir", data:DIRS, title:"向き図鑑"}},
+ {key:"setblock", name:"/setblock", jp:"ブロックを1つ置く",
+  lead:"指定した場所に、ブロックを1つ置きます。空気（air）を置けばブロックを消せます。",
+  syntax:[[S("/setblock","cmd"),S("<x y z>","req"),S("<どのブロック>","req"),S("[置き方]","opt")]],
+  parts:[["<x y z>","req","置く場所","~ ~-1 ~ で足もと、^ ^ ^2 で目の前"],
+         ["<どのブロック>","req","ブロックのID","下の図鑑からえらぼう"],
+         ["[置き方]","opt","replace / destroy / keep","replace 置きかえる（書かないとこれ）/ destroy こわして置く / keep 空気のときだけ"]],
+  examples:[["/setblock ~ ~-1 ~ gold_block","足もとを金ブロックにする"],
+            ["/setblock ^ ^ ^2 chest","目の前にチェストを置く"],
+            ["/setblock 0 64 0 diamond_block","座標 0 64 0 にダイヤモンドブロック"],
+            ["/setblock ^ ^ ^2 air destroy","目の前のブロックをこわす（アイテムが出る）"]],
+  notes:[["tip","<b>~ ~-1 ~</b> は「自分の足の下」。~ ~ ~ だと自分の足がうまる場所になります。"]],
+  maker:[["足もと","/setblock ~ ~-1 ~ {id}"],["目の前","/setblock ^ ^ ^2 {id}"],["頭の上","/setblock ~ ~2 ~ {id}"],["こわしてから","/setblock ^ ^ ^2 {id} destroy"]],
+  list:{type:"block", data:BLOCKS, title:"ブロック図鑑"}},
+ {key:"fill", name:"/fill", jp:"ブロックをまとめて置く",
+  lead:"2つの角を決めると、そのあいだを全部ブロックでうめます。床、かべ、家の形がいっしゅんで作れます。",
+  syntax:[[S("/fill","cmd"),S("<はじめの角 x y z>","req"),S("<おわりの角 x y z>","req"),S("<どのブロック>","req"),S("[置き方]","opt")],
+          [S("/fill","cmd"),S("<はじめの角>","req"),S("<おわりの角>","req"),S("<どのブロック>","req"),S("replace","lit"),S("<置きかえる前のブロック>","req")]],
+  parts:[["<はじめの角>","req","四角い範囲の1つめの角","~-2 ~-1 ~-2 など"],
+         ["<おわりの角>","req","反対がわの角","~2 ~-1 ~2 など"],
+         ["<どのブロック>","req","ブロックのID","下の図鑑からえらぼう"],
+         ["[置き方]","opt","replace / destroy / keep / hollow / outline","下の「置き方の図」を見てね"],
+         ["replace <前のブロック>","lit","このブロックだけを置きかえる","例：草ブロックだけを雪にする"]],
+  examples:[["/fill ~-2 ~-1 ~-2 ~2 ~-1 ~2 gold_block","足もとを 5×5 の金の床にする"],
+            ["/fill ^-2 ^ ^3 ^2 ^3 ^3 glass","目の前にガラスのかべ（はば5・高さ4）"],
+            ["/fill ~-3 ~-1 ~-3 ~3 ~4 ~3 oak_planks hollow","自分のまわりに、中が空っぽの木の家"],
+            ["/fill ~-10 ~-1 ~-10 ~10 ~-1 ~10 snow replace grass_block","まわりの草ブロックだけを雪にする"],
+            ["/fill ~-5 ~ ~-5 ~5 ~5 ~5 air","まわりのブロックを全部消す（おかたづけ）"]],
+  notes:[["tip","大きさは「はば × 高さ × おくゆき」。~-2 から ~2 なら 5 ブロック分です。"],
+         ["warn","一度に置けるのは <b>32768ブロック</b> まで（32×32×32 くらい）。大きすぎるとエラーになります。"]],
+  modes:true,
+  maker:[["足もと5×5","/fill ~-2 ~-1 ~-2 ~2 ~-1 ~2 {id}"],["目の前にかべ","/fill ^-2 ^ ^3 ^2 ^3 ^3 {id}"],["中が空の家","/fill ~-3 ~-1 ~-3 ~3 ~4 ~3 {id} hollow"],["わくだけ","/fill ~-3 ~-1 ~-3 ~3 ~4 ~3 {id} outline"],["草を置きかえ","/fill ~-5 ~-1 ~-5 ~5 ~-1 ~5 {id} replace grass_block"]],
+  list:{type:"block", data:BLOCKS, title:"ブロック図鑑"}},
+ {key:"time", name:"/time", jp:"時間をかえる",
+  lead:"昼や夜にしたり、時間を進めたりできます。マイクラの1日は 24000（現実の20分）です。",
+  syntax:[[S("/time","cmd"),S("set","lit"),S("<時間>","req")],
+          [S("/time","cmd"),S("add","lit"),S("<ふやす数>","req")],
+          [S("/time","cmd"),S("query","lit"),S("<daytime|day|gametime>","req")]],
+  parts:[["set","lit","その時間にする","day や night のことば、または数字"],
+         ["add","lit","今の時間から進める","1000 ふやすとマイクラの中で1時間（現実の50秒）"],
+         ["query","lit","今の時間をしらべる","daytime 今日の時間 / day 何日目か"],
+         ["<時間>","req","時間のことば・数字","下の図鑑を見てね（0 が朝の6時）"]],
+  examples:[["/time set day","朝にする"],["/time set night","夜にする"],["/time set 6000","お昼（12時）にする"],["/time add 12000","半日進める"],["/time query day","今日が何日目かしらべる"],
+            ["/gamerule dodaylightcycle false","時間を止める（ずっと同じ明るさ）"],["/gamerule dodaylightcycle true","時間をまた動かす"]],
+  notes:[["tip","数字と時刻：0 = 朝6時、6000 = 昼12時、12000 = 夕方6時、18000 = 夜0時。1000 で1時間。"]],
+  maker:[["ことばで","/time set {id}"],["数字で","/time set {num}"],["時間を止める","/gamerule dodaylightcycle false"],["時間を動かす","/gamerule dodaylightcycle true"]],
+  list:{type:"time", data:TIMES, title:"時間図鑑"}},
+ {key:"weather", name:"/weather", jp:"天気をかえる",
+  lead:"晴れ、雨、かみなりに天気をかえられます。",
+  syntax:[[S("/weather","cmd"),S("<天気>","req"),S("[時間]","opt")],[S("/weather","cmd"),S("query","lit")]],
+  parts:[["<天気>","req","clear / rain / thunder","晴れ / 雨 / かみなり雨"],
+         ["[時間]","opt","その天気がつづく長さ","書かないとランダムな長さ"],
+         ["query","lit","今の天気をしらべる",""]],
+  examples:[["/weather clear","晴れにする"],["/weather rain","雨にする"],["/weather thunder","かみなり雨にする"],
+            ["/gamerule doweathercycle false","天気を今のまま固定する"],["/gamerule doweathercycle true","天気がまたかわるようにする"]],
+  notes:[["warn","かみなりは木を燃やしたり、ブタやむらびとを別の生き物にかえたりします。"]],
+  maker:[["天気をかえる","/weather {id}"],["固定する","/gamerule doweathercycle false"],["固定をやめる","/gamerule doweathercycle true"]],
+  list:{type:"weather", data:WEATHERS, title:"天気図鑑"}},
+ {key:"playanimation", name:"/playanimation", jp:"ポーズをとらせる",
+  lead:"プレイヤーや生き物に、ねる・すわる・ダンスなどのポーズ（アニメーション）をさせられます。",
+  syntax:[[S("/playanimation","cmd"),S("<だれに>","req"),S("<アニメーション>","req"),S("[つぎ]","opt"),S("[もどる秒]","opt"),S("[おわる条件]","opt"),S("[コントローラー名]","opt")]],
+  parts:[["<だれに>","req","ポーズをする人や生き物","@s 自分 / @a 全員"],
+         ["<アニメーション>","req","アニメーションのID","下の図鑑からえらぼう"],
+         ["[つぎ]","opt","おわったら何にするか","none と書くと、もとにもどる"],
+         ["[もどる秒]","opt","もとにもどるまでの秒数","0 ですぐ"],
+         ["[おわる条件]","opt","いつおわるか","\"query.is_moving\" 動いたら / \"query.is_sneaking\" しゃがんだら"],
+         ["[コントローラー名]","opt","2つ以上のポーズを重ねるときの名前","上級者むけ。ふつうは書かなくてOK"]],
+  examples:[["/playanimation @s animation.player.sleeping none 0 \"query.is_moving\"","ねるポーズ。動くとおわる"],
+            ["/playanimation @a animation.piglin.celebrate_hunt_special none 0 \"query.is_sneaking\"","全員がダンス。しゃがむとおわる"],
+            ["/playanimation @s animation.player.riding.legs","すわるポーズ"],
+            ["/camera @s set minecraft:third_person_front","自分のポーズを見たいときは、カメラを前からにする"]],
+  notes:[["tip","自分のポーズは、ふつうの画面では見えません。<b>/camera</b> で前からのカメラにするか、友だちに見てもらおう。"],
+         ["tip","もとにもどらないときは、動いたりしゃがんだりしてみよう。それでもだめなら、ワールドに入りなおすともどります。"]],
+  maker:[["動くまで","/playanimation @s {id} none 0 \"query.is_moving\""],["しゃがむまで","/playanimation @s {id} none 0 \"query.is_sneaking\""],["全員で","/playanimation @a {id} none 0 \"query.is_moving\""],["1回だけ","/playanimation @s {id}"]],
+  list:{type:"anim", data:ANIMS, title:"アニメーション図鑑"}},
+ {key:"camera", name:"/camera", jp:"カメラをうごかす",
+  lead:"画面の見え方をかえます。うしろから・前から・空からなど、映画のようなカメラワークや、画面を暗くする演出ができます。",
+  syntax:[[S("/camera","cmd"),S("<だれの>","req"),S("set","lit"),S("<カメラの種類>","req"),S("[ease <秒> <動き方>]","opt"),S("[pos <x y z>]","opt"),S("[rot <たて> <よこ>]","opt")],
+          [S("/camera","cmd"),S("<だれの>","req"),S("set","lit"),S("<カメラの種類>","req"),S("[pos <x y z>]","opt"),S("facing","lit"),S("<見る人・場所>","req")],
+          [S("/camera","cmd"),S("<だれの>","req"),S("fade","lit"),S("[time <くらくなる秒> <そのまま秒> <あかるくなる秒>]","opt"),S("[color <赤> <緑> <青>]","opt")],
+          [S("/camera","cmd"),S("<だれの>","req"),S("clear","lit")]],
+  parts:[["set","lit","カメラをかえる","下の図鑑からカメラの種類をえらぶ"],
+         ["ease <秒> <動き方>","opt","ゆっくり動かす","ease 3 in_out_sine で3秒かけてなめらかに"],
+         ["pos <x y z>","opt","カメラの場所","minecraft:free のときに使う"],
+         ["rot <たて> <よこ>","opt","カメラの向き","たて 90 で真下を見る"],
+         ["facing","lit","この人・場所の方を向く","facing @s で自分を見る"],
+         ["fade","lit","画面を暗く（色を）してもどす","場面がわりの演出に"],
+         ["color <赤> <緑> <青>","opt","フェードの色","0〜255。0 0 0 で黒、255 255 255 で白"],
+         ["clear","lit","いつものカメラにもどす","こまったらこれ！"]],
+  examples:[["/camera @s set minecraft:third_person_front","前から自分を見るカメラ"],
+            ["/camera @s set minecraft:free pos ~ ~10 ~-10 facing @s","空のななめ上から自分を見る"],
+            ["/camera @s set minecraft:free ease 3 in_out_sine pos ~ ~20 ~ rot 90 0","3秒かけて真上へ上がり、下を見下ろす"],
+            ["/camera @a fade time 1 2 1 color 0 0 0","全員の画面を黒くフェード（1秒で暗く、2秒そのまま、1秒で明るく）"],
+            ["/camera @a fade time 0.2 0 0.5 color 255 255 255","白くピカッと光る"],
+            ["/camera @s clear","いつものカメラにもどす"]],
+  table:{head:["動き方（ease）","どう動く？","例"],rows:[
+   ["linear","ずっと同じ速さ","ease 3 linear"],
+   ["in_out_sine","ゆっくり始まって、ゆっくり止まる（おすすめ）","ease 3 in_out_sine"],
+   ["in_sine","ゆっくり始まる","ease 3 in_sine"],
+   ["out_sine","ゆっくり止まる","ease 3 out_sine"],
+   ["out_back","少し行きすぎてからもどる","ease 2 out_back"],
+   ["out_bounce","最後にぽよんとはねる","ease 2 out_bounce"],
+   ["out_elastic","最後にびよーんとゆれる","ease 2 out_elastic"],
+   ["spring","ばねのようにゆれる","ease 2 spring"],
+   ["quad / cubic / quart / quint / expo / circ","in_・out_・in_out_ をつけて使う。右ほど急な動き","ease 3 in_out_cubic"]]},
+  quick:[{title:"フェードの色", lead:"タップでコピー。場面がわりや、ゲームオーバーの演出に。", items:[
+   ["黒","/camera @a fade time 1 1 1 color 0 0 0"],["白","/camera @a fade time 1 1 1 color 255 255 255"],["赤","/camera @a fade time 0.5 0.5 0.5 color 255 0 0"],
+   ["青","/camera @a fade time 1 1 1 color 0 80 255"],["金色","/camera @a fade time 1 1 1 color 255 200 0"],["もとにもどす","/camera @a clear"]]}],
+  notes:[["tip","<b>minecraft:free</b> にするとカメラはその場に止まり、自分だけ動けます。おわったら <b>/camera @s clear</b>。"],
+         ["tip","教育版の「カメラ」アイテム（写真をとる道具）とはべつのものです。バージョンによって使えないこともあります。"]],
+  maker:[["切りかえ","/camera @s set {id}"],["全員","/camera @a set {id}"],["空から（free）","/camera @s set minecraft:free pos ~ ~10 ~-10 facing @s"],["ゆっくり上へ（free）","/camera @s set minecraft:free ease 3 in_out_sine pos ~ ~20 ~ rot 90 0"],["もとにもどす","/camera @s clear"]],
+  list:{type:"cam", data:CAMS, title:"カメラ図鑑"}}
+);
+CMDS.push(
+ {key:"say", name:"/say", jp:"チャットで話す",
+  lead:"チャットにメッセージを出します。だれにだけ送るか決められる /tell もあります。",
+  syntax:[[S("/say","cmd"),S("<メッセージ>","req")],[S("/tell","cmd"),S("<だれに>","req"),S("<メッセージ>","req")],[S("/me","cmd"),S("<していること>","req")]],
+  parts:[["<メッセージ>","req","出したい文","@p などを書くと、その人の名前にかわる"],["/tell","cmd","その人だけに見えるメッセージ","/msg や /w でも同じ"],["/me","cmd","「＊名前 ○○」の形で出る","/me ジャンプした → ＊Steve ジャンプした"]],
+  examples:[["/say みなさん、集まってください","全員のチャットに出る"],["/say @p がゴールしました！","いちばん近い人の名前が入る"],["/tell @a[tag=red] 赤チームは右へ","赤チームの人だけに送る"],["/say §6§lクリアおめでとう！","金色の太字（下の図鑑を見てね）"]],
+  notes:[["tip","<b>§</b> は日本語入力で「きごう」と打って変換すると出ることがあります。むずかしいときは、この図鑑からコピーしよう。"]],
+  maker:[["say","/say {id}こんにちは"],["tell","/tell @a {id}ひみつのメッセージ"]],
+  list:{type:"fmt", data:FMT, title:"文字の色・かざり図鑑"}},
+ {key:"title", name:"/title", jp:"画面に大きな文字",
+  lead:"画面のまん中に大きな文字を出せます。スタート、クリア、のこり時間などの演出にぴったりです。",
+  syntax:[[S("/title","cmd"),S("<だれに>","req"),S("<title|subtitle|actionbar>","req"),S("<文字>","req")],
+          [S("/title","cmd"),S("<だれに>","req"),S("times","lit"),S("<出てくる>","req"),S("<出ている>","req"),S("<消える>","req")],
+          [S("/title","cmd"),S("<だれに>","req"),S("clear","lit")],[S("/title","cmd"),S("<だれに>","req"),S("reset","lit")]],
+  parts:[["title","lit","まん中の大きな文字",""],["subtitle","lit","その下の小さな文字","先に subtitle、あとから title を打つ"],["actionbar","lit","アイテム欄の上の文字","のこり時間やポイントに"],
+         ["times","lit","表示の時間","20 で1秒。ふつうは 10 70 20"],["clear","lit","今出ている文字を消す",""],["reset","lit","times をもとにもどす",""]],
+  examples:[["/title @a title §eスタート！","全員の画面に黄色で「スタート！」"],["/title @a subtitle §7よーい…","下に小さな文字（このあと title を打つ）"],["/title @a actionbar のこり 30 秒","アイテム欄の上に表示"],["/title @a times 10 40 10","0.5秒で出て、2秒表示、0.5秒で消える"],["/title @a clear","文字を消す"]],
+  notes:[["tip","ポイントの数字など、変わる数を出したいときは <b>/titleraw</b> を使おう。"]],
+  maker:[["タイトル","/title @a title {id}クリア！"],["サブタイトル","/title @a subtitle {id}よくできました"],["アクションバー","/title @a actionbar {id}のこり10秒"]],
+  list:{type:"fmt", data:FMT, title:"文字の色・かざり図鑑"}},
+ {key:"titleraw", name:"/titleraw", jp:"名前や点数を表示",
+  lead:"title や say とにていますが、プレイヤーの名前やスコアの数字を文の中に入れられます。チャットに出すときは /tellraw です。",
+  syntax:[[S("/titleraw","cmd"),S("<だれに>","req"),S("<title|subtitle|actionbar>","req"),S("<rawtext>","req")],[S("/tellraw","cmd"),S("<だれに>","req"),S("<rawtext>","req")]],
+  parts:[["<rawtext>","req","{\"rawtext\":[ … ]} の形で書く文","[ ] の中に、下の部品を , でつなげる"],
+         ["{\"text\":\"文\"}","lit","ふつうの文",""],["{\"selector\":\"@p\"}","lit","その人の名前",""],["{\"score\":{\"name\":\"@s\",\"objective\":\"points\"}}","lit","スコアの数字","points はスコア名"]],
+  examples:[["/titleraw @a title {\"rawtext\":[{\"text\":\"§6クリア！\"}]}","いちばんシンプルな形"],
+            ["/tellraw @a {\"rawtext\":[{\"selector\":\"@p\"},{\"text\":\" さんがゴールしました！\"}]}","チャットに「○○さんがゴールしました！」"],
+            ["/execute as @a run titleraw @s actionbar {\"rawtext\":[{\"text\":\"ポイント：\"},{\"score\":{\"name\":\"@s\",\"objective\":\"points\"}}]}","1人ずつ、自分のポイントを表示（くりかえしコマンドブロックで）"]],
+  notes:[["warn","<b>\" { } [ ] ,</b> が1つでも足りないとエラーになります。例をコピーして、文の部分だけかえるのがおすすめです。"]],
+  maker:[["titleraw","/titleraw @a title {\"rawtext\":[{\"text\":\"{id}クリア！\"}]}"],["tellraw","/tellraw @a {\"rawtext\":[{\"text\":\"{id}おしらせです\"}]}"],["名前入り","/tellraw @a {\"rawtext\":[{\"text\":\"{id}\"},{\"selector\":\"@p\"},{\"text\":\" さん、すごい！\"}]}"]],
+  list:{type:"fmt", data:FMT, title:"文字の色・かざり図鑑"}},
+ {key:"dialogue", name:"/dialogue", jp:"NPCと話す",
+  lead:"教育版の NPC（話しかけられるキャラ）の会話画面を、コマンドで開けます。クイズや道案内に使えます。",
+  syntax:[[S("/dialogue","cmd"),S("open","lit"),S("<NPC>","req"),S("<だれに>","req"),S("[場面の名前]","opt")],[S("/dialogue","cmd"),S("change","lit"),S("<NPC>","req"),S("<場面の名前>","req"),S("[だれに]","opt")]],
+  parts:[["open","lit","会話画面を開く",""],["change","lit","NPCの会話を別の場面にかえる",""],["<NPC>","req","話すNPC","@e[type=npc,c=1] でいちばん近いNPC"],["[場面の名前]","opt","ビヘイビアパックで作った場面","書かないと、NPCに設定したセリフが出る"]],
+  examples:[["/summon npc ^ ^ ^2","まずNPCを出す（先生がクリックすると名前・セリフ・ボタンを設定できる）"],["/dialogue open @e[type=npc,c=1] @p","近くのNPCの会話を、近くの人に開く"],["/execute as @a at @s run dialogue open @e[type=npc,c=1] @s","全員に、それぞれ近くのNPCの会話を開く"]],
+  notes:[["tip","NPCの<b>ボタンにはコマンドを入れられます</b>。正解のボタンに /give @initiator diamond、まちがいのボタンに /playsound mob.villager.no @initiator を入れると、かんたんなクイズになります（@initiator はボタンをおした人）。"],
+         ["tip","NPCの設定画面はワールドビルダー（先生）だけが開けます。"]]},
+ {key:"clone", name:"/clone", jp:"建物をコピーする",
+  lead:"四角い範囲のブロックを、べつの場所にそっくりコピーします。お手本の建物をみんなの前に用意するのに便利です。",
+  syntax:[[S("/clone","cmd"),S("<はじめの角>","req"),S("<おわりの角>","req"),S("<コピー先>","req"),S("[replace|masked]","opt"),S("[normal|force|move]","opt")],
+          [S("/clone","cmd"),S("<はじめの角>","req"),S("<おわりの角>","req"),S("<コピー先>","req"),S("filtered","lit"),S("<normal|force|move>","req"),S("<このブロックだけ>","req")]],
+  parts:[["<はじめの角>","req","コピーする範囲の角","x y z"],["<おわりの角>","req","反対がわの角","x y z"],["<コピー先>","req","コピー先のいちばん小さい角","北西・下の角にあたる場所"],
+         ["[replace|masked]","opt","空気もコピーするか","replace 全部 / masked 空気以外だけ"],["[normal|force|move]","opt","コピーのしかた","move で引っこし（もとは消える）"]],
+  examples:[["/clone 0 64 0 10 74 10 20 64 0","0 64 0〜10 74 10 の建物を、x を20ずらした場所へ"],["/clone ~-3 ~-1 ~-3 ~3 ~5 ~3 ~10 ~-1 ~-3","自分のまわりを、東へ13ブロックの場所へコピー"],["/clone 0 64 0 10 74 10 0 64 20 masked","空気はコピーしない（まわりの地形をこわさない）"],["/clone 0 64 0 10 74 10 0 80 0 replace move","建物を空中へ引っこし"]],
+  notes:[["tip","座標は <b>/gamerule showcoordinates true</b> で表示して、メモしておくと楽です。"],["warn","一度にコピーできるのは <b>32768ブロック</b> まで。"]],
+  maker:[["自分のまわりを東へ","/clone ~-3 ~-1 ~-3 ~3 ~5 ~3 ~10 ~-1 ~-3 {id}"],["座標で","/clone 0 64 0 10 74 10 20 64 0 {id}"]],
+  list:{type:"opt", data:CLONES, title:"コピーのしかた図鑑"}},
+ {key:"structure", name:"/structure", jp:"建物を保存・呼び出し",
+  lead:"建物に名前をつけて保存し、あとで好きな場所に呼び出せます。回したり、組み立てアニメーションで出したりもできます。",
+  syntax:[[S("/structure","cmd"),S("save","lit"),S("<名前>","req"),S("<はじめの角>","req"),S("<おわりの角>","req"),S("[生き物も]","opt"),S("[memory|disk]","opt")],
+          [S("/structure","cmd"),S("load","lit"),S("<名前>","req"),S("<置く場所>","req"),S("[回転]","opt"),S("[反転]","opt"),S("[アニメーション]","opt"),S("[秒数]","opt")],
+          [S("/structure","cmd"),S("delete","lit"),S("<名前>","req")]],
+  parts:[["save","lit","建物を保存する",""],["load","lit","保存した建物を出す",""],["delete","lit","保存した建物を消す",""],
+         ["<名前>","req","建物の名前","半角英数字で。例：house、mystructure:house"],["[生き物も]","opt","生き物もいっしょに保存するか","true / false"],
+         ["[memory|disk]","opt","保存のしかた","disk にするとワールドを閉じても消えない"],["[回転] [反転]","opt","向きをかえる","下の図鑑を見てね"],["[アニメーション] [秒数]","opt","組み立てる様子を見せる","block_by_block / layer_by_layer"]],
+  examples:[["/structure save house ~-5 ~ ~-5 ~5 ~10 ~5 false disk","自分のまわりを「house」として保存"],["/structure load house ~ ~ ~","house を自分の場所に出す"],["/structure load house ^ ^ ^5 90_degrees","目の前に、90°回して出す"],["/structure load house ~ ~ ~ 0_degrees none layer_by_layer 10","10秒かけて1段ずつ組み上がる"],["/structure delete house","保存した house を消す"]],
+  notes:[["warn","<b>disk</b> を書かないと、ワールドを閉じたときに保存が消えることがあります。授業の準備には disk を。"]],
+  maker:[["自分の場所に","/structure load house ~ ~ ~ {id}"],["目の前に","/structure load house ^ ^ ^5 {id}"]],
+  list:{type:"opt", data:STRUCTS, title:"読みこみ方図鑑"}},
+ {key:"tag", name:"/tag", jp:"名札をつける",
+  lead:"プレイヤーや生き物に、目に見えない名札（タグ）をつけます。チーム分けや「ゴールした人だけ」などに使えます。",
+  syntax:[[S("/tag","cmd"),S("<だれに>","req"),S("add","lit"),S("<タグの名前>","req")],[S("/tag","cmd"),S("<だれから>","req"),S("remove","lit"),S("<タグの名前>","req")],[S("/tag","cmd"),S("<だれの>","req"),S("list","lit")]],
+  parts:[["add","lit","タグをつける",""],["remove","lit","タグをはずす",""],["list","lit","ついているタグを見る",""],["<タグの名前>","req","好きな名前","半角英数字がおすすめ。red、goal など"],
+         ["@a[tag=red]","lit","red がついている人だけ","ほかのコマンドで使う"],["@a[tag=!red]","lit","red がついていない人だけ","! は「〜以外」"]],
+  examples:[["/tag @s add teacher","自分に teacher のタグ"],["/gamemode adventure @a[tag=!teacher]","先生以外をアドベンチャーモードに"],["/tag @a[x=0,y=60,z=0,dx=10,dy=10,dz=10] add red","赤の部屋（0 60 0 から 10ブロックの箱）にいる人を赤チームに"],
+            ["/effect @a[tag=red] speed 30 1","赤チームだけはやくする"],["/tp @a[tag=blue] 20 64 0","青チームだけワープ"],["/tag @a remove red","全員から red をはずす"],["/tag @p list","近くの人のタグを見る"]],
+  notes:[["tip","タグはワールドを閉じても残ります。授業のおわりに remove しておくと次の時間に混ざりません。"]]},
+ {key:"hud", name:"/hud", jp:"画面の表示をかくす",
+  lead:"ハートやアイテム欄など、画面の表示をかくしたり、もとにもどしたりできます。写真撮影やカメラ演出のときに便利です。",
+  syntax:[[S("/hud","cmd"),S("<だれの>","req"),S("<hide|reset>","req"),S("[どの表示]","opt")]],
+  parts:[["hide","lit","かくす",""],["reset","lit","もとにもどす",""],["[どの表示]","opt","表示の種類","書かないとぜんぶ。下の図鑑を見てね"]],
+  examples:[["/hud @a hide","全員の画面の表示をぜんぶかくす"],["/hud @a hide hotbar","アイテム欄だけかくす"],["/hud @a reset","全員の表示をもとにもどす"]],
+  notes:[["warn","タブレットでは <b>touch_controls</b> をかくすと操作できなくなります。かならず reset できるようにしておこう。"]],
+  maker:[["かくす","/hud @a hide {id}"],["もどす","/hud @a reset {id}"],["ぜんぶもどす","/hud @a reset"]],
+  list:{type:"opt", data:HUDS, title:"表示図鑑"}},
+ {key:"spawnpoint", name:"/spawnpoint", jp:"復活する場所",
+  lead:"たおれたときに生きかえる場所（リスポーン地点）を決めます。ワールド全体のスタート地点は /setworldspawn です。",
+  syntax:[[S("/spawnpoint","cmd"),S("[だれの]","opt"),S("[場所]","opt")],[S("/setworldspawn","cmd"),S("[場所]","opt")],[S("/clearspawnpoint","cmd"),S("[だれの]","opt")]],
+  parts:[["/spawnpoint","cmd","その人が生きかえる場所","書かないと自分・今いる場所"],["/setworldspawn","cmd","ワールドのスタート地点","はじめて入った人や、ベッドがない人がここに出る"],["/clearspawnpoint","cmd","spawnpoint を消す","ワールドのスタート地点にもどる"]],
+  examples:[["/spawnpoint @a ~ ~ ~","全員の復活場所を、自分のいる場所にする"],["/spawnpoint @a[tag=red] 0 64 0","赤チームだけ 0 64 0 で復活"],["/setworldspawn ~ ~ ~","ワールドのスタート地点を今の場所に"],["/gamerule spawnradius 0","スタート地点ぴったりに出るようにする"],["/clearspawnpoint @a","全員の spawnpoint を消す"]],
+  notes:[["tip","チェックポイントのある迷路やアスレチックでは、ゴールやとちゅうの地点で <b>/spawnpoint @p</b> を実行するコマンドブロックを置くと便利です。"]]},
+ {key:"gamemode", name:"/gamemode", jp:"ゲームモードをかえる",
+  lead:"サバイバル、クリエイティブ、アドベンチャーなどを切りかえます。",
+  syntax:[[S("/gamemode","cmd"),S("<モード>","req"),S("[だれの]","opt")]],
+  parts:[["<モード>","req","ゲームモード","下の図鑑を見てね"],["[だれの]","opt","かえる人","書かないと自分"]],
+  examples:[["/gamemode creative @a","全員をクリエイティブに"],["/gamemode adventure @a[tag=!teacher]","先生（teacher タグ）以外をアドベンチャーに"],["/gamemode survival","自分をサバイバルに"]],
+  notes:[["tip","アドベンチャーでも、<b>/give</b> で can_destroy をつけた道具ならこわせます。課題づくりに。"]],
+  maker:[["自分","/gamemode {id}"],["全員","/gamemode {id} @a"],["先生以外","/gamemode {id} @a[tag=!teacher]"]],
+  list:{type:"opt", data:MODES, title:"ゲームモード図鑑"}},
+ {key:"gamerule", name:"/gamerule", jp:"ワールドのルール",
+  lead:"「時間を止める」「火が広がらない」「持ち物をなくさない」など、ワールドのルールをかえます。",
+  syntax:[[S("/gamerule","cmd"),S("<ルール>","req"),S("[true|false|数字]","opt")]],
+  parts:[["<ルール>","req","ルールの名前","下の図鑑を見てね"],["true","lit","ON（する）",""],["false","lit","OFF（しない）",""],["[数字]","opt","数字のルールのとき","randomtickspeed など"],["（値なし）","lit","今の設定を見る","/gamerule pvp"]],
+  examples:[["/gamerule pvp false","友だちをこうげきできないようにする"],["/gamerule keepinventory true","たおれても持ち物をなくさない"],["/gamerule dofiretick false","火事にならないようにする"],["/gamerule showcoordinates true","座標を表示"],["/gamerule pvp","今の pvp の設定を見る"]],
+  notes:[["tip","カードの「はじめ」はふつうのワールドの値、「おすすめ」は授業でよく使う値です。"]],
+  maker:[["おすすめにする","/gamerule {id} {val}"],["はじめにもどす","/gamerule {id} {def}"],["今の設定を見る","/gamerule {id}"]],
+  list:{type:"rule", data:RULES, title:"ルール図鑑"}},
+ {key:"ability", name:"/ability", jp:"生徒の能力（教育版）",
+  lead:"教育版だけのコマンドです。生徒ごとに、チャット・空を飛ぶ・ワールドビルダーを切りかえられます。ワールドをこわせなくする /immutableworld もここにまとめました。",
+  syntax:[[S("/ability","cmd"),S("<だれの>","req"),S("<能力>","req"),S("[true|false]","opt")],[S("/wb","cmd")],[S("/immutableworld","cmd"),S("[true|false]","opt")]],
+  parts:[["<能力>","req","mute / mayfly / worldbuilder","下の図鑑を見てね"],["[true|false]","opt","ON か OFF か","書かないと今の状態を表示"],["/wb","cmd","自分のワールドビルダーを切りかえる",""],["/immutableworld","cmd","ワールドをこわせない・かえられないようにする","true でロック、false で解除"]],
+  examples:[["/ability @a mute true","全員のチャットを止める"],["/ability @a mute false","チャットをもどす"],["/ability @a[tag=red] mayfly true","赤チームだけ空を飛べる"],["/ability @s worldbuilder true","自分をワールドビルダーに"],["/immutableworld true","ワールドをロック（見学・発表のときに）"]],
+  notes:[["tip","全員まとめてチャットを止めるなら <b>/gamerule globalmute true</b> もあります。"]],
+  maker:[["全員ON","/ability @a {id} true"],["全員OFF","/ability @a {id} false"],["先生以外ON","/ability @a[tag=!teacher] {id} true"],["今の状態","/ability @p {id}"]],
+  list:{type:"opt", data:ABILS, title:"能力図鑑"}},
+ {key:"inputpermission", name:"/inputpermission", jp:"動きを止める",
+  lead:"生徒の移動や視点の操作を、一時的に止めたりもどしたりできます。「いったん手を止めて」のときに便利です。",
+  syntax:[[S("/inputpermission","cmd"),S("set","lit"),S("<だれの>","req"),S("<操作>","req"),S("<enabled|disabled>","req")],[S("/inputpermission","cmd"),S("query","lit"),S("<だれの>","req"),S("<操作>","req")]],
+  parts:[["set","lit","操作を止める・もどす",""],["query","lit","今の状態を見る",""],["<操作>","req","止める操作","下の図鑑を見てね"],["disabled","lit","止める",""],["enabled","lit","もどす",""]],
+  examples:[["/inputpermission set @a[tag=!teacher] movement disabled","先生以外、動けなくする"],["/inputpermission set @a movement enabled","全員動けるようにもどす"],["/inputpermission set @a camera disabled","視点を動かせなくする（カメラ演出のときに）"]],
+  notes:[["warn","止めたら、かならず <b>enabled</b> でもどそう。ワールドに入りなおしてももどらないことがあります。"]],
+  maker:[["止める","/inputpermission set @a[tag=!teacher] {id} disabled"],["もどす","/inputpermission set @a {id} enabled"],["しらべる","/inputpermission query @p {id}"]],
+  list:{type:"opt", data:INPUTS, title:"操作図鑑"}}
+);
+
+const ORDER=["basics","summon","give","tp","setblock","fill","clone","structure","time","weather","spawnpoint","effect","enchant","particle","playsound","music","playanimation","camera","hud","say","title","titleraw","dialogue","gamemode","gamerule","ability","inputpermission","execute","scoreboard","tag"];
+const GROUP={basics:"はじめに",summon:"出す・動かす",give:"出す・動かす",tp:"出す・動かす",setblock:"ブロック・建物",fill:"ブロック・建物",clone:"ブロック・建物",structure:"ブロック・建物",time:"世界",weather:"世界",spawnpoint:"世界",effect:"パワーアップ",enchant:"パワーアップ",particle:"演出",playsound:"演出",music:"演出",playanimation:"演出",camera:"演出",hud:"演出",say:"文字・メッセージ",title:"文字・メッセージ",titleraw:"文字・メッセージ",dialogue:"文字・メッセージ",gamemode:"先生ツール",gamerule:"先生ツール",ability:"先生ツール",inputpermission:"先生ツール",execute:"上級",scoreboard:"上級",tag:"上級"};
+CMDS.sort((a,b)=>ORDER.indexOf(a.key)-ORDER.indexOf(b.key));
+BASICS.teacher.splice(1,0,["/camera @a clear","全員のカメラをもとにもどす"]);
+
+/* ====================== 小道具 ====================== */
+const $ = (s,r=document)=>r.querySelector(s);
+function h(tag,attrs={},...kids){const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs||{})){if(v==null||v===false)continue;if(k==="class")e.className=v;else if(k==="html")e.innerHTML=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v===true?"":v)}for(const k of kids.flat()){if(k==null||k===false)continue;e.append(k.nodeType?k:document.createTextNode(k))}return e}
+const toKata = s => (s||"").toLowerCase().replace(/[\u3041-\u3096]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60));
+const toast = (msg)=>{const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1600)};
+async function copyText(text,btn){
+  let ok=false;
+  try{await navigator.clipboard.writeText(text);ok=true}catch(e){
+    try{const ta=h("textarea",{style:"position:fixed;opacity:0"});ta.value=text;document.body.append(ta);ta.select();ok=document.execCommand("copy");ta.remove()}catch(e2){}
+  }
+  toast(ok?"コピーしました":"コピーできませんでした。長おしでえらんでコピーしてね");
+  if(ok&&btn){btn.classList.add("done");const o=btn.textContent;btn.textContent="できた！";setTimeout(()=>{btn.classList.remove("done");btn.textContent=o},1200)}
+}
+function hl(cmd){
+  const out=document.createDocumentFragment();
+  const re=/("[^"]*"|\S+|\s+)/g;let m,first=true;
+  while((m=re.exec(cmd))){const t=m[1];let cls=null;
+    if(/^\s+$/.test(t)){out.append(t);continue}
+    if(first&&t.startsWith("/")){cls="t-cmd"}
+    else if(t.startsWith("@")){cls="t-sel"}
+    else if(t.startsWith("\"")){cls="t-str"}
+    else if(/^[~^]?-?[\d.]*$/.test(t)&&t!==""&&/[\d~^]/.test(t)){cls="t-num"}
+    else if(/^minecraft:/.test(t)){cls="t-id"}
+    first=false;out.append(cls?h("span",{class:cls},t):t)}
+  return out;
+}
+function chatRow(cmd){
+  const chat=h("div",{class:"chat"});chat.append(hl(cmd));
+  return h("div",{class:"chat-row"},chat,h("button",{class:"copy",type:"button",onclick:e=>copyText(cmd,e.currentTarget),"aria-label":"コピー: "+cmd},"コピー"));
+}
+
+/* ====================== パーティクルの絵 ====================== */
+const SPR={
+ heart:[".11.11.","1111111","1112111",".11111.","..111..","...1..."],
+ plus:["..1..",".121.","12221",".121.","..1.."],
+ cloud:[".11..",".1111","111111","1111111",".11111."],
+ note:["..222","..2.2","..2..","112..","111.."],
+ spark:["1...1",".1.1.","..2..",".1.1.","1...1"],
+ flame:["..1..",".121.",".121.","12221","12221",".122."],
+ ring:[".111.","1...1","1...1","1...1",".111."],
+ snow:["1.1.1",".121.","12221",".121.","1.1.1"],
+ petal:[".11.","1121",".11."],
+ drop:[".1.","111","121",".1."],
+ soul:[".111.","11111","1.1.1","11111","11111","1.1.1"],
+ dot:["11","11"], sq:["111","121","111"],
+ rune1:["111","..1","111"],rune2:["1.1","111","1.."],rune3:["11.",".11","1.1"],rune4:["1..","111","..1"]
+};
+const PW=160,PH=110,GROUND=PH*0.78;
+function rnd(a,b){return a+Math.random()*(b-a)}
+function makeSys(cv,p){
+  const dpr=Math.min(2,window.devicePixelRatio||1);cv.width=PW*dpr;cv.height=PH*dpr;
+  const ctx=cv.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);
+  const sys={cv,ctx,p,ps:[],t:0};
+  const z=p.z||3;
+  sys.spawn=()=>{
+    const m=p.m;const pt={age:0,a:1,z,shape:p.s,col:p.c[0],col2:p.c[1]||p.c[0]};
+    if(p.multi){pt.col=p.c[Math.floor(Math.random()*p.c.length)];pt.col2=pt.col}
+    if(p.s==="rune"){pt.shape="rune"+(1+Math.floor(Math.random()*4))}
+    if(m==="rise"){pt.x=rnd(PW*.3,PW*.7);pt.y=GROUND-6;pt.vx=rnd(-.15,.15);pt.vy=rnd(-.7,-.35);pt.life=rnd(90,140);pt.sw=rnd(0,6)}
+    else if(m==="float"){pt.x=rnd(PW*.2,PW*.8);pt.y=rnd(PH*.15,GROUND-10);pt.vx=rnd(-.25,.25);pt.vy=rnd(-.25,.15);pt.life=rnd(70,120)}
+    else if(m==="fall"){pt.x=rnd(10,PW-10);pt.y=-6;pt.vx=rnd(-.2,.2);pt.vy=rnd(.35,.6);pt.life=200;pt.sw=rnd(0,6)}
+    else if(m==="pop"){const an=rnd(0,Math.PI*2),sp=rnd(.6,1.8);pt.x=PW/2;pt.y=PH*.45;pt.vx=Math.cos(an)*sp;pt.vy=Math.sin(an)*sp;pt.life=rnd(35,60);pt.drag=.95}
+    else if(m==="spray"){pt.x=PW/2+rnd(-6,6);pt.y=GROUND-4;pt.vx=rnd(-1.3,1.3);pt.vy=rnd(-3,-1.8);pt.life=90;pt.g=.07}
+    else if(m==="swirl"){const an=rnd(0,Math.PI*2),r=rnd(40,55);pt.cx=PW/2;pt.cy=PH*.45;pt.an=an;pt.r=r;pt.life=rnd(70,100);pt.x=pt.cx+Math.cos(an)*r;pt.y=pt.cy+Math.sin(an)*r*.6}
+    else if(m==="drip"){pt.x=[PW*.3,PW*.5,PW*.7][Math.floor(Math.random()*3)];pt.y=6;pt.vx=0;pt.vy=0;pt.g=.06;pt.life=120;pt.wait=rnd(10,40)}
+    else if(m==="still"){pt.x=PW/2;pt.y=GROUND-14;pt.vx=0;pt.vy=-.15;pt.life=40;pt.z=z}
+    else if(m==="rain"){pt.x=rnd(0,PW+20);pt.y=-6;pt.vx=-.6;pt.vy=rnd(3.2,4.2);pt.life=40;pt.z=2}
+    else if(m==="smoke"){pt.x=PW/2+rnd(-12,12);pt.y=GROUND-4;pt.vx=rnd(-.15,.15);pt.vy=p.tall?rnd(-.7,-.5):rnd(-.45,-.25);pt.life=p.tall?160:110;pt.rad=rnd(5,8);pt.grow=.06}
+    sys.ps.push(pt);
+  };
+  sys.blast=()=>{for(let i=0;i<(p.n||7);i++){const an=rnd(0,Math.PI*2),d=rnd(0,p.n>10?30:16);sys.ps.push({x:PW/2+Math.cos(an)*d,y:PH*.45+Math.sin(an)*d*.7,vx:Math.cos(an)*rnd(.1,.5),vy:Math.sin(an)*rnd(.1,.4)-.1,life:rnd(40,60),age:-Math.floor(rnd(0,p.n>10?25:8)),rad:rnd(5,9),grow:rnd(.15,.3),shape:"puff",col:Math.random()<.5?p.c[0]:p.c[1]})}};
+  sys.step=()=>{
+    sys.t++;const m=p.m;
+    if(m==="blast"){if(sys.t%70===1)sys.blast()}
+    else if(m==="rings"){if(sys.t%45===1)sys.ps.push({x:PW/2,y:PH*.45,r:4,life:40,age:0,shape:"ringc",col:p.c[0]})}
+    else{const rate={rise:.12,float:.15,fall:.12,pop:0,spray:0,swirl:.3,drip:.03,still:.15,smoke:.12,rain:.95}[m];
+      if(m==="pop"||m==="spray"){if(sys.t%60===1){const n=p.few?3:(m==="spray"?14:12);for(let i=0;i<n;i++)sys.spawn()}}
+      else if(Math.random()<rate&&sys.ps.length<(m==="rain"?60:40)){sys.spawn();if(m==="rain"&&Math.random()<.5)sys.spawn()}}
+    for(const q of sys.ps){q.age++;if(q.age<0)continue;
+      if(q.wait&&q.age<q.wait)continue;
+      if(m==="swirl"&&q.r!=null){const k=1-q.age/q.life;q.an+=.05;q.x=q.cx+Math.cos(q.an)*q.r*k;q.y=q.cy+Math.sin(q.an)*q.r*k*.6}
+      else if(q.shape==="ringc"){q.r+=1.6}
+      else{if(q.g)q.vy+=q.g;if(q.drag){q.vx*=q.drag;q.vy*=q.drag}
+        q.x+=q.vx+(q.sw!=null?Math.sin((q.age+q.sw*20)/14)*.25:0);q.y+=q.vy;
+        if(q.rad&&q.grow)q.rad+=q.grow;
+        if(q.g&&q.y>GROUND-2){q.y=GROUND-2;q.vy=0;q.vx*=.5}}
+      const lf=q.age/q.life;q.a=lf<.1?lf/.1:lf>.7?Math.max(0,(1-lf)/.3):1}
+    sys.ps=sys.ps.filter(q=>q.age<q.life);
+  };
+  sys.draw=()=>{const c=ctx;c.clearRect(0,0,PW,PH);
+    for(const q of sys.ps){if(q.age<0||(q.wait&&q.age<q.wait&&p.m!=="drip"))continue;c.globalAlpha=Math.max(0,Math.min(1,q.a));
+      if(q.shape==="puff"){c.fillStyle=q.col;c.beginPath();c.arc(q.x,q.y,q.rad,0,Math.PI*2);c.fill();continue}
+      if(q.shape==="ringc"){c.strokeStyle=q.col;c.lineWidth=3;c.beginPath();c.ellipse(q.x,q.y,q.r,q.r*.7,0,0,Math.PI*2);c.stroke();continue}
+      const sp=SPR[q.shape]||SPR.dot;const s=q.z;const w=Math.max(...sp.map(r=>r.length))*s,hh=sp.length*s;
+      for(let r=0;r<sp.length;r++)for(let k=0;k<sp[r].length;k++){const ch=sp[r][k];if(ch==="."||ch===" ")continue;c.fillStyle=ch==="2"?q.col2:q.col;c.fillRect(Math.round(q.x-w/2+k*s),Math.round(q.y-hh/2+r*s),s,s)}}
+    c.globalAlpha=1;if(p.flash&&sys.t%150<5){c.fillStyle="rgba(255,255,255,.55)";c.fillRect(0,0,PW,PH)}};
+  for(let i=0;i<80;i++)sys.step();sys.draw();
+  return sys;
+}
+const RM=window.matchMedia("(prefers-reduced-motion: reduce)");
+const live=new Set();const hovered=new Set();
+const io=new IntersectionObserver(es=>{for(const e of es){const s=e.target._sys;if(!s)continue;e.isIntersecting?live.add(s):live.delete(s)}},{rootMargin:"60px"});
+(function loop(){const set=RM.matches?hovered:live;for(const s of set){s.step();s.draw()}requestAnimationFrame(loop)})();
+
+/* ====================== ブロックの絵 ====================== */
+function seeded(str){let h=2166136261;for(const ch of str){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)%1000)/1000}}
+function shade(hex,amt){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;r=Math.max(0,Math.min(255,r+amt));g=Math.max(0,Math.min(255,g+amt));b=Math.max(0,Math.min(255,b+amt));return`rgb(${r},${g},${b})`}
+function blockCanvas(id,t){
+  const N=8,cv=h("canvas",{width:N,height:N,class:"blk"+(t.p==="air"?" air":"")});const x=cv.getContext("2d");const R=seeded(id);
+  const px=(i,j,c)=>{x.fillStyle=c;x.fillRect(i,j,1,1)};
+  const noise=(c,amp)=>{for(let j=0;j<N;j++)for(let i=0;i<N;i++)px(i,j,shade(c,Math.round((R()-.5)*amp)))};
+  const c=t.c,c2=t.c2||t.c;
+  switch(t.p){
+    case"air":break;
+    case"noise":for(let j=0;j<N;j++)for(let i=0;i<N;i++)px(i,j,R()<.3?c2:shade(c,Math.round((R()-.5)*18)));break;
+    case"grass":noise(c,22);for(let i=0;i<N;i++){const d=2+(R()<.5?1:0);for(let j=0;j<d;j++)px(i,j,shade(c2,Math.round((R()-.5)*20)))}break;
+    case"cobble":noise(c,30);for(let k=0;k<10;k++)px(Math.floor(R()*N),Math.floor(R()*N),c2);break;
+    case"plank":noise(c,14);for(let i=0;i<N;i++){px(i,1,c2);px(i,5,c2)}px(3,2,c2);px(3,3,c2);px(6,6,c2);px(6,7,c2);break;
+    case"log":for(let j=0;j<N;j++)for(let i=0;i<N;i++)px(i,j,(i%3===0)?c2:shade(c,Math.round((R()-.5)*14)));break;
+    case"brick":x.fillStyle=c2;x.fillRect(0,0,N,N);for(let j=0;j<N;j+=2){const off=(j/2)%2?2:0;for(let i=0;i<N;i++){if((i+off)%4!==3)px(i,j,shade(c,Math.round((R()-.5)*20)))}}break;
+    case"glass":for(let i=0;i<N;i++){px(i,0,c);px(i,N-1,c);px(0,i,c);px(N-1,i,c)}px(2,2,c2);px(3,3,c2);px(5,2,c2);break;
+    case"wool":noise(c,12);break;
+    case"flat":noise(c,6);break;
+    case"metal":x.fillStyle=c;x.fillRect(0,0,N,N);for(let i=0;i<N;i++){px(i,0,c2);px(0,i,c2);px(i,N-1,shade(c,-40));px(N-1,i,shade(c,-40))}px(2,2,c2);px(3,2,c2);px(2,3,c2);break;
+    case"glow":noise(c,20);for(let k=0;k<12;k++)px(Math.floor(R()*N),Math.floor(R()*N),c2);break;
+    case"liquid":for(let j=0;j<N;j++)for(let i=0;i<N;i++)px(i,j,((i+j*2)%5===0)?c2:shade(c,Math.round((R()-.5)*10)));break;
+    case"ice":noise(c,10);for(let k=0;k<5;k++){px(k+1,6-k,c2)}px(5,1,c2);px(6,2,c2);break;
+    case"slime":x.fillStyle=c;x.fillRect(0,0,N,N);x.fillStyle=c2;x.fillRect(2,2,4,4);break;
+    case"tnt":noise(c,16);for(let i=0;i<N;i++){px(i,3,c2);px(i,4,c2)}px(2,3,"#333");px(4,4,"#333");px(5,3,"#333");break;
+    case"chest":noise(c,14);for(let i=0;i<N;i++){px(i,0,c2);px(i,N-1,c2);px(0,i,c2);px(N-1,i,c2);px(i,3,c2)}px(3,3,"#BFBFBF");px(4,3,"#BFBFBF");px(3,4,"#8A8A8A");px(4,4,"#8A8A8A");break;
+    case"table":noise(c,14);for(let i=0;i<N;i++){px(i,0,c2);px(i,N-1,c2)}px(2,2,"#8A8A8A");px(5,2,"#8A8A8A");px(2,5,"#B8945F");px(5,5,"#6B5235");break;
+    case"furnace":noise(c,16);x.fillStyle=c2;x.fillRect(2,4,4,3);px(3,5,"#F07A1A");px(4,5,"#FFC23A");break;
+    case"shelf":noise(c,10);{const cols=["#B02E26","#35399D","#3FA34D","#F8C527","#792AAC"];for(let row of[1,5])for(let i=1;i<7;i++){px(i,row,cols[Math.floor(R()*5)]);px(i,row+1,shade(cols[Math.floor(R()*5)],-20))}for(let i=0;i<N;i++){px(i,0,c2);px(i,3,c2);px(i,4,c2);px(i,7,c2)}}break;
+    case"torch":px(3,3,c);px(4,3,c);for(let j=4;j<8;j++){px(3,j,c);px(4,j,shade(c,-20))}px(3,1,c2);px(4,1,c2);px(3,2,"#FF8A1A");px(4,2,"#FFE27A");break;
+    case"box":noise(c,14);x.fillStyle=c2;x.fillRect(2,2,4,4);break;
+    case"cmd":noise(c,14);x.fillStyle=c2;x.fillRect(2,2,4,4);px(3,3,"#E6E6E6");px(4,4,"#E6E6E6");break;
+    case"barrier":x.strokeStyle=c;x.lineWidth=1;for(let a=0;a<32;a++){const an=a/32*Math.PI*2;px(Math.round(3.5+Math.cos(an)*3.2),Math.round(3.5+Math.sin(an)*3.2),c)}for(let k=1;k<7;k++)px(k,7-k,c);break;
+    case"edu":noise(c,12);for(let k=1;k<7;k++){px(k,k,c2)}break;
+    case"border":for(let j=0;j<N;j++)for(let i=0;i<N;i++)px(i,j,((i+j)%4<2)?c:c2);break;
+  }
+  return cv;
+}
+
+/* ====================== カード ====================== */
+function badgeRow(left,right){return h("div",{class:"badges"},h("span",{},left||""),h("span",{},right||""))}
+function tagBadge(tag){if(tag==="warn")return h("span",{class:"bd warn"},"⚠ 注意");if(tag==="edu")return h("span",{class:"bd edu"},"教育版");if(tag==="new")return h("span",{class:"bd new"},"新しめ");return null}
+function lvLines(fn,max){
+  if(!fn)return h("div",{class:"lvl none"},"レベルで変わらない");
+  const box=h("div",{class:"lvl"});box.append(h("div",{},h("b",{},"Lv.1 "),fn(1)));
+  if(!max||max>=2)box.append(h("div",{},h("b",{},"Lv.2 "),fn(2)));
+  return box;
+}
+function cardFor(type,row){
+  let id,name,desc,vis,star,tag,group,emo="",max,num,extraEl=null,lvfn=null,btnExtra={};
+  const simpleVis=(e,cls="")=>h("div",{class:"vis simple "+cls,"aria-hidden":"true"},e);
+  if(type==="mob"){let cat;[id,name,emo,cat,desc,star,tag]=row;group=MOB_CATS[cat];vis=h("div",{class:"vis mob","data-c":cat,"aria-hidden":"true"},emo)}
+  else if(type==="ptc"){[id,name,group,desc,star]=row;const cv=h("canvas",{"aria-hidden":"true"});vis=h("div",{class:"vis ptc"},cv);vis._sys=makeSys(cv,row[5])}
+  else if(type==="eff"){let col,gd;[id,name,emo,col,desc,gd,star,tag]=row;group=gd==="good"?"いいこうか":"わるいこうか";
+    vis=h("div",{class:"vis eff","aria-hidden":"true"},h("div",{class:"orb",style:"background:"+col},emo));lvfn=LV_EFF[id]||null;extraEl=lvLines(lvfn)}
+  else if(type==="ench"){let items,ds;[id,name,max,items,ds,group,star,tag]=row;
+    const keys=items.split(" ");vis=h("div",{class:"vis ench",title:keys.map(k=>ITEM_JP[k]).join("・")},...keys.map(k=>h("span",{"aria-hidden":"true"},ITEM[k])));
+    desc=ds+"（"+keys.map(k=>ITEM_JP[k]).join("・")+"）";lvfn=LV_ENC[id]||null;extraEl=lvLines(lvfn,max)}
+  else if(type==="snd"){let use;[id,name,emo,use,group,star]=row;desc="使いどころ："+use;vis=simpleVis(emo)}
+  else if(type==="mus"){let len,col;[id,name,desc,len,col,group,star,tag]=row;desc+="・"+len;
+    vis=h("div",{class:"vis mus","aria-hidden":"true"},h("div",{class:"disc"},h("i",{style:"--lab:"+col})))}
+  else if(type==="item"){[id,name,emo,group,desc,star,tag]=row;vis=simpleVis(emo)}
+  else if(type==="block"){let t;[id,name,group,desc,star,tag,t]=row;vis=h("div",{class:"vis blkv","aria-hidden":"true"},blockCanvas(id,t))}
+  else if(type==="time"){let g;[id,name,emo,num,desc,g,star]=row;desc=`数字だと ${num}・${desc}`;vis=h("div",{class:"vis sky","aria-hidden":"true",style:"background:"+g},emo)}
+  else if(type==="weather"){let g,pre;[id,name,emo,desc,g,pre,star]=row;vis=h("div",{class:"vis sky","aria-hidden":"true",style:"background:"+g},h("span",{class:"skyemo"},emo));
+    if(pre){const cv=h("canvas",{class:"overlay"});vis.prepend(cv);vis._sys=makeSys(cv,pre)}}
+  else if(type==="dir"){let kind,a;[id,name,kind,a,desc,star]=row;
+    vis=kind==="yaw"&&typeof a==="number"?h("div",{class:"vis compass","aria-hidden":"true"},h("div",{class:"dial"},h("span",{class:"n"},"北"),h("span",{class:"e"},"東"),h("span",{class:"s"},"南"),h("span",{class:"w"},"西"),h("i",{class:"arrow",style:`transform:rotate(${a}deg)`},"▲"))):simpleVis(a)}
+  else if(type==="anim"){[id,name,emo,group,desc,star]=row;vis=simpleVis(emo)}
+  else if(type==="cam"){[id,name,emo,desc,star,tag]=row;vis=simpleVis(emo)}
+  else if(type==="fmt"){let col,st;[id,name,col,group,desc,star]=row;const sp=h("span",{class:"fmtx",style:"color:"+col},id==="§k"?"▓▒░▓":"マイクラ");
+    if(id==="§l")sp.style.fontWeight="800";if(id==="§o")sp.style.fontStyle="italic";vis=h("div",{class:"vis fmt","aria-hidden":"true"},sp)}
+  else if(type==="opt"){[id,name,emo,desc,star,tag,group]=row;vis=simpleVis(emo)}
+  else if(type==="rule"){let df,vl;[id,name,emo,group,desc,df,vl,star,tag]=row;max=undefined;extraEl=h("div",{class:"lvl"},h("div",{},h("b",{},"はじめ "),df),h("div",{},h("b",{},"おすすめ "),vl));btnExtra={val:vl,def:df};vis=simpleVis(emo)}
+  if(!group&&type==="dir")group=row[2]==="yaw"?"よこの向き（東西南北）":"たての向き（上下）";
+  if(!group&&type==="cam")group="カメラの種類";
+  if(!group&&type==="time")group="時間";
+  if(!group&&type==="weather")group="天気";
+  if(!emo&&type==="item")emo="";
+  const left=star?h("span",{class:"bd star"},"★ おすすめ"):null;
+  const right=type==="ench"?h("span",{class:"bd lv"},"最大Lv."+max):tagBadge(tag);
+  vis.append(badgeRow(left,right));
+  const btn=h("button",{class:"card",type:"button","aria-pressed":"false"},vis,
+    h("div",{class:"body"},h("div",{class:"nm"},name),h("div",{class:"id"},id),desc?h("div",{class:"ds"},desc):null,extraEl));
+  btn._data={id,name,group,max,num,lvfn,...btnExtra,star:!!star,emo:(type==="fmt"||type==="ptc"||type==="mus"||type==="block"||type==="dir"||type==="time"||type==="weather"||type==="ench")?"":emo,search:toKata([id,name,desc,group].join(" "))};
+  if(vis._sys){const s=vis._sys;io.observe(vis);
+    btn.addEventListener("pointerenter",()=>hovered.add(s));btn.addEventListener("pointerleave",()=>hovered.delete(s));
+    btn.addEventListener("focus",()=>hovered.add(s));btn.addEventListener("blur",()=>hovered.delete(s))}
+  return btn;
+}
+
+/* ====================== セクション ====================== */
+const state={};
+function syntaxLine(parts){const chat=h("div",{class:"chat"});parts.forEach((p,i)=>{if(i)chat.append(" ");chat.append(h("span",{class:"s-"+p[1]},p[0]))});return chat}
+function modesFig(){
+  const wrap=h("div",{class:"modes"});
+  const cell=k=>h("i",{class:"mc m-"+(k==="."?"air":k)},k==="D"?"↓":"");
+  const grid=(fn)=>{const g=h("div",{class:"mgrid","aria-hidden":"true"});for(let r=0;r<5;r++)for(let c=0;c<5;c++)g.append(cell(fn(r,c,FILL_BEFORE[r][c])));return g};
+  wrap.append(h("figure",{class:"mode before"},grid((r,c,b)=>b),h("figcaption",{},h("b",{},"置く前"),"灰色＝もとからあるブロック、点線＝空気")));
+  for(const[nm,d,fn]of FILL_MODES)wrap.append(h("figure",{class:"mode"},grid(fn),h("figcaption",{},h("b",{},nm),d)));
+  return wrap;
+}
+function levelTable(c){
+  const isE=c.level==="eff";const rows=c.list.data;const cols=isE?4:5;
+  const head=h("tr",{},h("th",{},isE?"こうか":"エンチャント"),...Array.from({length:cols},(_,i)=>h("th",{},`Lv.${i+1}`+(isE?`（つよさ${i}）`:""))));
+  const tb=h("tbody");
+  for(const r of rows){const id=r[0],nm=r[1];const fn=(isE?LV_EFF:LV_ENC)[id];const mx=isE?cols:r[2];
+    const tr=h("tr",{},h("td",{},h("b",{},nm),h("br"),h("code",{},id)));
+    if(!fn){tr.append(h("td",{colspan:cols,class:"muted"},"レベルで変わらない"+(isE?"":"（最大Lv.1）")))}
+    else for(let L=1;L<=cols;L++)tr.append(h("td",{class:L>mx?"muted":""},L>mx?"—":fn(L)));
+    tb.append(tr)}
+  return h("details",{class:"lvtable"},h("summary",{},"レベル早見表をひらく（"+rows.length+"こ）"),h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},head),tb)));
+}
+function renderCmd(c){
+  const sec=h("section",{id:"sec-"+c.key});
+  sec.append(h("div",{class:"sec-head"},h("h2",{},c.name),h("span",{class:"jp"},c.jp)),h("p",{class:"lead"},c.lead));
+  let maker=null,st=null;
+  if(c.maker){
+    st=state[c.key]={preset:0,item:null,lv:1};
+    const pick=h("span",{class:"maker-pick"});const presetBox=h("div",{class:"presets",role:"group","aria-label":"コマンドのかたち"});
+    const out=h("div",{class:"chat","aria-live":"polite"});const cbtn=h("button",{class:"copy",type:"button"},"コピー");
+    let lvRow=null,lvVal=null,lvTxt=null,minus=null,plus=null;
+    if(c.level){
+      lvVal=h("span",{class:"lv-val"});lvTxt=h("span",{class:"lv-txt"});
+      minus=h("button",{class:"step",type:"button","aria-label":"レベルを下げる",onclick:()=>{st.lv=Math.max(1,st.lv-1);update()}},"−");
+      plus=h("button",{class:"step",type:"button","aria-label":"レベルを上げる",onclick:()=>{st.lv=Math.min(lvMax(),st.lv+1);update()}},"＋");
+      lvRow=h("div",{class:"lv-row"},h("span",{class:"lv-label"},c.level==="eff"?"つよさ":"レベル"),minus,lvVal,plus,lvTxt);
+    }
+    const lvMax=()=>c.level==="ench"?(st.item.max||1):10;
+    maker=h("div",{class:"maker"},h("div",{class:"maker-top"},h("span",{class:"maker-title"},"コマンドメーカー"),pick),presetBox,lvRow,h("div",{class:"chat-row",style:"margin-top:8px"},out,cbtn));
+    const update=()=>{const it=st.item;if(!it)return;
+      if(c.level){if(!it.lvfn)st.lv=1;st.lv=Math.min(Math.max(1,st.lv),lvMax());
+        lvVal.textContent="Lv."+st.lv+(c.level==="eff"?`（コマンドでは ${st.lv-1}）`:"");
+        lvTxt.textContent=it.lvfn?"→ "+it.lvfn(st.lv):"→ このこうかはレベルで変わりません";
+        minus.disabled=!it.lvfn||st.lv<=1;plus.disabled=!it.lvfn||st.lv>=lvMax()}
+      const tpl=c.maker[st.preset][1];
+      const cmd=tpl.replace(/\{id\}/g,it.id).replace(/\{max\}/g,it.max||1).replace(/\{lv\}/g,st.lv).replace(/\{amp\}/g,st.lv-1).replace(/\{num\}/g,it.num!=null?it.num:it.id).replace(/\{val\}/g,it.val).replace(/\{def\}/g,it.def);
+      st.cmd=cmd;out.replaceChildren(hl(cmd));pick.replaceChildren("えらんでいるもの：",h("b",{},(it.emo?it.emo+" ":"")+it.name));
+      [...presetBox.children].forEach((b,i)=>b.setAttribute("aria-pressed",i===st.preset?"true":"false"))};
+    c.maker.forEach((p,i)=>presetBox.append(h("button",{class:"chip",type:"button",onclick:()=>{st.preset=i;update()}},p[0])));
+    cbtn.addEventListener("click",()=>copyText(st.cmd,cbtn));
+    st.update=update;
+    sec.append(maker);
+  }
+  sec.append(h("h3",{},"書き方（構文）"));
+  sec.append(h("div",{class:"syntax"},...c.syntax.map(syntaxLine)));
+  sec.append(h("div",{class:"legend"},h("span",{class:"l-cmd"},"コマンド名・決まったことば"),h("span",{class:"l-req"},"< > かならず書く"),h("span",{class:"l-opt"},"[ ] 書かなくてもOK")));
+  const dl=h("dl",{class:"parts"});
+  for(const[t,k,a,b]of c.parts){dl.append(h("dt",{class:"k-"+(k==="lit"?"cmd":k)},t),h("dd",{},a,b?h("small",{},b):null))}
+  sec.append(dl);
+  if(c.modes){sec.append(h("h3",{},"置き方の図（横から見たところ）"),modesFig())}
+  sec.append(h("h3",{},"使ってみよう（例）"));
+  sec.append(h("div",{class:"examples"},...c.examples.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd),h("p",{class:"what"},w)))));
+  if(c.notes)sec.append(h("div",{class:"notes"},...c.notes.map(([k,t])=>h("div",{class:"note"+(k==="warn"?" warn":""),html:t}))));
+  const quick=[...(c.quick||[])];
+  if(c.give)quick.push({title:"先に持たせるアイテム",lead:"タップでコピー。もらったら手に持ってから /enchant を打とう。",items:c.give.map(g=>["/give @s "+g,"/give @s "+g])});
+  for(const q of quick){sec.append(h("h3",{},q.title),q.lead?h("p",{class:"lead",style:"margin-bottom:8px"},q.lead):null,
+    h("div",{class:"give"},...q.items.map(([lab,cmd])=>h("button",{type:"button",title:cmd,onclick:()=>copyText(cmd,null)},lab))))}
+  if(c.table){sec.append(h("h3",{},"一覧"));const tb=h("tbody");
+    for(const r of c.table.rows)tb.append(h("tr",{},h("td",{},h("code",{},r[0])),h("td",{},r[1]),h("td",{},h("code",{},r[2]))));
+    sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},...c.table.head.map(x=>h("th",{},x)))),tb)))}
+  if(c.list){
+    const grid=h("div",{class:"grid"});const count=h("span",{class:"count"});
+    const cards=c.list.data.map(r=>cardFor(c.list.type,r));
+    const groups=[...new Set(cards.map(k=>k._data.group))];
+    let fGroup=null,fStar=false,q="";
+    const search=h("input",{class:"search",type:"search",placeholder:"さがす（名前・ID）　例：ねこ、fire","aria-label":"図鑑をさがす"});
+    const filters=h("div",{class:"filters",role:"group","aria-label":"しぼりこみ"});
+    const mk=(label,fn)=>h("button",{class:"chip",type:"button","aria-pressed":"false",onclick:fn},label);
+    const allBtn=mk("ぜんぶ",()=>{fGroup=null;draw()});filters.append(allBtn);
+    const gBtns=groups.length>1?groups.map(g=>{const b=mk(g,()=>{fGroup=fGroup===g?null:g;draw()});b._g=g;filters.append(b);return b}):[];
+    const hasStar=cards.some(k=>k._data.star);
+    const starBtn=mk("★ おすすめだけ",()=>{fStar=!fStar;draw()});if(hasStar)filters.append(starBtn);
+    search.addEventListener("input",()=>{q=toKata(search.value.trim());draw()});
+    function draw(){
+      allBtn.setAttribute("aria-pressed",fGroup?"false":"true");gBtns.forEach(b=>b.setAttribute("aria-pressed",b._g===fGroup?"true":"false"));starBtn.setAttribute("aria-pressed",fStar?"true":"false");
+      grid.replaceChildren();let n=0,last=null;
+      for(const k of cards){const d=k._data;if(fGroup&&d.group!==fGroup)continue;if(fStar&&!d.star)continue;if(q&&!d.search.includes(q))continue;
+        if(!fGroup&&!q&&groups.length>1&&d.group!==last){grid.append(h("div",{class:"grp-title"},d.group));last=d.group}
+        grid.append(k);n++}
+      if(!n)grid.append(h("div",{class:"empty",style:"grid-column:1/-1"},"見つかりません。ひらがな・カタカナ・英語でためしてみよう。"));
+      count.textContent=n+"こ";
+    }
+    const select=(k,flash)=>{if(!st)return;cards.forEach(x=>x.setAttribute("aria-pressed","false"));k.setAttribute("aria-pressed","true");
+      st.item=k._data;if(c.level==="ench")st.lv=k._data.max||1;st.update();
+      if(flash&&maker){maker.classList.remove("flash");void maker.offsetWidth;maker.classList.add("flash");
+        if(getComputedStyle(maker).position==="static"){const r=maker.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)maker.scrollIntoView({behavior:RM.matches?"auto":"smooth",block:"center"})}}};
+    cards.forEach(k=>k.addEventListener("click",()=>select(k,true)));
+    sec.append(h("h3",{},c.list.title,count),h("div",{class:"finder"},search,filters),grid);
+    draw();
+    if(c.level)sec.append(h("h3",{},"レベル早見表"),levelTable(c));
+    select(cards.find(k=>k._data.star)||cards[0],false);
+  }
+  return sec;
+}
+
+function renderBasics(c){
+  const B=BASICS;const sec=h("section",{id:"sec-basics"});
+  sec.append(h("div",{class:"sec-head"},h("h2",{},"きほん"),h("span",{class:"jp"},c.jp)),h("p",{class:"lead"},c.lead));
+  sec.append(h("h3",{},"コマンドを打つまで"),h("ol",{class:"steps"},...B.steps.map(([t,d])=>h("li",{},h("div",{},h("b",{},t),h("div",{style:"color:var(--muted);font-size:14.5px"},d))))));
+  sec.append(h("h3",{},"だれに？（ターゲットセレクター）"));
+  const tb=h("tbody");for(const[a,b,e]of B.sel)tb.append(h("tr",{},h("td",{},h("code",{},a)),h("td",{},b),h("td",{},h("code",{},e))));
+  sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},h("th",{},"書き方"),h("th",{},"だれ？"),h("th",{},"例"))),tb)));
+  sec.append(h("p",{class:"lead",style:"margin:14px 0 8px"},"[ ] をつけると、しぼりこめます。"));
+  const tb2=h("tbody");for(const[a,b]of B.filt)tb2.append(h("tr",{},h("td",{},h("code",{},a)),h("td",{},b)));
+  sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},h("th",{},"書き方"),h("th",{},"いみ"))),tb2)));
+  sec.append(h("h3",{},"どこに？（座標）"));
+  const tb3=h("tbody");for(const[a,b,n]of B.pos)tb3.append(h("tr",{},h("td",{},h("code",{},a)),h("td",{},b),h("td",{style:"color:var(--muted)"},n)));
+  sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},h("th",{},"書き方"),h("th",{},"場所"),h("th",{},"ポイント"))),tb3)));
+  sec.append(h("div",{class:"notes"},h("div",{class:"note",html:"<b>~ と ^ のちがい：</b>~ は東西南北で決まる（向きをかえても同じ）。^ は自分の向いている方向で決まる（「目の前」にしたいときは ^）。"})));
+  sec.append(h("h3",{},"うまくいかないとき"),h("div",{class:"notes"},...B.trouble.map(t=>h("div",{class:"note warn",html:t}))));
+  sec.append(h("h3",{},"先生のおたすけコマンド"),h("div",{class:"examples"},...B.teacher.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd),h("p",{class:"what"},w)))));
+  sec.append(h("div",{class:"notes"},h("div",{class:"note warn",html:"<b>/kill @e[type=!player]</b> はプレイヤー以外の<b>ぜんぶ</b>（動物、落ちているアイテム、防具立て、エージェント、NPCなど）を消します。使うときは気をつけて。"})));
+  return sec;
+}
+
+/* ====================== タブ ====================== */
+const tabsEl=$("#tabs"),groupsEl=$("#groups"),main=$("#main");const built={};
+const GROUPS=[...new Set(ORDER.map(k=>GROUP[k]))];
+GROUPS.forEach(g=>groupsEl.append(h("button",{class:"gchip",type:"button","aria-pressed":"false","data-g":g,onclick:()=>show(CMDS.find(c=>GROUP[c.key]===g).key,true)},g)));
+function show(key,push){
+  const c=CMDS.find(x=>x.key===key)||CMDS[0];const g=GROUP[c.key];
+  for(const b of groupsEl.children)b.setAttribute("aria-pressed",b.dataset.g===g?"true":"false");
+  tabsEl.replaceChildren(...CMDS.filter(x=>GROUP[x.key]===g).map(x=>h("button",{class:"tab",role:"tab",type:"button",id:"tab-"+x.key,"aria-selected":x.key===c.key?"true":"false","aria-controls":"sec-"+x.key,onclick:()=>show(x.key,true)},h("span",{class:"tn"},x.name),h("span",{class:"tj"},x.jp))));
+  if(!built[c.key])built[c.key]=c.key==="basics"?renderBasics(c):renderCmd(c);
+  main.replaceChildren(built[c.key]);
+  if(push){try{history.replaceState(null,"","#"+c.key)}catch(e){}window.scrollTo({top:0})}
+  const ch=groupsEl.querySelector('[aria-pressed="true"]');const x=ch.getBoundingClientRect().left-groupsEl.getBoundingClientRect().left+groupsEl.scrollLeft;groupsEl.scrollLeft=Math.max(0,x-groupsEl.clientWidth/2+ch.offsetWidth/2);
+}
+window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+show((location.hash||"").slice(1)||"basics");
+
+const nav=$("nav.tabs");const setNav=()=>document.documentElement.style.setProperty("--nav-h",nav.offsetHeight+"px");
+new ResizeObserver(setNav).observe(nav);setNav();
+
+const tb=$("#themeBtn");const modes=["auto","light","dark"],lab={auto:"自動",light:"明るい",dark:"暗い"};let mode="auto";
+try{mode=localStorage.getItem("zukan-theme")||"auto"}catch(e){}
+const applyTheme=()=>{if(mode==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",mode);tb.textContent="画面の明るさ："+lab[mode]};
+tb.addEventListener("click",()=>{mode=modes[(modes.indexOf(mode)+1)%3];try{localStorage.setItem("zukan-theme",mode)}catch(e){}applyTheme()});
+applyTheme();
+
+</script>
+</body>
+</html>
