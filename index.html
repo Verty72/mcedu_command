@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="author" content="ひろ">
 <title>マイクラ教育版 コマンド図鑑</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -138,10 +139,6 @@ td:first-child code{color:var(--cmd)}
 .search:focus{border-color:var(--focus);outline:none}
 .filters{display:flex;flex-wrap:wrap;gap:6px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px}
-.card{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;background:var(--surface);border:2px solid var(--line);border-radius:10px;overflow:hidden;position:relative}
-.card:hover{border-color:var(--muted)}
-.card:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.card[aria-pressed="true"]{border-color:var(--cmd);box-shadow:0 0 0 2px var(--cmd)}
 .vis{height:104px;display:grid;place-items:center;position:relative;font-size:46px;line-height:1}
 .vis canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
 .vis.mob[data-c="pass"]{background:var(--pass-bg)} .vis.mob[data-c="neutral"]{background:var(--neutral-bg)} .vis.mob[data-c="hostile"]{background:var(--hostile-bg)} .vis.mob[data-c="boss"]{background:var(--boss-bg)} .vis.mob[data-c="thing"]{background:var(--thing-bg)}
@@ -153,7 +150,6 @@ td:first-child code{color:var(--cmd)}
 .vis.mus{background:var(--surface-2)}
 .disc{width:78px;height:78px;border-radius:50%;background:repeating-radial-gradient(circle,#1c1c1c 0 2px,#2a2a2a 2px 4px);display:grid;place-items:center;box-shadow:0 2px 0 rgba(0,0,0,.25)}
 .disc i{width:28px;height:28px;border-radius:50%;display:block;box-shadow:inset 0 0 0 9px var(--lab),inset 0 0 0 14px #111}
-.card:hover .disc,.card[aria-pressed="true"] .disc{animation:spin 2.4s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .body{padding:8px 10px 10px;display:flex;flex-direction:column;gap:3px;flex:1}
 .nm{font-weight:800;font-size:15.5px;line-height:1.35}
@@ -174,14 +170,14 @@ td:first-child code{color:var(--cmd)}
 .give button{border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;cursor:pointer;font-family:var(--pixel);font-size:14px}
 .give button:hover{border-color:var(--cmd)}
 
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;transition:.2s;z-index:50;pointer-events:none}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;transition:.2s;z-index:120;pointer-events:none}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
 footer{max-width:1180px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:13px}
 
 
 
-.groups-in{max-width:1180px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:10px 14px 2px;scrollbar-width:thin}
+.groups-in{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin}
 .gchip{flex:0 0 auto;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 13px;font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6;color:var(--muted)}
 .gchip:hover{border-color:var(--muted)}
 .gchip[aria-pressed="true"]{background:var(--cmd);border-color:var(--cmd);color:#fff}
@@ -225,23 +221,128 @@ td.muted{color:var(--muted)}
 .m-G,.m-D{background:#F5D33C;box-shadow:inset -2px -2px 0 rgba(0,0,0,.15)}
 .m-S{background:#8A8A8A;box-shadow:inset -2px -2px 0 rgba(0,0,0,.2)}
 .m-air{outline:1.5px dashed var(--line);outline-offset:-2px}
+/* ---- v3: 検索・拡大・編集 ---- */
+.nav-top{max-width:1180px;margin:0 auto;display:flex;gap:8px 12px;align-items:center;padding:8px 14px 0;flex-wrap:wrap}
+.searchbox{position:relative;flex:0 0 280px;max-width:100%}
+.searchbox::before{content:"🔍";position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
+.gsearch{width:100%;border:2px solid var(--line);background:var(--surface-2);border-radius:999px;padding:6px 14px 6px 38px;font-size:15px;min-height:40px}
+.gsearch:focus{border-color:var(--focus);outline:none;background:var(--surface)}
+.sres{position:absolute;left:0;top:calc(100% + 6px);width:min(580px,94vw);max-height:min(70vh,540px);overflow:auto;background:var(--surface);border:2px solid var(--line);border-radius:12px;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);z-index:40;padding:6px}
+.sres[hidden]{display:none}
+.sres h4{margin:8px 8px 4px;font-size:12px;color:var(--muted);font-weight:700}
+.sres button{display:flex;width:100%;gap:10px;align-items:baseline;border:0;background:none;text-align:left;padding:8px 10px;border-radius:8px;cursor:pointer}
+.sres button:hover,.sres button:focus-visible{background:var(--surface-2)}
+.sres .rl{font-weight:800}
+.sres .rs{color:var(--muted);font-size:13px;font-family:var(--pixel);word-break:break-all}
+.sres .rt{margin-left:auto;font-size:11.5px;color:var(--muted);white-space:nowrap;font-family:var(--pixel)}
+.sres-empty{margin:10px;color:var(--muted);font-size:14px}
+.nav-top .groups-in{flex:1 1 0;min-width:0;margin:0;padding:2px 0;max-width:none}
+@media (max-width:760px){.searchbox{flex:1 1 100%}}
+.hl .t-cmd,.z-cmdtext .t-cmd{color:var(--c-cmd)} .hl .t-sel,.z-cmdtext .t-sel{color:var(--c-sel)} .hl .t-num,.z-cmdtext .t-num{color:var(--c-num)} .hl .t-id,.z-cmdtext .t-id{color:var(--c-req)} .hl .t-str,.z-cmdtext .t-str{color:var(--c-str)}
+.editor{position:relative;flex:1;min-width:0;background:var(--chat);border-radius:4px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.06)}
+.editor:focus-within{box-shadow:inset 0 0 0 2px var(--focus)}
+.editor .hl,.editor .ta{margin:0;padding:10px 14px;font-family:var(--pixel);font-size:clamp(16px,2.1vw,20px);line-height:1.5;white-space:pre-wrap;word-break:normal;overflow-wrap:anywhere;letter-spacing:0;border:0;box-sizing:border-box;tab-size:4}
+.editor .hl{color:var(--chat-ink);min-height:calc(1.5em + 20px);pointer-events:none}
+.editor .ta{position:absolute;inset:0;width:100%;height:100%;resize:none;overflow:hidden;background:transparent;color:transparent;-webkit-text-fill-color:transparent;caret-color:#fff;outline:none;border-radius:4px}
+.editor .ta::selection{background:rgba(120,170,255,.5);-webkit-text-fill-color:transparent}
+.maker.edited .editor::after{content:"✏️ いじったコマンド";position:absolute;right:10px;top:-10px;background:var(--opt);color:#fff;font-size:11px;font-weight:800;padding:0 10px;border-radius:999px;line-height:20px}
+.btn-col{display:flex;flex-direction:column;gap:6px;flex:0 0 auto}
+.btn-row{display:flex;gap:6px}
+.mini2{flex:1;border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 10px;font-size:13px;font-weight:700;cursor:pointer;min-height:34px;white-space:nowrap}
+.mini2:hover:not(:disabled){border-color:var(--cmd)}
+.mini2:disabled{opacity:.4;cursor:default}
+.edit-hint{font-size:12.5px;color:var(--muted);margin-top:8px}
+@media (max-width:560px){.mk-row{flex-wrap:wrap}.btn-col{flex-direction:row;width:100%}.btn-col>*{flex:1}}
+.zoom-mini{flex:0 0 auto;border:1.5px solid var(--line);background:var(--surface);border-radius:4px;font-weight:700;padding:0 12px;font-size:14px;min-height:44px;cursor:pointer}
+.zoom-mini:hover{border-color:var(--cmd)}
+.card{box-sizing:border-box;display:flex;flex-direction:column;background:var(--surface);border:2px solid var(--line);border-radius:10px;overflow:hidden;position:relative;scroll-margin-top:calc(var(--nav-h,100px) + 230px)}
+.card:hover{border-color:var(--muted)}
+.card[data-on="true"]{border-color:var(--cmd);box-shadow:0 0 0 2px var(--cmd)}
+.card.flash{animation:cflash 1.4s ease}
+.vis.mob,.vis.simple,.vis.eff,.vis.blkv,.vis.compass,.vis.mus{padding-top:16px;box-sizing:border-box}
+@keyframes cflash{0%{box-shadow:0 0 0 0 var(--req)}25%{box-shadow:0 0 0 8px var(--req)}100%{box-shadow:0 0 0 2px var(--cmd)}}
+.card-main{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;flex:1}
+.card-main:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+.card-foot{display:flex;gap:6px;padding:0 8px 8px}
+.mini{flex:1;border:1.5px solid var(--line);background:var(--surface-2);border-radius:8px;font-size:12.5px;font-weight:700;padding:4px 6px;cursor:pointer;min-height:32px}
+.mini:hover{border-color:var(--cmd)}
+.mini.done{background:var(--req);color:#fff;border-color:var(--req)}
+.id.long{font-size:11px}
+.card[data-on="true"] .disc,.card:hover .disc{animation:spin 2.4s linear infinite}
+.zoom{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.zoom[hidden]{display:none}
+.z-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-bottom:2px solid var(--line);background:var(--surface)}
+.z-nav{display:flex;gap:10px;align-items:center}
+.z-pos{font-family:var(--pixel);color:var(--muted);min-width:5em;text-align:center}
+.zb{border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 16px;font-size:16px;font-weight:700;cursor:pointer;min-height:44px}
+.zb:hover{border-color:var(--cmd)}
+.zb[hidden]{display:none}
+.z-body{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:16px 20px 28px}
+.z-card{width:min(100%,920px);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;margin:auto}
+.z-name{font-size:clamp(28px,5vw,60px);font-weight:800;line-height:1.2}
+.z-id{font-family:var(--pixel);color:var(--req);word-break:break-all;overflow-wrap:anywhere;line-height:1.3;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:.3em .6em;max-width:100%}
+.z-desc{font-size:clamp(16px,2.4vw,28px);color:var(--muted);line-height:1.5}
+.z-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:6px}
+.zbtn{font-size:clamp(16px,2vw,22px);font-weight:800;padding:12px 26px;border-radius:12px;border:2px solid var(--cmd);cursor:pointer;background:var(--cmd);color:#fff;min-height:52px}
+.zbtn.sub{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.zbtn:hover{filter:brightness(1.07)}
+.z-cmd{width:min(100%,1500px);display:flex;flex-direction:column;gap:18px;margin:auto;align-items:stretch}
+.z-cmdtext{font-family:var(--pixel);line-height:1.5;background:var(--chat);color:var(--chat-ink);padding:.7em .9em;border-radius:14px;white-space:pre-wrap;word-break:normal;overflow-wrap:anywhere}
+.z-cmd .z-desc{text-align:center}
+.lvl.big{font-size:clamp(15px,2.2vw,24px);text-align:left;border-top:0;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 18px;width:min(100%,720px)}
+.zoom .vis{height:clamp(150px,32vh,330px);width:min(100%,620px);border-radius:16px;font-size:clamp(80px,22vh,220px);overflow:hidden}
+.zoom canvas.blk{width:clamp(120px,26vh,260px)!important;height:clamp(120px,26vh,260px)!important}
+.zoom .vis.eff .orb{width:clamp(110px,24vh,230px);height:clamp(110px,24vh,230px);font-size:clamp(56px,12vh,120px)}
+.zoom .dial{width:clamp(130px,26vh,260px);height:clamp(130px,26vh,260px);font-size:clamp(14px,3vh,28px)}
+.zoom .dial .arrow{font-size:clamp(36px,8vh,80px)}
+.zoom .disc{width:clamp(130px,26vh,260px);height:clamp(130px,26vh,260px);animation:spin 3s linear infinite}
+.zoom .disc i{width:34%;height:34%}
+.zoom .fmtx{font-size:clamp(48px,12vh,120px)}
+.zoom .vis.ench{font-size:clamp(50px,10vh,100px)}
+.zoom .vis.sky{font-size:clamp(80px,20vh,200px)}
+@media (prefers-reduced-motion:reduce){.card.flash{animation:none}.zoom .disc{animation:none}}
+
+.comp{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.comp[hidden]{display:none}
+.cchip{border:1.5px solid var(--line);background:var(--surface-2);border-radius:999px;padding:2px 12px;font-family:var(--pixel);font-size:14px;cursor:pointer;min-height:30px}
+.cchip:hover{border-color:var(--cmd)}
+.cchip.on{background:var(--cmd);border-color:var(--cmd);color:#fff}
+.cchip.tab{font-family:var(--font);font-weight:800;background:var(--surface)}
+.comp-hint{font-size:12.5px;color:var(--muted)}
+.ideas{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+.idea{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.idea h4{margin:0;font-size:16px;font-weight:800}
+.idea p{margin:0 0 2px;font-size:13.5px;color:var(--muted);line-height:1.5}
+.idea .chat-row{flex-wrap:wrap;gap:6px}
+.idea .chat{flex:1 1 100%;white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;font-size:15px;padding:8px 12px}
+.idea .copy,.idea .zoom-mini{min-height:34px;font-size:13px;padding:0 12px}
+footer p{margin:0 0 6px}
+footer .credit{font-size:12px;opacity:.85}
+@media (max-width:420px){.ideas{grid-template-columns:1fr}}
 @media (max-width:700px),(max-height:560px){.maker{position:static}}
 @media (prefers-reduced-motion:reduce){.maker.flash{animation:none}.card:hover .disc,.card[aria-pressed="true"] .disc{animation:none}.toast{transition:none}}
-@media print{nav.tabs,.maker,.finder,.theme-btn,.copy{display:none!important}body{background:#fff}.card{break-inside:avoid}}
+@media print{nav.tabs,.maker,.finder,.theme-btn,.copy,.zoom,.card-foot,.zoom-mini{display:none!important}body{background:#fff}.card{break-inside:avoid}}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="brand">
     <h1>マイクラ教育版 コマンド図鑑</h1>
-    <p>図鑑のカードをタップすると、そのIDでコマンドができるよ。コピーしてマイクラにはりつけよう。</p>
+    <p>図鑑のカードをタップすると、そのIDでコマンドができるよ。コマンドは書きかえもOK。「拡大」で大きく見せられます。</p>
   </div>
   <button class="theme-btn" id="themeBtn" type="button">画面の明るさ：自動</button>
 </header>
-<nav class="tabs" aria-label="コマンドをえらぶ"><div class="groups-in" id="groups" role="group" aria-label="なかま"></div><div class="tabs-in" id="tabs" role="tablist"></div></nav>
+<nav class="tabs" aria-label="コマンドをえらぶ"><div class="nav-top"><div class="searchbox"><input class="gsearch" id="gsearch" type="search" placeholder="さがす（例：ワープ、title）" aria-label="コマンドや図鑑のIDをさがす（/ キーでも開けます）" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sres"><div class="sres" id="sres" role="listbox" hidden></div></div><div class="groups-in" id="groups" role="group" aria-label="なかま"></div></div><div class="tabs-in" id="tabs" role="tablist"></div></nav>
 <main id="main"></main>
-<footer>マイクラ教育版（統合版ベース）向け。バージョンによって使えないIDや、見え方・音がちがうことがあります。カードの絵や、レベルごとの数字は「だいたい」の目安です。</footer>
+<footer>
+  <p>マイクラ教育版（統合版ベース）向け。バージョンによって使えないIDや、見え方・音がちがうことがあります。カードの絵や、レベルごとの数字は「だいたい」の目安です。</p>
+  <p class="credit">文責：ひろ　／　授業でのご利用はご自由に。無断での転載・販売はご遠慮ください。　／　Minecraft は Mojang Studios / Microsoft の商標です。この資料は非公式です。</p>
+</footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="zoom" id="zoom" role="dialog" aria-modal="true" aria-label="拡大表示" hidden>
+  <div class="z-bar"><div class="z-nav"><button type="button" id="zPrev" class="zb">‹ 前へ</button><span id="zPos" class="z-pos"></span><button type="button" id="zNext" class="zb">次へ ›</button></div><button type="button" id="zClose" class="zb z-close">✕ とじる（Esc）</button></div>
+  <div class="z-body" id="zBody"></div>
+</div>
 
 <script>
 /* ====================== データ ====================== */
@@ -835,14 +936,15 @@ const RULES=[
  ["randomtickspeed","植物が育つ速さ","🌱","世界の動き","数字。0 で育たない、大きいほど速い","1","0",0],
  ["showcoordinates","座標の表示","📍","表示・コマンド","true で画面に座標が出る","false","true",1],
  ["showdaysplayed","何日目かの表示","📅","表示・コマンド","true で画面に日数が出る","false","true",0],
+ ["showtags","アイテムのルール表示","🏷️","表示・コマンド","false で、ルールをつけたアイテムの説明（三角マーク）を消す","true","false",1],
  ["commandblockoutput","コマンドブロックのおしらせ","🧾","表示・コマンド","false でチャットにたくさん出なくなる","true","false",1],
  ["sendcommandfeedback","コマンドの結果","📝","表示・コマンド","false でコマンドの結果を出さない","true","false",0],
  ["commandblocksenabled","コマンドブロックを使う","🟧","表示・コマンド","false でコマンドブロックが止まる","true","false",0],
  ["spawnradius","復活する場所の広さ","🎯","表示・コマンド","数字。0 でワールドのスタート地点ぴったり","5","0",0],
  ["globalmute","全員のチャット","🔇","教育版","true で全員チャットができない","false","true",1,"edu"],
- ["allowdestructiveitems","こわす道具","💣","教育版","false でTNTや火打石などが使えない","true","false",0,"edu"],
+ ["allowdestructiveobjects","こわす物（TNTなど）","💣","教育版","false でTNTなどの「こわす物」が使えない","ワールドによる","false",0,"edu"],
  ["allowmobs","モブを出す","🐮","教育版","false でモブが出なくなる","true","false",0,"edu"],
- ["showbordereffect","ボーダーブロックの光","🧱","教育版","false でボーダーブロックの光のかべをかくす","true","false",0,"edu"]
+ ["showbordereffect","ボーダーブロックの赤い粒","🧱","教育版","false でボーダーブロックから出る赤い粒をかくす","true","false",0,"edu"]
 ];
 /* ---- ability ---- */
 const ABILS=[
@@ -878,27 +980,208 @@ const STRUCTS=[
  ["0_degrees none layer_by_layer 5","1段ずつ（5秒）","🏗️","下から順に組み上がる",1,0,"アニメーション"]
 ];
 
+/* ====================== 追加データ（v3） ====================== */
+/* ---- スポーン状態（summon の最後 / event で使う） ---- */
+const EVENTS=[
+ // id(使う文字), 名前, 絵, 分類, せつめい, ★, タグ, 対象のmobID
+ ["minecraft:entity_born","赤ちゃんで出る","🍼","きほん","動物・村人などの子どもで出る（大人は出さない）",1,0,"pig"],
+ ["minecraft:entity_spawned","ふつうに出る","✨","きほん","何も書かないときと同じ。わざわざ書かなくてOK",0,0,"pig"],
+ ["minecraft:ageable_grow_up","大人になる","🌱","きほん","赤ちゃんを大人にする（/event でよく使う）",1,0,"pig"],
+ ["minecraft:as_baby","子どもで出る","👶","ゾンビの仲間","ゾンビ・ドラウンドの子ども（足がはやい！）",1,0,"zombie"],
+ ["minecraft:become_charged","帯電クリーパー","⚡","クリーパー","雷に打たれた状態。ばくはつが大きい",1,"warn","creeper"],
+ ["minecraft:start_exploding","導火線に火がつく","🧨","クリーパー","少しするとばくはつする",0,"warn","creeper"],
+ ["minecraft:start_exploding_forced","すぐばくはつ","💥","クリーパー","出てすぐにばくはつ！ まわりに注意",0,"warn","creeper"],
+ ["minecraft:become_farmer","農家","🌾","村人の職業","作業台などがなくても職業がつく",1,0,"villager_v2"],
+ ["minecraft:become_librarian","司書","📚","村人の職業","",1,0,"villager_v2"],
+ ["minecraft:become_cleric","聖職者","⛪","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_armorer","鎧鍛冶","🛡️","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_butcher","肉屋","🥩","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_cartographer","製図家","🗺️","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_fisherman","釣り人","🎣","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_fletcher","矢師","🏹","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_leatherworker","革細工師","👜","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_mason","石工","🧱","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_sheperd","羊飼い","🐑","村人の職業","つづりが sheperd（hが1つ）。ゲームの名前のまま",0,0,"villager_v2"],
+ ["minecraft:become_toolsmith","道具鍛冶","🔨","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_weaponsmith","武器鍛冶","⚔️","村人の職業","",0,0,"villager_v2"],
+ ["minecraft:become_unskilled","無職","🙂","村人の職業","職業をなくす",0,0,"villager_v2"],
+ ["become_witch","魔女になる","🧙","村人の職業","村人が魔女にかわる。minecraft: はつけない",0,0,"villager_v2"],
+ ["minecraft:panda_lazy","のんびりパンダ","😴","パンダ","ごろんと寝ころぶ",1,0,"panda"],
+ ["minecraft:panda_playful","あそびずきパンダ","🎾","パンダ","ころころ転がる",1,0,"panda"],
+ ["minecraft:panda_worried","こわがりパンダ","😟","パンダ","雷がにがて",0,0,"panda"],
+ ["minecraft:panda_weak","よわむしパンダ","🤧","パンダ","くしゃみをよくする",0,0,"panda"],
+ ["minecraft:panda_aggressive","あばれんぼうパンダ","😠","パンダ","たたかれるとおこる",0,0,"panda"],
+ ["minecraft:panda_brown","茶色パンダ","🟤","パンダ","めずらしい茶色",1,0,"panda"],
+ ["minecraft:make_white","白いウマ","⬜","ウマ","",0,0,"horse"],
+ ["minecraft:make_black","黒いウマ","⬛","ウマ","",0,0,"horse"],
+ ["minecraft:make_brown","茶色のウマ","🟫","ウマ","",0,0,"horse"],
+ ["minecraft:make_chestnut","くり毛のウマ","🟧","ウマ","",0,0,"horse"],
+ ["minecraft:make_creamy","クリーム色のウマ","🟨","ウマ","",0,0,"horse"],
+ ["minecraft:make_darkbrown","こげ茶のウマ","🤎","ウマ","",0,0,"horse"],
+ ["minecraft:make_gray","灰色のウマ","🩶","ウマ","",0,0,"horse"],
+ ["minecraft:horse_saddled","くらをつけたウマ","🐎","ウマ","出してすぐ乗れる",1,0,"horse"],
+ ["minecraft:spawn_midnight_cat","黒ネコ","🐈‍⬛","いろいろ","まっ黒なネコ",1,0,"cat"],
+ ["minecraft:on_saddled","くらをつけたブタ","🐖","いろいろ","ニンジンつき棒があれば乗れる",0,0,"pig"],
+ ["wololo","ヒツジの色がかわる","🐑","いろいろ","エヴォーカーの魔法「ウォロロ」。minecraft: はつけない",0,0,"sheep"],
+ ["spawn_small","小さいスライム","🟩","いろいろ","スライムの大きさ。minecraft: はつけない",1,0,"slime"],
+ ["spawn_medium","中くらいのスライム","🟩","いろいろ","minecraft: はつけない",0,0,"slime"],
+ ["spawn_large","大きいスライム","🟩","いろいろ","minecraft: はつけない",1,0,"slime"],
+ ["minecraft:become_clownfish","カクレクマノミ","🐠","いろいろ","熱帯魚のしゅるい",1,0,"tropicalfish"],
+ ["minecraft:become_blue_dory","ナンヨウハギ","🐟","いろいろ","熱帯魚のしゅるい（青い魚）",0,0,"tropicalfish"],
+ ["spawn_cold","寒いところのカエル","🐸","いろいろ","みどり色。minecraft: はつけない",0,0,"frog"],
+ ["spawn_temperate","ふつうのカエル","🐸","いろいろ","オレンジ色。minecraft: はつけない",0,0,"frog"],
+ ["spawn_warm","あついところのカエル","🐸","いろいろ","白っぽい色。minecraft: はつけない",0,0,"frog"],
+ ["minecraft:promote_to_illager_captain","イリジャーの隊長","🚩","いろいろ","ピリジャーが隊長になる",0,0,"pillager"]
+];
+
+/* ---- give の特別なルール ---- */
+const GIVE_RULES=[
+ // id(表示), 名前, 絵, 分類, せつめい, ★, タグ, 使う文字(JSON)
+ ["minecraft:keep_on_death","たおれてもなくならない","💖","なくさない","たおれても持ち物にのこる",1,0,'{"minecraft:keep_on_death":{}}'],
+ ["lock_in_slot","その場所からうごかせない","🔒","なくさない","ほかのマスに動かせない・すてられない・クラフトに使えない",1,0,'{"minecraft:item_lock":{"mode":"lock_in_slot"}}'],
+ ["lock_in_inventory","すてられない","🎒","なくさない","持ち物の中では動かせるが、すてられない・クラフトに使えない",1,0,'{"minecraft:item_lock":{"mode":"lock_in_inventory"}}'],
+ ["minecraft:can_destroy","石だけこわせる","⛏️","アドベンチャー用","アドベンチャーモードでも石だけこわせる（blocks の中を変えると別のブロックに）",1,0,'{"minecraft:can_destroy":{"blocks":["stone"]}}'],
+ ["minecraft:can_place_on","土と草の上にだけ置ける","🧱","アドベンチャー用","アドベンチャーモードでも土・草ブロックの上にだけ置ける",1,0,'{"minecraft:can_place_on":{"blocks":["grass_block","dirt"]}}'],
+ ["keep + lock","なくさない＋動かせない","🛡️","2つ合わせ",", でつなげると2つのルールがつく",0,0,'{"minecraft:keep_on_death":{},"minecraft:item_lock":{"mode":"lock_in_slot"}}'],
+ ["destroy + keep","石だけこわせる＋なくさない","🪨","2つ合わせ","アドベンチャー用ツルハシの定番",0,0,'{"minecraft:can_destroy":{"blocks":["stone"]},"minecraft:keep_on_death":{}}']
+];
+
+/* ---- replaceitem の場所 ---- */
+const SLOTS=[
+ ["slot.armor.head 0","あたま","🪖","防具","ヘルメットの場所",1],
+ ["slot.armor.chest 0","むね","👕","防具","チェストプレートの場所",1],
+ ["slot.armor.legs 0","こし・もも","👖","防具","レギンスの場所",0],
+ ["slot.armor.feet 0","くつ","👢","防具","ブーツの場所",0],
+ ["slot.weapon.mainhand 0","右手（持っている物）","🤚","手","手に持つ場所",1],
+ ["slot.weapon.offhand 0","左手（オフハンド）","✋","手","盾などを持つ場所",0],
+ ["slot.hotbar 0","ホットバー 1番目","1️⃣","もちもの","下のアイテム欄。0〜8 の数字で場所をかえる",1],
+ ["slot.hotbar 8","ホットバー 9番目","9️⃣","もちもの","下のアイテム欄のいちばん右",0],
+ ["slot.inventory 0","もちもの 1番目","🎒","もちもの","持ち物の画面。0〜26 の数字で場所をかえる",0]
+];
+
+/* ---- locate ---- */
+const LOC_STRUCT=[
+ // id, 名前, 絵, 分類, せつめい, ★, タグ
+ ["minecraft:village","村","🏘️","地上","いちばんよく使う",1,0],
+ ["minecraft:mansion","森の洋館","🏰","地上","とても強いモンスターがいる",0,"warn"],
+ ["minecraft:monument","海底神殿","🔱","海","ガーディアンがいる",0,0],
+ ["minecraft:stronghold","要塞","🚪","地下","エンドへのポータルがある",1,0],
+ ["minecraft:mineshaft","廃坑","⛏️","地下","クモの巣とトロッコ",0,0],
+ ["minecraft:temple","神殿・ピラミッド","🏜️","地上","砂漠・ジャングル・イグルーなど",1,0],
+ ["minecraft:pillager_outpost","ピリジャーの前哨基地","🚩","地上","ピリジャーがいる",0,0],
+ ["minecraft:shipwreck","難破船","🚢","海","宝の地図が見つかる",0,0],
+ ["minecraft:buried_treasure","埋もれた宝","💰","海","砂浜にうまっている",1,0],
+ ["minecraft:ruins","海底遺跡","🏛️","海","こわれた遺跡",0,0],
+ ["minecraft:ruined_portal","こわれたポータル","🌀","地上","ネザーポータルのあと",0,0],
+ ["minecraft:ancient_city","古代都市","🕯️","地下","ウォーデンがいる",0,"warn"],
+ ["minecraft:trail_ruins","古道の遺跡","🏺","地上","つぼやかけらが見つかる",0,"new"],
+ ["minecraft:trial_chambers","試練の間","🌪️","地下","ブリーズがいる",0,"new"],
+ ["minecraft:fortress","ネザー要塞","🧱","ネザー・エンド","ネザーにいるときだけ",1,0],
+ ["minecraft:bastion_remnant","ピグリンの砦","🐷","ネザー・エンド","ネザーにいるときだけ",0,0],
+ ["minecraft:end_city","エンドシティ","🏙️","ネザー・エンド","エンドにいるときだけ",0,0]
+];
+const LOC_BIOME=[
+ ["minecraft:plains","平原","🌾","バイオーム","",1,0],
+ ["minecraft:forest","森","🌳","バイオーム","",1,0],
+ ["minecraft:birch_forest","シラカバの森","🌲","バイオーム","",0,0],
+ ["minecraft:flower_forest","花の森","🌸","バイオーム","",0,0],
+ ["minecraft:desert","砂漠","🏜️","バイオーム","",1,0],
+ ["minecraft:taiga","タイガ","🌲","バイオーム","",0,0],
+ ["minecraft:jungle","ジャングル","🦜","バイオーム","",1,0],
+ ["minecraft:savanna","サバンナ","🦒","バイオーム","",0,0],
+ ["minecraft:swampland","湿地","🐸","バイオーム","",0,0],
+ ["minecraft:mangrove_swamp","マングローブの湿地","🌿","バイオーム","",0,0],
+ ["minecraft:ice_plains","雪原","⛄","バイオーム","",1,0],
+ ["minecraft:mesa","バッドランズ","🟧","バイオーム","",0,0],
+ ["minecraft:mushroom_island","キノコ島","🍄","バイオーム","",1,0],
+ ["minecraft:ocean","海","🌊","バイオーム","",0,0],
+ ["minecraft:warm_ocean","あたたかい海","🐠","バイオーム","サンゴがある",0,0],
+ ["minecraft:meadow","草原（メドウ）","🌼","バイオーム","",0,0],
+ ["minecraft:cherry_grove","桜の林","🌸","バイオーム","",1,"new"],
+ ["minecraft:lush_caves","緑の洞窟","🪴","バイオーム","",0,0],
+ ["minecraft:dripstone_caves","鍾乳洞","🪨","バイオーム","",0,0],
+ ["minecraft:deep_dark","ディープダーク","🕯️","バイオーム","ウォーデンのすみか",0,"warn"]
+];
+/* ---- mobevent ---- */
+const MOBEVENTS=[
+ ["minecraft:pillager_patrols_event","ピリジャーのパトロール","🚩","イベント","ピリジャーの集団が歩いてくる",1,"warn"],
+ ["minecraft:wandering_trader_event","行商人があらわれる","🧳","イベント","めずらしい物を売る行商人が来る",1,0],
+ ["minecraft:ender_dragon_event","エンダードラゴンのイベント","🐉","イベント","エンダードラゴンのイベントを切りかえる",0,0],
+ ["events_enabled","ぜんぶのイベント","🎛️","イベント","すべてのモブイベントのスイッチ。minecraft: はつけない",1,0]
+];
+/* ---- spreadplayers ---- */
+const SPREADS=[
+ ["5 20","せまい","🔹","ばらけ方","5ブロックはなれて、中心から20ブロック以内",1],
+ ["10 50","ふつう","🔷","ばらけ方","10ブロックはなれて、中心から50ブロック以内",1],
+ ["20 100","ひろい","🟦","ばらけ方","20ブロックはなれて、中心から100ブロック以内",0],
+ ["30 300","とてもひろい","🌐","ばらけ方","30ブロックはなれて、中心から300ブロック以内",0]
+];
+/* ---- camerashake ---- */
+const SHAKE_INT=[
+ ["0.1","ほんの少し","🍃","つよさ","そよ風くらい（0〜4）",0],
+ ["0.5","ふつう","📳","つよさ","書かないときはこれ",1],
+ ["1","つよい","💢","つよさ","足音がズシンとひびく感じ",1],
+ ["2","とてもつよい","💥","つよさ","じしんのよう",1],
+ ["4","さいだい","🌋","つよさ","いちばん大きなゆれ（酔いやすいので注意）",0]
+];
+const SHAKE_TYPE=[
+ ["positional","たて・よこにゆれる","↔️","ゆれ方","足もとがゆれるような感じ（書かないとこれ）",1],
+ ["rotational","ぐるぐるゆれる","🌀","ゆれ方","目がまわるような感じ",0]
+];
+/* ---- setmaxplayers ---- */
+const MAXP=[
+ ["2","2人","👥","人数","ペアで",0],["5","5人","👥","人数","グループで",1],["10","10人","👥","人数","",1],["20","20人","👥","人数","",0],["30","30人","👥","人数","クラス全員で",1]
+];
+/* ---- tickingarea ---- */
+const TICK_R=[
+ ["1","1チャンク（16ブロック）","①","広さ","1つのチャンクだけ",0],
+ ["2","2チャンク（32ブロック）","②","広さ","",1],
+ ["3","3チャンク（48ブロック）","③","広さ","",1],
+ ["4","4チャンク（64ブロック）","④","広さ","いちばん広い（それ以上はできない）",0]
+];
+/* ---- immutableworld ---- */
+const IMM=[
+ ["true","ロックする","🔒","スイッチ","ワールドビルダー以外はブロックを置いたりこわしたりできない",1],
+ ["false","ロックをはずす","🔓","スイッチ","みんなが建築できる",1]
+];
+const DIRS4=DIRS.filter(d=>typeof d[3]==="number");
+
 /* ====================== コマンドの説明 ====================== */
 const S = (t,k)=>[t,k]; // 構文のパーツ
 const CMDS = [
  {key:"basics", name:"きほん", jp:"はじめに読もう", lead:"コマンドを使う前のじゅんびと、どのコマンドでも使う「だれに」「どこに」の書き方です。"},
  {key:"summon", name:"/summon", jp:"生き物やモノを出す",
-  lead:"動物やモンスター、かみなりや花火まで、いろいろなものをその場に出せます。",
-  syntax:[[S("/summon","cmd"),S("<なにを>","req"),S("[どこに]","opt")],
-          [S("/summon","cmd"),S("<なにを>","req"),S("[なまえ]","opt"),S("[どこに]","opt")]],
+  lead:"動物やモンスター、かみなりや花火まで、いろいろなものを出せます。向き、名前、赤ちゃんなどの「状態」も決められます。",
+  syntax:[[S("/summon","cmd"),S("<なにを>","req"),S("[どこに]","opt"),S("[向き よこ たて]","opt"),S("[状態]","opt"),S("[なまえ]","opt")],
+          [S("/summon","cmd"),S("<なにを>","req"),S("<なまえ>","req"),S("[どこに]","opt")],
+          [S("/summon","cmd"),S("<なにを>","req"),S("[どこに]","opt"),S("facing","lit"),S("<見る人・場所>","req"),S("[状態]","opt"),S("[なまえ]","opt")]],
   parts:[["<なにを>","req","出したいもののID","下の図鑑からえらぼう。例: cow（ウシ）"],
          ["[どこに]","opt","出す場所","書かないと自分の場所。^ ^ ^3 で目の前3ブロック"],
-         ["[なまえ]","opt","頭の上に出る名前","\"ポチ\" のように \" \" でかこむ"]],
+         ["[向き よこ たて]","opt","出すときの向き（数字2つ）","よこ向き 0=南・90=西・180=北・-90=東 ／ たて向き 0=まっすぐ。場所もいっしょに書く"],
+         ["facing","lit","出したあと、この方を向く","facing @s で自分の方を向く。座標（x y z）でもOK"],
+         ["[状態]","opt","赤ちゃん・色・職業など、出したときの状態","minecraft:entity_born など。下の「スポーン状態図鑑」。1つだけ"],
+         ["[なまえ]","opt","頭の上に出る名前","そのまま書けばOK（日本語もOK）。スペースが入るときだけ \" \" でかこむ"]],
   examples:[["/summon cow","自分のいる場所にウシを出す"],
             ["/summon pig ^ ^ ^3","目の前3ブロックのところにブタを出す"],
-            ["/summon cat \"タマ\" ^ ^ ^2","「タマ」という名前のネコを出す"],
-            ["/summon sheep ^ ^ ^3 minecraft:entity_born","子どものヒツジを出す（動物だけ）"],
+            ["/summon cat タマ ^ ^ ^2","「タマ」という名前のネコ（名前だけなら \" \" はいらない）"],
+            ["/summon cat \"ミケ ネコ\" ^ ^ ^2","名前にスペースが入るときは \" \" でかこむ"],
+            ["/summon pig ~ ~ ~ 180 0","北向きのブタを出す（向きをきめる）"],
+            ["/summon cow ^ ^ ^3 facing @s","自分の方を向いたウシを出す"],
+            ["/summon sheep ^ ^ ^3 minecraft:entity_born","子どものヒツジを出す（状態をつける）"],
+            ["/summon creeper ^ ^ ^5 minecraft:become_charged","帯電クリーパー（⚠ ばくはつに注意）"],
+            ["/summon cow ^ ^ ^3 facing @s minecraft:entity_born ミルク","ぜんぶのせ：自分の方を向く、赤ちゃんウシ「ミルク」"],
             ["/execute as @a at @s run summon chicken ~ ~5 ~","全員の頭の上からニワトリがふってくる"],
             ["/kill @e[type=chicken]","出したニワトリをぜんぶ消す（おかたづけ）"]],
-  notes:[["tip","<b>ピースフル</b>（むずかしさ）だと、てきのモンスターは出してもすぐ消えます。"],
+  notes:[["tip","<b>状態</b>は、その生き物にあるものだけ使えます。たとえば minecraft:entity_born は動物の赤ちゃん用、ゾンビの子どもは minecraft:as_baby。合わないとエラーになったり、何も変わらなかったりします。"],
+         ["tip","状態は<b>1つだけ</b>つけられます。2つ以上つけたいときは、出したあとで <b>/event</b> を使おう。"],
+         ["tip","<b>ピースフル</b>（むずかしさ）だと、てきのモンスターは出してもすぐ消えます。"],
          ["warn","<b>⚠ マーク</b>のものは、まわりをこわしたり、とても強かったりします。出す前に先生に聞こう。"]],
-  maker:[["そのまま","/summon {id}"],["目の前に","/summon {id} ^ ^ ^3"],["名前つき","/summon {id} \"なまえ\" ^ ^ ^3"],["子ども","/summon {id} ^ ^ ^3 minecraft:entity_born"],["おかたづけ","/kill @e[type={id}]"]],
-  list:{type:"mob", data:MOBS, title:"生き物・モノ図鑑"}},
+  maker:[["そのまま","/summon {id}"],["目の前に","/summon {id} ^ ^ ^3"],["向きをきめる","/summon {id} ~ ~ ~ {dir}"],["こっちを向く","/summon {id} ^ ^ ^3 facing @s"],["状態をつける","/summon {id} ^ ^ ^3 {ev}"],["名前つき","/summon {id} タマ ^ ^ ^3"],["ぜんぶのせ","/summon {id} ^ ^ ^3 facing @s {ev} タマ"],["おかたづけ","/kill @e[type={id}]"]],
+  lists:[{type:"mob", data:MOBS, title:"生き物・モノ図鑑", slot:"id"},
+         {type:"std", data:EVENTS, title:"スポーン状態図鑑", slot:"ev", label:"状態", link:true,
+          lead:"「状態をつける」「ぜんぶのせ」のボタンで使います。えらぶと、上の生き物も合うものに切りかわります。"},
+         {type:"dir", data:DIRS4, title:"向き図鑑（よこ向き）", slot:"dir", label:"向き",
+          lead:"「向きをきめる」のボタンで使います。"}]},
  {key:"particle", name:"/particle", jp:"つぶつぶ演出を出す",
   lead:"ハートやほのお、ばくはつなどの「見た目だけ」の演出を出せます。ダメージはありません。",
   syntax:[[S("/particle","cmd"),S("<どのつぶつぶ>","req"),S("[どこに]","opt")]],
@@ -1078,24 +1361,28 @@ const BASICS = {
 /* ---- 追加コマンド ---- */
 CMDS.push(
  {key:"give", name:"/give", jp:"アイテムをわたす",
-  lead:"道具や食べ物、ブロックなどのアイテムを、だれかの持ち物に入れられます。",
-  syntax:[[S("/give","cmd"),S("<だれに>","req"),S("<なにを>","req"),S("[いくつ]","opt"),S("[データ値]","opt"),S("[とくべつなルール]","opt")]],
+  lead:"道具や食べ物、ブロックなどのアイテムを、だれかの持ち物に入れます。「なくさない」「すてられない」などの特別なルールもつけられます。",
+  syntax:[[S("/give","cmd"),S("<だれに>","req"),S("<なにを>","req"),S("[いくつ]","opt"),S("[データ値]","opt"),S("[特別なルール]","opt")]],
   parts:[["<だれに>","req","アイテムをもらう人","@s 自分 / @a 全員 / @p いちばん近い人"],
          ["<なにを>","req","アイテムのID","下の図鑑からえらぼう"],
          ["[いくつ]","opt","個数","書かないと1こ"],
-         ["[データ値]","opt","種類のちがい","ふつうは 0 でOK（ルールをつけるときに書く）"],
-         ["[とくべつなルール]","opt","「なくさない」「すてられない」など","{ } で書く。下の例を見てね"]],
+         ["[データ値]","opt","種類のちがいを表す数字","ふつうは 0 でOK（特別なルールを書くときも 0 と書く）"],
+         ["[特別なルール]","opt","{ } で書く、そのアイテムだけのルール","下の「特別なルール図鑑」からえらぼう。2つ以上は , でつなぐ"]],
   examples:[["/give @s diamond 64","自分にダイヤモンドを64こ"],
             ["/give @a apple 5","全員にリンゴを5こ"],
             ["/give @s cow_spawn_egg","ウシのスポーンエッグ（○○_spawn_egg でいろいろな生き物）"],
             ["/give @a camera","全員に教育版のカメラ"],
             ["/give @s diamond_sword 1 0 {\"minecraft:keep_on_death\":{}}","たおれてもなくならない剣"],
             ["/give @a writable_book 1 0 {\"minecraft:item_lock\":{\"mode\":\"lock_in_inventory\"}}","すてられない「本と羽根ペン」（ワークシートに）"],
-            ["/give @a diamond_pickaxe 1 0 {\"minecraft:can_destroy\":{\"blocks\":[\"stone\"]}}","アドベンチャーモードでも石だけこわせるツルハシ"]],
-  notes:[["tip","剣や道具は1つずつしか重ならないので、10こ わたすと持ち物が10マスうまります。"],
-         ["tip","<b>can_destroy</b>（こわせる）と <b>can_place_on</b>（置ける）は、アドベンチャーモードの授業で便利です。"]],
-  maker:[["1こ","/give @s {id}"],["10こ","/give @s {id} 10"],["全員に","/give @a {id}"],["なくさない","/give @s {id} 1 0 {\"minecraft:keep_on_death\":{}}"]],
-  list:{type:"item", data:ITEMS, title:"アイテム図鑑"}},
+            ["/give @a diamond_pickaxe 1 0 {\"minecraft:can_destroy\":{\"blocks\":[\"stone\"]}}","アドベンチャーモードでも石だけこわせるツルハシ"],
+            ["/give @a diamond_pickaxe 1 0 {\"minecraft:can_destroy\":{\"blocks\":[\"stone\"]},\"minecraft:keep_on_death\":{}}","石だけこわせて、なくならないツルハシ（ルールを , でつなぐ）"]],
+  notes:[["tip","<b>can_destroy</b>（こわせる）と <b>can_place_on</b>（置ける）は、<b>アドベンチャーモードの人にだけ</b>効きます。ブロックの名前を [ ] の中に , で並べると、いくつでも書けます。"],
+         ["tip","ダイヤのように「置けないアイテム」に can_place_on はつけられません。置いてからこわして拾うと、ルールは消えます。"],
+         ["tip","ルールをつけたアイテムの説明（赤や黄色の三角マーク）を消したいときは <b>/gamerule showtags false</b>。"]],
+  maker:[["1こ","/give @s {id}"],["10こ","/give @s {id} 10"],["全員に","/give @a {id}"],["ルールつき","/give @s {id} 1 0 {rule}"],["全員にルールつき","/give @a {id} 1 0 {rule}"]],
+  lists:[{type:"item", data:ITEMS, title:"アイテム図鑑", slot:"id"},
+         {type:"std", data:GIVE_RULES, title:"特別なルール図鑑", slot:"rule", label:"ルール", use:"x",
+          lead:"「ルールつき」のボタンで使います。カードのコピーボタンは、{ } のルールの文字をコピーします。"}]},
  {key:"tp", name:"/tp", jp:"ワープする",
   lead:"自分やほかの人、生き物を、ほかの場所や人のところへ一瞬で動かせます。向きも決められます。",
   syntax:[[S("/tp","cmd"),S("<だれを>","req"),S("<だれのところへ>","req")],
@@ -1328,11 +1615,11 @@ CMDS.push(
   maker:[["おすすめにする","/gamerule {id} {val}"],["はじめにもどす","/gamerule {id} {def}"],["今の設定を見る","/gamerule {id}"]],
   list:{type:"rule", data:RULES, title:"ルール図鑑"}},
  {key:"ability", name:"/ability", jp:"生徒の能力（教育版）",
-  lead:"教育版だけのコマンドです。生徒ごとに、チャット・空を飛ぶ・ワールドビルダーを切りかえられます。ワールドをこわせなくする /immutableworld もここにまとめました。",
-  syntax:[[S("/ability","cmd"),S("<だれの>","req"),S("<能力>","req"),S("[true|false]","opt")],[S("/wb","cmd")],[S("/immutableworld","cmd"),S("[true|false]","opt")]],
-  parts:[["<能力>","req","mute / mayfly / worldbuilder","下の図鑑を見てね"],["[true|false]","opt","ON か OFF か","書かないと今の状態を表示"],["/wb","cmd","自分のワールドビルダーを切りかえる",""],["/immutableworld","cmd","ワールドをこわせない・かえられないようにする","true でロック、false で解除"]],
-  examples:[["/ability @a mute true","全員のチャットを止める"],["/ability @a mute false","チャットをもどす"],["/ability @a[tag=red] mayfly true","赤チームだけ空を飛べる"],["/ability @s worldbuilder true","自分をワールドビルダーに"],["/immutableworld true","ワールドをロック（見学・発表のときに）"]],
-  notes:[["tip","全員まとめてチャットを止めるなら <b>/gamerule globalmute true</b> もあります。"]],
+  lead:"教育版だけのコマンドです。生徒ごとに、チャット・空を飛ぶ・ワールドビルダーを切りかえられます。",
+  syntax:[[S("/ability","cmd"),S("<だれの>","req"),S("<能力>","req"),S("[true|false]","opt")],[S("/wb","cmd")]],
+  parts:[["<能力>","req","mute / mayfly / worldbuilder","下の図鑑を見てね"],["[true|false]","opt","ON か OFF か","書かないと今の状態を表示"],["/wb","cmd","自分のワールドビルダーを切りかえる",""]],
+  examples:[["/ability @a mute true","全員のチャットを止める"],["/ability @a mute false","チャットをもどす"],["/ability @a[tag=red] mayfly true","赤チームだけ空を飛べる"],["/ability @s worldbuilder true","自分をワールドビルダーに"]],
+  notes:[["tip","全員まとめてチャットを止めるなら <b>/gamerule globalmute true</b> もあります。"],["tip","ワールドごと建築をロックしたいときは <b>/immutableworld</b> のタブへ。"]],
   maker:[["全員ON","/ability @a {id} true"],["全員OFF","/ability @a {id} false"],["先生以外ON","/ability @a[tag=!teacher] {id} true"],["今の状態","/ability @p {id}"]],
   list:{type:"opt", data:ABILS, title:"能力図鑑"}},
  {key:"inputpermission", name:"/inputpermission", jp:"動きを止める",
@@ -1345,8 +1632,493 @@ CMDS.push(
   list:{type:"opt", data:INPUTS, title:"操作図鑑"}}
 );
 
-const ORDER=["basics","summon","give","tp","setblock","fill","clone","structure","time","weather","spawnpoint","effect","enchant","particle","playsound","music","playanimation","camera","hud","say","title","titleraw","dialogue","gamemode","gamerule","ability","inputpermission","execute","scoreboard","tag"];
-const GROUP={basics:"はじめに",summon:"出す・動かす",give:"出す・動かす",tp:"出す・動かす",setblock:"ブロック・建物",fill:"ブロック・建物",clone:"ブロック・建物",structure:"ブロック・建物",time:"世界",weather:"世界",spawnpoint:"世界",effect:"パワーアップ",enchant:"パワーアップ",particle:"演出",playsound:"演出",music:"演出",playanimation:"演出",camera:"演出",hud:"演出",say:"文字・メッセージ",title:"文字・メッセージ",titleraw:"文字・メッセージ",dialogue:"文字・メッセージ",gamemode:"先生ツール",gamerule:"先生ツール",ability:"先生ツール",inputpermission:"先生ツール",execute:"上級",scoreboard:"上級",tag:"上級"};
+/* ---- v3 追加コマンド ---- */
+CMDS.push(
+ {key:"clear", name:"/clear", jp:"持ち物を消す",
+  lead:"持ち物の中のアイテムを消します。授業のリセットや、配ったアイテムの回収に使えます。",
+  syntax:[[S("/clear","cmd"),S("[だれの]","opt"),S("[なにを]","opt"),S("[データ値]","opt"),S("[いくつ]","opt")]],
+  parts:[["[だれの]","opt","持ち物を消す人","書かないと自分。@a で全員"],
+         ["[なにを]","opt","消すアイテムのID","書かないと全部消える。下の図鑑からえらぼう"],
+         ["[データ値]","opt","種類のちがい","-1 で「なんでも」（ふつうは書かなくてOK）"],
+         ["[いくつ]","opt","消す個数","書かない（-1）と全部。5 なら5こだけ"]],
+  examples:[["/clear","自分の持ち物を全部消す"],["/clear @a","全員の持ち物を全部消す"],["/clear @a diamond_sword","全員のダイヤの剣だけ消す"],["/clear @s apple -1 5","リンゴを5こだけ消す"],["/clear @a[tag=!teacher]","先生以外の持ち物を全部消す"]],
+  notes:[["warn","<b>/clear @a</b> は全員の持ち物がぜんぶ消えて、もどりません。使う前にもう一度確認しよう。"],["tip","配ったアイテムの回収は、<b>アイテム名を指定</b>して消すと安全です。例：/clear @a writable_book"]],
+  maker:[["自分の全部","/clear @s"],["全員の全部","/clear @a"],["この物だけ（自分）","/clear @s {id}"],["この物だけ（全員）","/clear @a {id}"],["5こだけ","/clear @s {id} -1 5"]],
+  list:{type:"item", data:ITEMS, title:"アイテム図鑑"}},
+ {key:"replaceitem", name:"/replaceitem", jp:"装備や持ち物を入れかえる",
+  lead:"マスを指定して、アイテムを入れかえます。ヘルメットをかぶせたり、手に剣を持たせたり、チェストの中身を決めたりできます。",
+  syntax:[[S("/replaceitem","cmd"),S("entity","lit"),S("<だれの>","req"),S("<場所>","req"),S("<マスの番号>","req"),S("[置き方]","opt"),S("<なにを>","req"),S("[いくつ]","opt"),S("[データ値]","opt"),S("[特別なルール]","opt")],
+          [S("/replaceitem","cmd"),S("block","lit"),S("<x y z>","req"),S("slot.container","lit"),S("<マスの番号>","req"),S("[置き方]","opt"),S("<なにを>","req"),S("[いくつ]","opt")]],
+  parts:[["entity","lit","人や生き物のマスを入れかえる",""],
+         ["block","lit","チェストなどブロックの中身を入れかえる","そのブロックは入れ物（チェストなど）でないとエラー"],
+         ["<場所>","req","どの場所のマスか","slot.armor.head（あたま）など。下の「場所図鑑」。場所とマスの番号はセット"],
+         ["<マスの番号>","req","その場所の何番目か","防具や手は 0。ホットバーは 0〜8、持ち物は 0〜26。場所図鑑の「番号」までいっしょに入る"],
+         ["[置き方]","opt","もともと入っている物をどうするか","destroy 消して入れる（書かないとこれ）／ keep 空いているときだけ入れる"],
+         ["<なにを>","req","アイテムのID","下の図鑑からえらぼう"],
+         ["[いくつ] [データ値] [特別なルール]","opt","/give と同じ","個数、データ値、{ } のルール"]],
+  examples:[["/replaceitem entity @s slot.armor.head 0 diamond_helmet","自分にダイヤのヘルメットをかぶせる"],
+            ["/replaceitem entity @a slot.weapon.mainhand 0 diamond_sword","全員の手にダイヤの剣を持たせる"],
+            ["/replaceitem entity @s slot.hotbar 0 apple 64","ホットバーの1番目にリンゴを64こ"],
+            ["/replaceitem entity @s slot.armor.head 0 keep diamond_helmet","あたまが空いているときだけかぶせる"],
+            ["/replaceitem block ~ ~-1 ~ slot.container 0 diamond 64","足もとのチェストの1番目にダイヤを64こ（チェストは先に置いておく）"],
+            ["/replaceitem entity @s slot.armor.head 0 diamond_helmet 1 0 {\"minecraft:keep_on_death\":{}}","たおれてもなくならないヘルメット"]],
+  notes:[["tip","<b>/give</b> は空いているマスに入りますが、<b>/replaceitem</b> は入れる場所を決められます。装備を着せたいときはこちら。"],
+         ["warn","置き方を書かないと、もともと入っていた物は消えます。大事な物があるときは <b>keep</b> をつけよう。"]],
+  maker:[["自分に","/replaceitem entity @s {slot} {id}"],["全員に","/replaceitem entity @a {slot} {id}"],["個数つき","/replaceitem entity @s {slot} {id} 64"],["空いているときだけ","/replaceitem entity @s {slot} keep {id}"],["チェストの中に","/replaceitem block ~ ~-1 ~ slot.container 0 {id}"],["なくさない","/replaceitem entity @s {slot} {id} 1 0 {\"minecraft:keep_on_death\":{}}"]],
+  lists:[{type:"item", data:ITEMS, title:"アイテム図鑑", slot:"id", defaultId:"diamond_helmet"},
+         {type:"std", data:SLOTS, title:"場所図鑑", slot:"slot", label:"場所", lead:"どのマスに入れるかを決めます（「チェストの中に」のボタン以外で使います）。"}]},
+ {key:"event", name:"/event", jp:"生き物の状態をかえる",
+  lead:"すでにいる生き物に「イベント」を起こして、大人にしたり、帯電させたり、職業をつけたりします。使えるイベント名は /summon の「状態」と同じです。",
+  syntax:[[S("/event","cmd"),S("entity","lit"),S("<だれに>","req"),S("<イベント名>","req")]],
+  parts:[["entity","lit","生き物にイベントを起こす","かならず書く"],
+         ["<だれに>","req","対象の生き物","@e[type=creeper] で、すべてのクリーパー"],
+         ["<イベント名>","req","起こすイベント","下の「イベント図鑑」からえらぼう"]],
+  examples:[["/event entity @e[type=creeper] minecraft:become_charged","すべてのクリーパーを帯電させる"],
+            ["/event entity @e[type=pig] minecraft:ageable_grow_up","ブタを大人にする"],
+            ["/event entity @e[type=villager_v2] minecraft:become_cartographer","すべての村人を製図家にする"],
+            ["/event entity @e[type=sheep] wololo","ヒツジの色をかえる魔法"],
+            ["/event entity @e[type=creeper,c=1] minecraft:start_exploding_forced","いちばん近いクリーパーをすぐばくはつさせる（⚠）"]],
+  notes:[["tip","対象に合わないイベントは、エラーになるか、何も起こりません。"],
+         ["tip","しぼりこみ：<b>c=1</b> はいちばん近い1ぴき、<b>r=10</b> は10ブロック以内。"]],
+  maker:[["すべてに","/event entity @e[type={ent}] {id}"],["いちばん近い1ぴき","/event entity @e[type={ent},c=1] {id}"],["10ブロック以内","/event entity @e[type={ent},r=10] {id}"]],
+  list:{type:"std", data:EVENTS, title:"イベント図鑑"}},
+ {key:"spreadplayers", name:"/spreadplayers", jp:"ばらばらにワープ",
+  lead:"指定した場所を中心に、人や生き物をランダムにばらまきます。かくれんぼや宝さがしのスタートに便利です。",
+  syntax:[[S("/spreadplayers","cmd"),S("<中心 x>","req"),S("<中心 z>","req"),S("<はなれる距離>","req"),S("<はんい>","req"),S("<だれを>","req"),S("[高さの上限]","opt")]],
+  parts:[["<中心 x> <中心 z>","req","ばらまく中心","~ ~ で今の場所、0 0 でワールドの真ん中。高さ（y）は書かない"],
+         ["<はなれる距離>","req","おたがいに、最低これだけはなれる","10 なら、10ブロック以上はなれる"],
+         ["<はんい>","req","中心から、最大この距離まで","<はなれる距離> より大きい数にする"],
+         ["<だれを>","req","ばらまく人や生き物","@a で全員"],
+         ["[高さの上限]","opt","出てくる高さの上限","ふつうは書かない"]],
+  examples:[["/spreadplayers ~ ~ 10 50 @a","今の場所を中心に、全員を50ブロック以内にばらまく（10ブロック以上はなれる）"],
+            ["/spreadplayers 0 0 20 100 @a","ワールドの真ん中を中心に、広くばらまく"],
+            ["/spreadplayers ~ ~ 5 20 @a[tag=red]","赤チームだけをばらまく"],
+            ["/spreadplayers ~ ~ 1 10 @e[type=cow]","ウシもばらまける"]],
+  notes:[["tip","地面の上に出ます。人数に対して<b>はんいがせますぎる</b>と、全員が立てずにエラーになります。"],
+         ["warn","<はんい> が <はなれる距離> と同じか小さいと、エラーになることがあります。"]],
+  maker:[["今の場所が中心","/spreadplayers ~ ~ {id} @a"],["ワールドの真ん中","/spreadplayers 0 0 {id} @a"],["赤チームだけ","/spreadplayers ~ ~ {id} @a[tag=red]"],["先生以外","/spreadplayers ~ ~ {id} @a[tag=!teacher]"]],
+  list:{type:"std", data:SPREADS, title:"ばらけ方図鑑"}},
+ {key:"locate", name:"/locate", jp:"建物や地形をさがす",
+  lead:"いちばん近い村・神殿・バイオームがどこにあるか、座標を教えてくれます。そのあと /tp で行けます。",
+  syntax:[[S("/locate","cmd"),S("structure","lit"),S("<建物>","req"),S("[新しい場所だけ]","opt")],[S("/locate","cmd"),S("biome","lit"),S("<バイオーム>","req")]],
+  parts:[["structure","lit","建物（村・神殿など）をさがす",""],["biome","lit","バイオーム（森・砂漠など）をさがす",""],
+         ["<建物>","req","建物のID","下の「建物図鑑」からえらぼう"],["<バイオーム>","req","バイオームのID","下の「バイオーム図鑑」からえらぼう"],
+         ["[新しい場所だけ]","opt","まだ行っていない場所だけをさがすか","true / false（書かないと false）"]],
+  examples:[["/locate structure minecraft:village","いちばん近い村の場所を教えてもらう"],
+            ["/locate biome minecraft:cherry_grove","いちばん近い桜の林をさがす"],
+            ["/effect @s slow_falling 30 0 true","落下ダメージをふせぐ（ワープの前に）"],
+            ["/tp @s 120 200 -340","教えてもらった x と z にワープ。高さ（y）は 200 くらいにして、空から"]],
+  notes:[["warn","いまいる<b>ディメンション</b>の中だけをさがします。ネザー要塞はネザーで、エンドシティはエンドで使います。"],
+         ["tip","教育版の「フラットな世界」には、建物がないことがあります。そのときは見つからずエラーになります。"],
+         ["tip","チャットに出た座標をメモして、/tp で行こう。高さ（y）を ~ にすると、地面にうまることがあります。"]],
+  maker:[["建物をさがす","/locate structure {id}"],["バイオームをさがす","/locate biome {biome}"]],
+  lists:[{type:"std", data:LOC_STRUCT, title:"建物図鑑", slot:"id"},
+         {type:"std", data:LOC_BIOME, title:"バイオーム図鑑", slot:"biome", label:"バイオーム", lead:"「バイオームをさがす」のボタンで使います。"}]},
+ {key:"mobevent", name:"/mobevent", jp:"襲撃・行商人を切りかえ",
+  lead:"ピリジャーのパトロールや行商人など、「ときどき起こるイベント」をオン・オフします。授業のじゃまをされたくないときに便利です。",
+  syntax:[[S("/mobevent","cmd"),S("<イベント>","req"),S("[true|false]","opt")]],
+  parts:[["<イベント>","req","どのイベントか","下の図鑑からえらぼう"],["[true|false]","opt","オン（true）かオフ（false）か","書かないときの動きがバージョンでちがうので、かならず書こう"]],
+  examples:[["/mobevent minecraft:pillager_patrols_event false","ピリジャーのパトロールを止める"],["/mobevent minecraft:wandering_trader_event true","行商人が来るようにする"],["/mobevent events_enabled false","ぜんぶのイベントを止める"],["/mobevent events_enabled true","ぜんぶのイベントをもどす"]],
+  notes:[["tip","授業中にいきなりピリジャーが来ないように、先に false にしておくと安心です。"],["tip","モブそのものが出ないようにするなら <b>/gamerule domobspawning false</b>。"]],
+  maker:[["止める（false）","/mobevent {id} false"],["動かす（true）","/mobevent {id} true"]],
+  list:{type:"std", data:MOBEVENTS, title:"イベント図鑑"}},
+ {key:"tickingarea", name:"/tickingarea", jp:"ずっと動かす場所",
+  lead:"マイクラは、プレイヤーの近くだけが動きます（作物が育つ・コマンドブロックが動く）。「ずっと動かしたい場所」を決めると、はなれていても動き続けます。",
+  syntax:[[S("/tickingarea","cmd"),S("add","lit"),S("<はじめの角 x y z>","req"),S("<おわりの角 x y z>","req"),S("[名前]","opt"),S("[preload]","opt")],
+          [S("/tickingarea","cmd"),S("add circle","lit"),S("<中心 x y z>","req"),S("<半径（チャンク）>","req"),S("[名前]","opt"),S("[preload]","opt")],
+          [S("/tickingarea","cmd"),S("remove","lit"),S("<名前 か x y z>","req")],
+          [S("/tickingarea","cmd"),S("remove_all","lit")],
+          [S("/tickingarea","cmd"),S("list","lit"),S("[all-dimensions]","opt")]],
+  parts:[["add","lit","四角い範囲を追加","「チャンク」という16ブロック四方のかたまり単位。高さは上から下まで全部"],
+         ["add circle","lit","まるい範囲を追加","半径は 4 チャンク（64ブロック）まで"],
+         ["remove","lit","名前か座標で範囲を消す",""],["remove_all","lit","範囲をぜんぶ消す",""],
+         ["list","lit","今ある範囲の一覧","all-dimensions をつけると、全ディメンション分"],
+         ["[名前]","opt","範囲につける名前","あとで消すときに使う。半角英数字がおすすめ"],
+         ["[preload]","opt","ワールドを開くときに先に読みこむか","true / false"]],
+  examples:[["/tickingarea add circle ~ ~ ~ 2 area1","今いる場所を中心に、半径2チャンクの範囲「area1」を作る"],
+            ["/tickingarea add ~-16 ~ ~-16 ~16 ~ ~16 box1","四角い範囲「box1」を作る"],
+            ["/tickingarea list","今ある範囲を見る"],["/tickingarea remove area1","area1 を消す"],["/tickingarea remove_all","ぜんぶ消す"]],
+  notes:[["tip","コマンドブロックの「くりかえし」を、はなれた場所でも動かし続けたいときに使います。"],
+         ["warn","範囲は<b>ワールドに10こまで</b>。広くしすぎるとゲームが重くなります。"]],
+  maker:[["まるい範囲","/tickingarea add circle ~ ~ ~ {id} area1"],["先に読みこむ","/tickingarea add circle ~ ~ ~ {id} area1 true"],["一覧を見る","/tickingarea list"],["area1を消す","/tickingarea remove area1"],["ぜんぶ消す","/tickingarea remove_all"]],
+  list:{type:"std", data:TICK_R, title:"半径図鑑（チャンク）"}},
+ {key:"camerashake", name:"/camerashake", jp:"画面をゆらす",
+  lead:"画面（カメラ）をぶるぶるゆらします。爆発・地震・ボス登場の演出にぴったりです。",
+  syntax:[[S("/camerashake","cmd"),S("add","lit"),S("<だれの>","req"),S("[つよさ]","opt"),S("[秒数]","opt"),S("[ゆれ方]","opt")],[S("/camerashake","cmd"),S("stop","lit"),S("[だれの]","opt")]],
+  parts:[["add","lit","ゆらす",""],["stop","lit","ゆれを止める",""],["<だれの>","req","ゆらす人","@a で全員"],["[つよさ]","opt","ゆれの大きさ（0〜4）","書かないと 0.5"],["[秒数]","opt","ゆらす長さ","書かないと 1秒"],["[ゆれ方]","opt","positional か rotational","書かないと positional"]],
+  examples:[["/camerashake add @a","全員の画面を1秒ゆらす"],["/camerashake add @a 2 3","強さ2で、3秒間ゆらす（じしん）"],["/camerashake add @a 1 2 rotational","ぐるぐるとゆらす"],["/camerashake stop @a","ゆれを止める"],["/execute as @a at @s run particle minecraft:huge_explosion_emitter ~ ~ ~","いっしょに爆発エフェクトを出すと迫力アップ"]],
+  notes:[["warn","画面のゆれが苦手な子や、酔いやすい子もいます。<b>つよさは小さめ、秒数は短め</b>から。"],["tip","ゲームの設定で「カメラのゆれ」（Allow Camera Shake）がOFFだと、ゆれません。みんなの設定も確認しよう。"]],
+  maker:[["全員を2秒","/camerashake add @a {id} 2 {type}"],["自分だけ","/camerashake add @s {id} 2 {type}"],["長め（5秒）","/camerashake add @a {id} 5 {type}"],["止める","/camerashake stop @a"]],
+  lists:[{type:"std", data:SHAKE_INT, title:"つよさ図鑑", slot:"id"},
+         {type:"std", data:SHAKE_TYPE, title:"ゆれ方図鑑", slot:"type", label:"ゆれ方"}]},
+ {key:"immutableworld", name:"/immutableworld", jp:"ワールドをロック（教育版）",
+  lead:"教育版だけのコマンドです。ワールドをロックして、ワールドビルダー（先生）以外はブロックを置いたり、こわしたりできないようにします。見学や発表のときに便利です。",
+  syntax:[[S("/immutableworld","cmd"),S("<true|false>","req")]],
+  parts:[["true","lit","ロックする",""],["false","lit","ロックをはずす",""]],
+  examples:[["/immutableworld true","ワールドをロック"],["/immutableworld false","ロックをはずす"],["/ability @s worldbuilder true","自分（先生）だけワールドビルダーにしておく"],["/ability @a[tag=red] worldbuilder true","赤チームだけ建築できるようにする"]],
+  table:{plain:true, head:["その人のワールドビルダー","immutableworld","ブロックを置く・こわす"], rows:[["ON（true）","true","できる"],["ON（true）","false","できる"],["OFF（false）","true","できない"],["OFF（false）","false","できる"]]},
+  notes:[["tip","ワールドビルダーの人は、ロック中でも建築できます。<b>/wb</b> や <b>/ability</b> で決めます。"],["tip","教育版の「アドベンチャー」とにたはたらきですが、ワールドビルダーの人だけ例外にできます。"]],
+  maker:[["セット","/immutableworld {id}"]],
+  list:{type:"std", data:IMM, title:"スイッチ図鑑"}},
+ {key:"setmaxplayers", name:"/setmaxplayers", jp:"参加できる人数を決める",
+  lead:"いま開いているマルチプレイのワールドに、参加できる人数の上限を決めます。",
+  syntax:[[S("/setmaxplayers","cmd"),S("<人数>","req")]],
+  parts:[["<人数>","req","参加できる人数の上限","整数。ゲームが許す上限をこえる数にはできない"]],
+  examples:[["/setmaxplayers 5","5人まで入れるようにする"],["/setmaxplayers 30","30人まで入れるようにする"]],
+  notes:[["tip","<b>ホスト（先生）だけ</b>が使えます。"],["tip","授業のはじまりに、クラスの人数にしておくと安心です。"]],
+  maker:[["人数をきめる","/setmaxplayers {id}"]],
+  list:{type:"std", data:MAXP, title:"人数図鑑"}}
+);
+/* ---- v4: 上級コマンドのメーカー用データ ---- */
+const EXEC_ACTIONS=[
+ ["say こんにちは！","しゃべる","💬","メッセージ","チャットに出す",1],
+ ["title @s title §6やったね！","タイトルを出す","🎉","メッセージ","画面に大きな文字",1],
+ ["playsound random.levelup @s","レベルアップ音","⭐","音・演出","",1],
+ ["particle minecraft:heart_particle ~ ~2 ~","ハートを出す","❤️","音・演出","",1],
+ ["particle minecraft:totem_particle ~ ~1 ~","キラキラを出す","✨","音・演出","",0],
+ ["camerashake add @s 1 1","画面がゆれる","📳","音・演出","",0],
+ ["effect @s speed 5 2 true","はやくなる","🏃","パワーアップ","5秒間",1],
+ ["effect @s jump_boost 3 5 true","スーパージャンプ","🦘","パワーアップ","3秒間",1],
+ ["effect @s levitation 2 1 true","ふわっと浮く","🎈","パワーアップ","2秒間",0],
+ ["summon chicken ~ ~5 ~","ニワトリがふってくる","🐔","出す・動かす","",1],
+ ["summon lightning_bolt ~ ~ ~","かみなりが落ちる","⚡","出す・動かす","近くは危ないので注意",0,"warn"],
+ ["tp @s 0 64 0","ワープする","🌀","出す・動かす","座標は自分のワールドに合わせて",1],
+ ["give @s apple","リンゴをもらう","🍎","出す・動かす","",0],
+ ["setblock ~ ~-1 ~ gold_block","足もとを金ブロックに","🟨","出す・動かす","",0],
+ ["scoreboard players add @s points 1","ポイントを1ふやす","➕","スコア","points というスコアを先に作っておく",1],
+ ["kill @e[type=zombie]","ゾンビを消す","🧟","おかたづけ","",0,"warn"]
+];
+const SB_NAMES=[
+ ["points","ポイント","🏆","スコア名","ふつうの点数",1,0,"ポイント"],
+ ["timer","タイマー","⏱️","スコア名","1秒で20ふえるカウンター用",0,0,"タイマー"],
+ ["kills","たおした数","🗡️","スコア名","",0,0,"たおした数"],
+ ["dice","サイコロ","🎲","スコア名","random で1〜6を入れる",1,0,"サイコロ"],
+ ["level","レベル","📈","スコア名","",0,0,"レベル"],
+ ["coins","コイン","🪙","スコア名","",1,0,"コイン"],
+ ["lives","ライフ","💗","スコア名","のこりの命",0,0,"ライフ"],
+ ["goal","ゴール数","🚩","スコア名","",0,0,"ゴール数"]
+];
+const TAG_NAMES=[
+ ["red","赤チーム","🔴","チーム","",1],["blue","青チーム","🔵","チーム","",1],["green","緑チーム","🟢","チーム","",0],["yellow","黄チーム","🟡","チーム","",0],
+ ["teacher","先生","🧑‍🏫","やくわり","先生だけを別あつかいにする",1],["builder","建築係","🏗️","やくわり","",0],["goal","ゴールした人","🚩","じょうたい","",1],["winner","勝った人","🏆","じょうたい","",0],["hider","かくれる人","🙈","じょうたい","かくれんぼ用",0],["finder","さがす人","🔍","じょうたい","かくれんぼ用",0]
+];
+Object.assign(CMDS.find(c=>c.key==="execute"),{
+ maker:[["全員の場所で","/execute as @a at @s run {id}"],["いちばん近い人の場所で","/execute at @p run {id}"],["座標で","/execute positioned 0 64 0 run {id}"],
+  ["金ブロックの上の人だけ","/execute as @a at @s if block ~ ~-1 ~ gold_block run {id}"],["赤チームだけ","/execute as @a[tag=red] at @s run {id}"],
+  ["ゾンビがいたら","/execute if entity @e[type=zombie] run {id}"],["ゾンビがいなかったら","/execute unless entity @e[type=zombie] run {id}"],
+  ["ポイントが10以上","/execute as @a if score @s points matches 10.. run {id}"]],
+ lists:[{type:"std",data:EXEC_ACTIONS,title:"つなげるコマンド図鑑（run のあと）",slot:"id",lead:"えらんだコマンドが、ボタンの形の「run」のうしろに入ります。コマンドの前の / は、いりません。"}]
+});
+Object.assign(CMDS.find(c=>c.key==="scoreboard"),{
+ maker:[["スコアを作る","/scoreboard objectives add {id} dummy {x}"],["画面の右に表示","/scoreboard objectives setdisplay sidebar {id}"],["全員を0にする","/scoreboard players set @a {id} 0"],
+  ["1ふやす（近い人）","/scoreboard players add @p {id} 1"],["1へらす（近い人）","/scoreboard players remove @p {id} 1"],["ランダム1〜6","/scoreboard players random @p {id} 1 6"],
+  ["全員の記録を消す","/scoreboard players reset @a {id}"],["合計に足す","/scoreboard players operation @a total += @a {id}"],["表示を消す","/scoreboard objectives setdisplay sidebar"],["スコアごと消す","/scoreboard objectives remove {id}"]],
+ lists:[{type:"std",data:SB_NAMES,title:"スコア名の例",slot:"id",lead:"スコア名は半角英語。日本語の「表示名」は、スコアを作るときに決めます。"}]
+});
+Object.assign(CMDS.find(c=>c.key==="tag"),{
+ maker:[["自分につける","/tag @s add {id}"],["全員につける","/tag @a add {id}"],["いちばん近い人","/tag @p add {id}"],["全員からはずす","/tag @a remove {id}"],
+  ["タグを見る","/tag @s list"],["この人たちにこうか","/effect @a[tag={id}] speed 30 1"],["この人たちをワープ","/tp @a[tag={id}] 0 64 0"],["この人たち以外","/gamemode adventure @a[tag=!{id}]"],
+  ["この範囲の人につける","/tag @a[x=0,y=60,z=0,dx=10,dy=10,dz=10] add {id}"]],
+ lists:[{type:"std",data:TAG_NAMES,title:"タグ名の例",slot:"id",lead:"タグ名は好きな半角英語でOK。ここにないものは、コマンドを直接書きかえて使えます。"}]
+});
+
+/* ---- アイデア集：作ってみたくなるコマンド ---- */
+const IDEAS={
+ summon:[
+  ["ニワトリの雨","全員の頭の上から、ニワトリがふってくる！",[`/execute as @a at @s run summon chicken ~ ~8 ~`]],
+  ["ペットに名前をつけよう","名前だけなら \" \" はいりません。",[`/summon cat タマ ^ ^ ^2`,`/summon wolf ポチ ^ ^ ^2`]],
+  ["ウマにすぐ乗ろう","くらをつけたウマが出ます。",[`/summon horse ^ ^ ^3 minecraft:horse_saddled`]],
+  ["大きいスライムと小さいスライム","スライムの大きさをえらべます。",[`/summon slime ^ ^ ^5 spawn_large`,`/summon slime ^ ^ ^3 spawn_small`]],
+  ["赤ちゃん牧場","子どもの動物だけを出します。",[`/summon cow ^ ^ ^3 minecraft:entity_born`,`/summon pig ^ ^ ^4 minecraft:entity_born`,`/summon sheep ^ ^ ^5 minecraft:entity_born`]],
+  ["村人の職業ごっこ","職業つきの村人を出します。",[`/summon villager_v2 ^ ^ ^3 minecraft:become_farmer`,`/summon villager_v2 ^ ^ ^4 minecraft:become_librarian`]],
+  ["パンダの性格くらべ","のんびり屋とあそびずきのパンダ。",[`/summon panda ^ ^ ^3 minecraft:panda_lazy`,`/summon panda ^ ^ ^5 minecraft:panda_playful`]],
+  ["帯電クリーパー（先生と一緒に！）","ばくはつが大きいので、はなれた場所で。",[`/summon creeper ^ ^ ^8 minecraft:become_charged`]]
+ ],
+ event:[
+  ["村人をぜんいん農家に","まとめて職業をつけます。",[`/event entity @e[type=villager_v2] minecraft:become_farmer`]],
+  ["ブタがいっせいに大人に","赤ちゃんを大人にします。",[`/event entity @e[type=pig] minecraft:ageable_grow_up`]],
+  ["クリーパーを帯電させる","雷に打たれた状態にします。",[`/event entity @e[type=creeper] minecraft:become_charged`]],
+  ["ヒツジの色がかわる魔法","エヴォーカーと同じ「ウォロロ」。",[`/event entity @e[type=sheep] wololo`]],
+  ["いちばん近いクリーパーをばくはつ（⚠）","はなれて使おう。",[`/event entity @e[type=creeper,c=1] minecraft:start_exploding_forced`]]
+ ],
+ give:[
+  ["冒険セット","これだけあればまずは安心。",[`/give @s diamond_sword`,`/give @s bow`,`/give @s arrow 64`,`/give @s cooked_beef 16`]],
+  ["みんなにカメラとポートフォリオ","教育版の写真セット。",[`/give @a camera`,`/give @a portfolio`]],
+  ["ごちそうパーティー","みんなに食べ物をくばる。",[`/give @a cake`,`/give @a cooked_chicken 8`,`/give @a cookie 16`]],
+  ["なくならない宝物","その場所から動かせないダイヤ。",[`/give @a diamond 1 0 {"minecraft:item_lock":{"mode":"lock_in_slot"}}`]],
+  ["アドベンチャー用ツルハシ","石だけこわせます。",[`/give @a diamond_pickaxe 1 0 {"minecraft:can_destroy":{"blocks":["stone"]}}`]],
+  ["ワークシートの本","すてられない本と羽根ペン。",[`/give @a writable_book 1 0 {"minecraft:item_lock":{"mode":"lock_in_inventory"}}`]],
+  ["スポーンエッグ屋さん","好きな生き物を出せる卵。",[`/give @a cow_spawn_egg 5`,`/give @a pig_spawn_egg 5`]]
+ ],
+ replaceitem:[
+  ["ヒーローへんしん","ぜんぶダイヤの装備を着せます。",[`/replaceitem entity @s slot.armor.head 0 diamond_helmet`,`/replaceitem entity @s slot.armor.chest 0 diamond_chestplate`,`/replaceitem entity @s slot.armor.legs 0 diamond_leggings`,`/replaceitem entity @s slot.armor.feet 0 diamond_boots`]],
+  ["カボチャ頭でへんそう","あたまにカボチャ。",[`/replaceitem entity @s slot.armor.head 0 carved_pumpkin`]],
+  ["宝箱に宝を入れる","足もとのチェストの1番目にダイヤ。",[`/replaceitem block ~ ~-1 ~ slot.container 0 diamond 3`]],
+  ["ホットバーにリンゴ","1番目のマスにリンゴ64こ。",[`/replaceitem entity @s slot.hotbar 0 apple 64`]],
+  ["全員におそろいのヘルメット","クラスのユニフォーム。",[`/replaceitem entity @a slot.armor.head 0 iron_helmet`]]
+ ],
+ clear:[
+  ["ゲームスタート前のリセット","全員の持ち物をまっさらに。",[`/clear @a`]],
+  ["配った本の回収","本だけを回収します。",[`/clear @a writable_book`]],
+  ["お店ごっこ","エメラルド3こと、ケーキをこうかん。",[`/clear @p emerald -1 3`,`/give @p cake`]],
+  ["ダイヤを1こだけ使う","1こだけ消します。",[`/clear @s diamond -1 1`]]
+ ],
+ tp:[
+  ["せんせいのところに集合！","全員を先生のところへ。",[`/tp @a @s`]],
+  ["空へジャンプ","先に落下ダメージ対策をしてから。",[`/effect @s slow_falling 20 0 true`,`/tp @s ~ ~50 ~`]],
+  ["ひみつの部屋へワープ","座標は自分のワールドに合わせてね。",[`/tp @s 100 64 100`]],
+  ["向きもきめてワープ","北を向いてワープ。",[`/tp @s 0 64 0 180 0`]],
+  ["みんなをひとつの方向へ向かせる","全員を同じ場所に集めて、同じ方向を向かせる。",[`/tp @a 0 64 0 facing 0 64 10`]]
+ ],
+ spreadplayers:[
+  ["かくれんぼスタート","全員をばらばらに。",[`/spreadplayers ~ ~ 10 50 @a`]],
+  ["赤チームだけばらまく","チームごとにスタート位置をかえる。",[`/spreadplayers ~ ~ 5 30 @a[tag=red]`]],
+  ["牧場の動物をばらまく","ウシをあちこちに。",[`/spreadplayers ~ ~ 3 20 @e[type=cow]`]],
+  ["ひろい世界で冒険スタート","世界の真ん中から500ブロック以内。",[`/spreadplayers 0 0 50 500 @a`]]
+ ],
+ setblock:[
+  ["足もとが金ブロック","ゴール地点の目印に。",[`/setblock ~ ~-1 ~ gold_block`]],
+  ["ひみつのとびら","目の前のブロックを消す。",[`/setblock ^ ^ ^2 air destroy`]],
+  ["ゴールの旗","ダイヤブロックとたいまつ。",[`/setblock ~ ~ ~3 diamond_block`,`/setblock ~ ~1 ~3 torch`]],
+  ["宝箱を置く","目の前にチェスト。",[`/setblock ^ ^ ^2 chest`]]
+ ],
+ fill:[
+  ["ガラスの家","中が空っぽの家。",[`/fill ~-3 ~-1 ~-3 ~3 ~4 ~3 glass hollow`]],
+  ["虹のゆか","7色のウールをならべる。",[`/fill ~-3 ~-1 ~0 ~3 ~-1 ~0 red_wool`,`/fill ~-3 ~-1 ~1 ~3 ~-1 ~1 orange_wool`,`/fill ~-3 ~-1 ~2 ~3 ~-1 ~2 yellow_wool`,`/fill ~-3 ~-1 ~3 ~3 ~-1 ~3 lime_wool`,`/fill ~-3 ~-1 ~4 ~3 ~-1 ~4 light_blue_wool`,`/fill ~-3 ~-1 ~5 ~3 ~-1 ~5 blue_wool`,`/fill ~-3 ~-1 ~6 ~3 ~-1 ~6 purple_wool`]],
+  ["足もとにプール","水がたまった5×5のプール。",[`/fill ~-2 ~-2 ~-2 ~2 ~-1 ~2 water`]],
+  ["雪の世界","草ブロックだけ雪にかえる。",[`/fill ~-10 ~-1 ~-10 ~10 ~-1 ~10 snow replace grass_block`]],
+  ["見えないかべ","バリアブロックでかこむ。",[`/fill ~-3 ~ ~-3 ~3 ~3 ~3 barrier outline`]],
+  ["まるごとお片づけ","まわりを全部空気に。",[`/fill ~-5 ~ ~-5 ~5 ~5 ~5 air`]]
+ ],
+ clone:[
+  ["家を3軒ならべる","お手本をコピー。",[`/clone ~-3 ~-1 ~-3 ~3 ~5 ~3 ~10 ~-1 ~-3`,`/clone ~-3 ~-1 ~-3 ~3 ~5 ~3 ~20 ~-1 ~-3`]],
+  ["全員の足もとにコピー","お手本を、みんなの前に出す。",[`/execute as @a at @s run clone 0 64 0 10 74 10 ~ ~ ~`]],
+  ["建物を空にお引っこし","もとの場所は消える。",[`/clone 0 64 0 10 74 10 0 80 0 replace move`]],
+  ["建物だけコピー","まわりの地形はこわさない。",[`/clone 0 64 0 10 74 10 20 64 0 masked`]]
+ ],
+ structure:[
+  ["お手本をほぞん","ワールドを閉じても消えない。",[`/structure save house ~-5 ~ ~-5 ~5 ~10 ~5 false disk`]],
+  ["どこにでも呼び出す","保存した家を今の場所に。",[`/structure load house ~ ~ ~`]],
+  ["ぐるっと回してならべる","向きをかえて並べる。",[`/structure load house ~10 ~ ~ 90_degrees`,`/structure load house ~20 ~ ~ 180_degrees`]],
+  ["ニョキニョキ建つ","10秒かけて1段ずつ。",[`/structure load house ~ ~ ~ 0_degrees none layer_by_layer 10`]]
+ ],
+ time:[
+  ["ずっと夜のホラー","時間を止めて、真夜中のまま。",[`/time set midnight`,`/gamerule dodaylightcycle false`]],
+  ["夕焼けの写真撮影","夕方のまま止める。",[`/time set sunset`,`/gamerule dodaylightcycle false`]],
+  ["朝になった！","すぐ朝に。",[`/time set day`]],
+  ["半日すすめる","時間をジャンプ。",[`/time add 12000`]]
+ ],
+ weather:[
+  ["かみなりの夜","雷と夜のセット。",[`/weather thunder`,`/time set night`]],
+  ["ずっと晴れ","天気を固定。",[`/weather clear`,`/gamerule doweathercycle false`]],
+  ["しずかな雨の時間","雨だけ降らせる。",[`/weather rain`]]
+ ],
+ spawnpoint:[
+  ["チェックポイント","通った人の復活場所がここになる。",[`/spawnpoint @p`]],
+  ["ここがスタート地点","ワールド全体のスタートを今の場所に。",[`/setworldspawn ~ ~ ~`]],
+  ["全員の復活場所をそろえる","クラス全員をここから再スタート。",[`/spawnpoint @a ~ ~ ~`]],
+  ["復活場所をリセット","もとにもどす。",[`/clearspawnpoint @a`]]
+ ],
+ locate:[
+  ["村をさがせ！","いちばん近い村の座標。",[`/locate structure minecraft:village`]],
+  ["桜の林へ旅","桜のバイオームをさがす。",[`/locate biome minecraft:cherry_grove`]],
+  ["宝島をさがす","埋もれた宝の場所。",[`/locate structure minecraft:buried_treasure`]],
+  ["要塞をさがす冒険","エンドへの入り口。",[`/locate structure minecraft:stronghold`]],
+  ["見つけた場所へワープ","座標は、教えてもらった数字に書きかえて。",[`/effect @s slow_falling 30 0 true`,`/tp @s 120 200 -340`]]
+ ],
+ mobevent:[
+  ["しずかな世界","イベントをぜんぶ止める。",[`/mobevent events_enabled false`]],
+  ["行商人を呼ぶ","めずらしい物を売りに来る。",[`/mobevent minecraft:wandering_trader_event true`]],
+  ["パトロールなし","ピリジャーが来ないようにする。",[`/mobevent minecraft:pillager_patrols_event false`]]
+ ],
+ tickingarea:[
+  ["ずっと動く畑","はなれていても作物が育つ。",[`/tickingarea add circle ~ ~ ~ 3 farm1`]],
+  ["ずっと動くしかけ","コマンドブロックを止めない。",[`/tickingarea add circle ~ ~ ~ 2 door1`]],
+  ["まとめてお片づけ","ぜんぶ消す。",[`/tickingarea remove_all`]]
+ ],
+ effect:[
+  ["スーパーヒーロー","はやい・高い・回復。",[`/effect @s speed 60 3 true`,`/effect @s jump_boost 60 3 true`,`/effect @s regeneration 60 1 true`]],
+  ["忍者","すがたが見えず、はやい。",[`/effect @s invisibility 60 0 true`,`/effect @s speed 60 1 true`]],
+  ["月面さんぽ","高くジャンプして、ふわっと着地。",[`/effect @s slow_falling 60 0 true`,`/effect @s jump_boost 60 5 true`]],
+  ["夜でも見える探検","ほぼずっと暗視。",[`/effect @s night_vision 999999 0 true`]],
+  ["ふわっと空へ","のぼって、ゆっくり降りる。",[`/effect @s levitation 3 1 true`,`/effect @s slow_falling 20 0 true`]],
+  ["水中たんけん隊","息が続いて、暗くても見える。",[`/effect @s water_breathing 300 0 true`,`/effect @s night_vision 300 0 true`]]
+ ],
+ enchant:[
+  ["最強の剣","手に持って順番に。",[`/give @s diamond_sword`,`/enchant @s sharpness 5`,`/enchant @s fire_aspect 2`,`/enchant @s unbreaking 3`]],
+  ["ずっと使えるツルハシ","速くて、こわれない。",[`/give @s diamond_pickaxe`,`/enchant @s efficiency 5`,`/enchant @s unbreaking 3`,`/enchant @s mending 1`]],
+  ["弓の名人","矢がへらず、火がつく。",[`/give @s bow`,`/enchant @s power 5`,`/enchant @s infinity 1`,`/enchant @s flame 1`]],
+  ["ふわふわブーツ","落ちても平気、水の中も速い。",[`/give @s diamond_boots`,`/enchant @s feather_falling 4`,`/enchant @s depth_strider 3`]],
+  ["もどってくるトライデント","なげても手元にもどる。",[`/give @s trident`,`/enchant @s loyalty 3`,`/enchant @s channeling 1`]]
+ ],
+ particle:[
+  ["ハートだいすき","頭の上にハート。",[`/particle minecraft:heart_particle ~ ~2 ~`]],
+  ["ずっとキラキラ","くりかえしコマンドブロックで使おう。",[`/execute as @a at @s run particle minecraft:totem_particle ~ ~1 ~`]],
+  ["ゴールで桜ふぶき","クリアのお祝いに。",[`/particle minecraft:cherry_leaves_particle ~ ~3 ~`]],
+  ["ばくはつエフェクト","見た目だけで、こわれません。",[`/particle minecraft:huge_explosion_emitter ^ ^1 ^4`]],
+  ["雪の世界","全員の頭の上に雪。",[`/execute as @a at @s run particle minecraft:snowflake_particle ~ ~3 ~`]]
+ ],
+ playsound:[
+  ["せいかい！","高い「ピン！」。",[`/playsound note.pling @a ~ ~ ~ 1 2`]],
+  ["ブブー（ざんねん）","村人の「ううん」。",[`/playsound mob.villager.no @a`]],
+  ["ドラゴン登場","ボス戦のはじまり。",[`/playsound mob.enderdragon.growl @a`]],
+  ["クリアのファンファーレ","レベルアップの音。",[`/playsound random.levelup @a`]],
+  ["かみなりドーン","びっくり演出。",[`/playsound ambient.weather.thunder @a`]]
+ ],
+ music:[
+  ["ボス戦BGM","2秒かけて始めて、ずっとくりかえす。",[`/music play music.game.endboss 1 2 loop`]],
+  ["のんびり建築タイム","小さめの音量で。",[`/music play record.blocks 0.5 3 loop`]],
+  ["ダンスパーティー","ノリノリの曲。",[`/music play record.pigstep 1 0 loop`]],
+  ["BGMをフェードアウト","3秒かけて止める。",[`/music stop 3`]]
+ ],
+ playanimation:[
+  ["ねんねタイム","動くまでねているポーズ。",[`/playanimation @s animation.player.sleeping none 0 "query.is_moving"`]],
+  ["全員でダンス","しゃがむまで踊る。",[`/playanimation @a animation.piglin.celebrate_hunt_special none 0 "query.is_sneaking"`]],
+  ["ゾンビごっこ","両うでを前につき出す。",[`/playanimation @a animation.player.move.arms.zombie none 0 "query.is_moving"`]],
+  ["さかさまの世界","体が上下さかさま。",[`/playanimation @s animation.player.base_pose.upside_down none 0 "query.is_sneaking"`]],
+  ["ポーズを見たいとき","前からのカメラにする。",[`/camera @s set minecraft:third_person_front`]]
+ ],
+ camera:[
+  ["映画のはじまり","画面が黒くなって、明るくもどる。",[`/camera @a fade time 1 2 1 color 0 0 0`]],
+  ["空からのカメラ","自分を見下ろす。",[`/camera @s set minecraft:free pos ~ ~10 ~-10 facing @s`]],
+  ["ゆっくり空へ","3秒かけて上がって、下を見る。",[`/camera @s set minecraft:free ease 3 in_out_sine pos ~ ~20 ~ rot 90 0`]],
+  ["自分の顔を見る","前からのカメラ。",[`/camera @s set minecraft:third_person_front`]],
+  ["もとにもどす","こまったらこれ。",[`/camera @a clear`]]
+ ],
+ camerashake:[
+  ["じしん！","強さ2で3秒。",[`/camerashake add @a 2 3`]],
+  ["ボス登場のゴゴゴ","ゆれと咆哮のセット。",[`/camerashake add @a 1 4 rotational`,`/playsound mob.enderdragon.growl @a`]],
+  ["ドカン","ばくはつの音といっしょに。",[`/camerashake add @a 3 1`,`/playsound random.explode @a`]],
+  ["ゆれを止める","いつでも止められます。",[`/camerashake stop @a`]]
+ ],
+ hud:[
+  ["撮影モード","画面の表示をぜんぶかくす。",[`/hud @a hide`]],
+  ["ハートかくしチャレンジ","体力が見えない冒険。",[`/hud @a hide health`]],
+  ["アイテム欄なしで冒険","ホットバーをかくす。",[`/hud @a hide hotbar`]],
+  ["ぜんぶもどす","表示を元にもどす。",[`/hud @a reset`]]
+ ],
+ say:[
+  ["集合のおしらせ","全員のチャットに出す。",[`/say 先生のところに集まってください`]],
+  ["ゴールの実況","いちばん近い人の名前が入る。",[`/say @p がゴールしました！`]],
+  ["色つきのおしらせ","金色で太字。",[`/say §6§l3分後にスタート！`]],
+  ["赤チームだけにこっそり","作戦をないしょで伝える。",[`/tell @a[tag=red] 赤チームだけに作戦をつたえるよ`]]
+ ],
+ title:[
+  ["スタート！","文字と音でスタート。",[`/title @a title §eスタート！`,`/playsound note.pling @a ~ ~ ~ 1 2`]],
+  ["ゴールおめでとう","小さい文字を先に出す。",[`/title @a subtitle §aよくできました`,`/title @a title §6§lクリア！`,`/playsound random.levelup @a`]],
+  ["のこり時間","アイテム欄の上に表示。",[`/title @a actionbar §cのこり 30 秒`]],
+  ["カウントダウン","コマンドブロックで1秒ずつ。",[`/title @a title §c3`,`/title @a title §e2`,`/title @a title §a1`]],
+  ["文字を消す","今出ている文字を消す。",[`/title @a clear`]]
+ ],
+ titleraw:[
+  ["ようこそ！名前入り","1人ずつ自分の名前が出る。",[`/execute as @a run titleraw @s title {"rawtext":[{"text":"§bようこそ "},{"selector":"@s"}]}`]],
+  ["ゴールした人の発表","名前入りでチャットに。",[`/tellraw @a {"rawtext":[{"selector":"@p"},{"text":" さんがゴール！"}]}`]],
+  ["ポイントを画面に出す","points というスコアが必要。",[`/execute as @a run titleraw @s actionbar {"rawtext":[{"text":"ポイント："},{"score":{"name":"@s","objective":"points"}}]}`]]
+ ],
+ dialogue:[
+  ["クイズNPC","NPCを出して、話しかける。",[`/summon npc ^ ^ ^2`,`/dialogue open @e[type=npc,c=1] @p`]],
+  ["せつめい係NPC","全員に、近くのNPCの会話を開く。",[`/execute as @a at @s run dialogue open @e[type=npc,c=1] @s`]]
+ ],
+ gamemode:[
+  ["発表タイム","先生以外はアドベンチャー。",[`/gamemode adventure @a[tag=!teacher]`]],
+  ["建築タイム","みんなクリエイティブ。",[`/gamemode creative @a`]],
+  ["サバイバルチャレンジ","材料を集めて生きのころう。",[`/gamemode survival @a`]]
+ ],
+ gamerule:[
+  ["平和な授業セット","けんか・モンスター・火事・TNTをなしに。",[`/gamerule pvp false`,`/gamerule domobspawning false`,`/gamerule dofiretick false`,`/gamerule tntexplodes false`]],
+  ["ずっと昼","明るいまま止める。",[`/time set day`,`/gamerule dodaylightcycle false`]],
+  ["なくさない冒険","たおれても持ち物が残る。",[`/gamerule keepinventory true`]],
+  ["座標を見ながら探検","画面に座標を出す。",[`/gamerule showcoordinates true`]],
+  ["コマンドブロックをしずかに","チャットに出るおしらせを消す。",[`/gamerule commandblockoutput false`]]
+ ],
+ ability:[
+  ["しずかにしてね","全員のチャットを止める。",[`/ability @a mute true`]],
+  ["空を飛んで見学","全員が飛べる。",[`/ability @a mayfly true`]],
+  ["建築チームだけ建てられる","タグをつけた人だけ。",[`/ability @a[tag=builder] worldbuilder true`]]
+ ],
+ immutableworld:[
+  ["発表のあいだはロック","だれも建築できない。",[`/immutableworld true`]],
+  ["建築タイム！","ロックをはずす。",[`/immutableworld false`]],
+  ["建築チームだけ許可","ロックして、チームだけ建てられる。",[`/immutableworld true`,`/ability @a[tag=builder] worldbuilder true`]]
+ ],
+ inputpermission:[
+  ["ストップ！先生のはなし","先生以外、動けず見回せない。",[`/inputpermission set @a[tag=!teacher] movement disabled`,`/inputpermission set @a[tag=!teacher] camera disabled`]],
+  ["動いていいよ","もとにもどす。",[`/inputpermission set @a movement enabled`,`/inputpermission set @a camera enabled`]],
+  ["見るだけタイム","歩けないけど見回せる。",[`/inputpermission set @a movement disabled`]]
+ ],
+ setmaxplayers:[
+  ["少人数グループ","5人まで。",[`/setmaxplayers 5`]],
+  ["クラス全員","30人まで。",[`/setmaxplayers 30`]]
+ ],
+ execute:[
+  ["金ブロックでスーパージャンプ","金ブロックを踏むと高く跳べる（くりかえしコマンドブロックで）。",[`/execute as @a at @s if block ~ ~-1 ~ gold_block run effect @s jump_boost 2 5 true`]],
+  ["ダイヤブロックでファンファーレ","ダイヤブロックを踏むと音が鳴る。",[`/execute as @a at @s if block ~ ~-1 ~ diamond_block run playsound random.levelup @s`]],
+  ["ゾンビをぜんぶたおしたらクリア","ゾンビがいなくなったら表示。",[`/execute unless entity @e[type=zombie] run title @a title §6クリア！`]],
+  ["ポイント10でゴール","points が10以上の人にだけ表示。",[`/execute as @a if score @s points matches 10.. run title @s title §aゴール！`]],
+  ["全員の頭の上にハート","全員の場所で実行。",[`/execute as @a at @s run particle minecraft:heart_particle ~ ~2 ~`]],
+  ["赤チームだけはやくなる","タグをつけた人だけ。",[`/execute as @a[tag=red] at @s run effect @s speed 5 2 true`]]
+ ],
+ scoreboard:[
+  ["ポイントボード","画面の右に点数を出す。",[`/scoreboard objectives add points dummy ポイント`,`/scoreboard objectives setdisplay sidebar points`,`/scoreboard players set @a points 0`]],
+  ["1点ゲット","いちばん近い人に1点。",[`/scoreboard players add @p points 1`]],
+  ["サイコロをふろう","1〜6がランダムに出る。",[`/scoreboard objectives add dice dummy サイコロ`,`/scoreboard players random @p dice 1 6`,`/scoreboard objectives setdisplay sidebar dice`]],
+  ["合計点","みんなの点を足す。",[`/scoreboard objectives add total dummy ごうけい`,`/scoreboard players operation @a total += @a points`]],
+  ["ぜんぶリセット","記録を消す。",[`/scoreboard players reset @a points`]]
+ ],
+ tag:[
+  ["赤チーム・青チーム","部屋にいる人をチーム分け。",[`/tag @a[x=0,y=60,z=0,dx=10,dy=10,dz=10] add red`,`/tag @a[x=20,y=60,z=0,dx=10,dy=10,dz=10] add blue`]],
+  ["ゴールした人だけ","金ブロックを踏んだ人にタグ。",[`/execute as @a at @s if block ~ ~-1 ~ gold_block run tag @s add goal`]],
+  ["ゴールした人にごほうび","タグの人にだけダイヤ。",[`/give @a[tag=goal] diamond`,`/title @a[tag=goal] title §6おめでとう！`]],
+  ["先生にタグ","先生だけ別あつかいにする。",[`/tag @s add teacher`]],
+  ["タグをぜんぶリセット","次の時間にまざらないように。",[`/tag @a remove red`,`/tag @a remove blue`]]
+ ]
+};
+
+/* ---- 検索用キーワード ---- */
+const KW={
+ basics:"きほん はじめ チート セレクター @a @p @s 座標 ~ ^ うまくいかない 先生 おたすけ 全角 エラー",
+ summon:"出す 召喚 モブ 動物 生き物 スポーン 赤ちゃん 名前 向き 状態 ゾンビ クリーパー",
+ event:"イベント 状態 帯電 職業 大人 変身",
+ give:"アイテム わたす あげる 道具 食べ物 剣 ルール 特別 なくさない すてられない アドベンチャー",
+ replaceitem:"装備 入れかえ ヘルメット かぶせる 手に持たせる ホットバー チェスト 持ち物",
+ clear:"持ち物 消す 回収 リセット",
+ tp:"ワープ テレポート 移動 集める 向き teleport",
+ spreadplayers:"ばらまく ばらばら ランダム かくれんぼ ワープ",
+ setblock:"ブロック 置く 1つ",
+ fill:"ブロック まとめて 床 かべ 家 うめる",
+ clone:"コピー 建物 複製",
+ structure:"保存 建物 呼び出し ロード",
+ time:"時間 昼 夜 朝 夕方 止める",
+ weather:"天気 晴れ 雨 かみなり",
+ spawnpoint:"復活 リスポーン スタート地点 チェックポイント setworldspawn",
+ locate:"さがす 探す 村 神殿 バイオーム 場所 座標 建物",
+ mobevent:"イベント ピリジャー パトロール 行商人 襲撃",
+ tickingarea:"ずっと動かす チャンク コマンドブロック 範囲 読みこむ ticking",
+ effect:"こうか 効果 ポーション 速い ジャンプ 透明 暗視 パワーアップ レベル",
+ enchant:"エンチャント 強くする 鋭さ 効率 レベル",
+ particle:"パーティクル つぶつぶ ハート 爆発 キラキラ 演出",
+ playsound:"効果音 音 鳴らす ピン",
+ music:"BGM 音楽 レコード ループ",
+ playanimation:"ポーズ アニメーション ダンス ねる すわる",
+ camera:"カメラ 視点 前から うしろから フェード 暗くする",
+ camerashake:"画面 ゆらす 地震 ゆれ 演出 揺らす",
+ hud:"画面の表示 かくす ハート アイテム欄",
+ say:"チャット メッセージ 話す 色 § tell me",
+ title:"タイトル 大きな文字 画面 色 サブタイトル",
+ titleraw:"名前 スコア 点数 tellraw 表示",
+ dialogue:"NPC 会話 クイズ 話す",
+ gamemode:"ゲームモード サバイバル クリエイティブ アドベンチャー",
+ gamerule:"ルール ワールド 設定 火 pvp 持ち物 時間 天気",
+ ability:"能力 チャット止める 飛ぶ ワールドビルダー wb",
+ immutableworld:"ロック 建築 ワールドビルダー こわせない",
+ inputpermission:"動き止める 操作 視点 移動 手を止めて",
+ setmaxplayers:"人数 参加 上限 ゲスト",
+ execute:"条件 全員 もし 上級 as at if",
+ scoreboard:"点数 スコア ポイント タイマー",
+ tag:"名札 タグ チーム分け 赤チーム"
+};
+const ORDER=["basics","summon","event","give","replaceitem","clear","tp","spreadplayers","setblock","fill","clone","structure","time","weather","spawnpoint","locate","mobevent","tickingarea","effect","enchant","particle","playsound","music","playanimation","camera","camerashake","hud","say","title","titleraw","dialogue","gamemode","gamerule","ability","immutableworld","inputpermission","setmaxplayers","execute","scoreboard","tag"];
+const GROUP={basics:"はじめに",summon:"出す・動かす",event:"出す・動かす",give:"出す・動かす",replaceitem:"出す・動かす",clear:"出す・動かす",tp:"出す・動かす",spreadplayers:"出す・動かす",setblock:"ブロック・建物",fill:"ブロック・建物",clone:"ブロック・建物",structure:"ブロック・建物",time:"世界",weather:"世界",spawnpoint:"世界",locate:"世界",mobevent:"世界",tickingarea:"世界",effect:"パワーアップ",enchant:"パワーアップ",particle:"演出",playsound:"演出",music:"演出",playanimation:"演出",camera:"演出",camerashake:"演出",hud:"演出",say:"文字・メッセージ",title:"文字・メッセージ",titleraw:"文字・メッセージ",dialogue:"文字・メッセージ",gamemode:"先生ツール",gamerule:"先生ツール",ability:"先生ツール",immutableworld:"先生ツール",inputpermission:"先生ツール",setmaxplayers:"先生ツール",execute:"上級",scoreboard:"上級",tag:"上級"};
 CMDS.sort((a,b)=>ORDER.indexOf(a.key)-ORDER.indexOf(b.key));
 BASICS.teacher.splice(1,0,["/camera @a clear","全員のカメラをもとにもどす"]);
 
@@ -1370,17 +2142,12 @@ function hl(cmd){
     if(/^\s+$/.test(t)){out.append(t);continue}
     if(first&&t.startsWith("/")){cls="t-cmd"}
     else if(t.startsWith("@")){cls="t-sel"}
-    else if(t.startsWith("\"")){cls="t-str"}
+    else if(t.startsWith("\"")||t.startsWith("{")||t.startsWith("[")){cls="t-str"}
     else if(/^[~^]?-?[\d.]*$/.test(t)&&t!==""&&/[\d~^]/.test(t)){cls="t-num"}
     else if(/^minecraft:/.test(t)){cls="t-id"}
     first=false;out.append(cls?h("span",{class:cls},t):t)}
   return out;
 }
-function chatRow(cmd){
-  const chat=h("div",{class:"chat"});chat.append(hl(cmd));
-  return h("div",{class:"chat-row"},chat,h("button",{class:"copy",type:"button",onclick:e=>copyText(cmd,e.currentTarget),"aria-label":"コピー: "+cmd},"コピー"));
-}
-
 /* ====================== パーティクルの絵 ====================== */
 const SPR={
  heart:[".11.11.","1111111","1112111",".11111.","..111..","...1..."],
@@ -1493,7 +2260,7 @@ function blockCanvas(id,t){
   return cv;
 }
 
-/* ====================== カード ====================== */
+/* ====================== カード（v3） ====================== */
 function badgeRow(left,right){return h("div",{class:"badges"},h("span",{},left||""),h("span",{},right||""))}
 function tagBadge(tag){if(tag==="warn")return h("span",{class:"bd warn"},"⚠ 注意");if(tag==="edu")return h("span",{class:"bd edu"},"教育版");if(tag==="new")return h("span",{class:"bd new"},"新しめ");return null}
 function lvLines(fn,max){
@@ -1502,52 +2269,147 @@ function lvLines(fn,max){
   if(!max||max>=2)box.append(h("div",{},h("b",{},"Lv.2 "),fn(2)));
   return box;
 }
-function cardFor(type,row){
-  let id,name,desc,vis,star,tag,group,emo="",max,num,extraEl=null,lvfn=null,btnExtra={};
-  const simpleVis=(e,cls="")=>h("div",{class:"vis simple "+cls,"aria-hidden":"true"},e);
-  if(type==="mob"){let cat;[id,name,emo,cat,desc,star,tag]=row;group=MOB_CATS[cat];vis=h("div",{class:"vis mob","data-c":cat,"aria-hidden":"true"},emo)}
-  else if(type==="ptc"){[id,name,group,desc,star]=row;const cv=h("canvas",{"aria-hidden":"true"});vis=h("div",{class:"vis ptc"},cv);vis._sys=makeSys(cv,row[5])}
-  else if(type==="eff"){let col,gd;[id,name,emo,col,desc,gd,star,tag]=row;group=gd==="good"?"いいこうか":"わるいこうか";
-    vis=h("div",{class:"vis eff","aria-hidden":"true"},h("div",{class:"orb",style:"background:"+col},emo));lvfn=LV_EFF[id]||null;extraEl=lvLines(lvfn)}
-  else if(type==="ench"){let items,ds;[id,name,max,items,ds,group,star,tag]=row;
-    const keys=items.split(" ");vis=h("div",{class:"vis ench",title:keys.map(k=>ITEM_JP[k]).join("・")},...keys.map(k=>h("span",{"aria-hidden":"true"},ITEM[k])));
-    desc=ds+"（"+keys.map(k=>ITEM_JP[k]).join("・")+"）";lvfn=LV_ENC[id]||null;extraEl=lvLines(lvfn,max)}
-  else if(type==="snd"){let use;[id,name,emo,use,group,star]=row;desc="使いどころ："+use;vis=simpleVis(emo)}
-  else if(type==="mus"){let len,col;[id,name,desc,len,col,group,star,tag]=row;desc+="・"+len;
-    vis=h("div",{class:"vis mus","aria-hidden":"true"},h("div",{class:"disc"},h("i",{style:"--lab:"+col})))}
-  else if(type==="item"){[id,name,emo,group,desc,star,tag]=row;vis=simpleVis(emo)}
-  else if(type==="block"){let t;[id,name,group,desc,star,tag,t]=row;vis=h("div",{class:"vis blkv","aria-hidden":"true"},blockCanvas(id,t))}
-  else if(type==="time"){let g;[id,name,emo,num,desc,g,star]=row;desc=`数字だと ${num}・${desc}`;vis=h("div",{class:"vis sky","aria-hidden":"true",style:"background:"+g},emo)}
-  else if(type==="weather"){let g,pre;[id,name,emo,desc,g,pre,star]=row;vis=h("div",{class:"vis sky","aria-hidden":"true",style:"background:"+g},h("span",{class:"skyemo"},emo));
-    if(pre){const cv=h("canvas",{class:"overlay"});vis.prepend(cv);vis._sys=makeSys(cv,pre)}}
-  else if(type==="dir"){let kind,a;[id,name,kind,a,desc,star]=row;
-    vis=kind==="yaw"&&typeof a==="number"?h("div",{class:"vis compass","aria-hidden":"true"},h("div",{class:"dial"},h("span",{class:"n"},"北"),h("span",{class:"e"},"東"),h("span",{class:"s"},"南"),h("span",{class:"w"},"西"),h("i",{class:"arrow",style:`transform:rotate(${a}deg)`},"▲"))):simpleVis(a)}
-  else if(type==="anim"){[id,name,emo,group,desc,star]=row;vis=simpleVis(emo)}
-  else if(type==="cam"){[id,name,emo,desc,star,tag]=row;vis=simpleVis(emo)}
-  else if(type==="fmt"){let col,st;[id,name,col,group,desc,star]=row;const sp=h("span",{class:"fmtx",style:"color:"+col},id==="§k"?"▓▒░▓":"マイクラ");
-    if(id==="§l")sp.style.fontWeight="800";if(id==="§o")sp.style.fontStyle="italic";vis=h("div",{class:"vis fmt","aria-hidden":"true"},sp)}
-  else if(type==="opt"){[id,name,emo,desc,star,tag,group]=row;vis=simpleVis(emo)}
-  else if(type==="rule"){let df,vl;[id,name,emo,group,desc,df,vl,star,tag]=row;max=undefined;extraEl=h("div",{class:"lvl"},h("div",{},h("b",{},"はじめ "),df),h("div",{},h("b",{},"おすすめ "),vl));btnExtra={val:vl,def:df};vis=simpleVis(emo)}
-  if(!group&&type==="dir")group=row[2]==="yaw"?"よこの向き（東西南北）":"たての向き（上下）";
-  if(!group&&type==="cam")group="カメラの種類";
-  if(!group&&type==="time")group="時間";
-  if(!group&&type==="weather")group="天気";
-  if(!emo&&type==="item")emo="";
-  const left=star?h("span",{class:"bd star"},"★ おすすめ"):null;
-  const right=type==="ench"?h("span",{class:"bd lv"},"最大Lv."+max):tagBadge(tag);
-  vis.append(badgeRow(left,right));
-  const btn=h("button",{class:"card",type:"button","aria-pressed":"false"},vis,
-    h("div",{class:"body"},h("div",{class:"nm"},name),h("div",{class:"id"},id),desc?h("div",{class:"ds"},desc):null,extraEl));
-  btn._data={id,name,group,max,num,lvfn,...btnExtra,star:!!star,emo:(type==="fmt"||type==="ptc"||type==="mus"||type==="block"||type==="dir"||type==="time"||type==="weather"||type==="ench")?"":emo,search:toKata([id,name,desc,group].join(" "))};
-  if(vis._sys){const s=vis._sys;io.observe(vis);
-    btn.addEventListener("pointerenter",()=>hovered.add(s));btn.addEventListener("pointerleave",()=>hovered.delete(s));
-    btn.addEventListener("focus",()=>hovered.add(s));btn.addEventListener("blur",()=>hovered.delete(s))}
-  return btn;
+const listsOf=c=>(c.lists||(c.list?[c.list]:[])).map(d=>({slot:"id",...d}));
+
+/* 1つのIDを、画面の部品（絵・名前・説明）に分けて表す */
+function describe(type,row,def){
+  const o={type,id:"",name:"",desc:"",group:"",emo:"",pickEmo:"",star:0,tag:null,max:undefined,num:undefined,x:undefined,val:undefined,def:undefined,lv:null,lvText:null,mkVis:null};
+  const simple=e=>()=>h("div",{class:"vis simple","aria-hidden":"true"},e);
+  switch(type){
+   case"mob":{let cat;[o.id,o.name,o.emo,cat,o.desc,o.star,o.tag]=row;o.group=MOB_CATS[cat];o.pickEmo=o.emo;o.mkVis=()=>h("div",{class:"vis mob","data-c":cat,"aria-hidden":"true"},o.emo);break}
+   case"ptc":{[o.id,o.name,o.group,o.desc,o.star]=row;o.mkVis=()=>{const cv=h("canvas",{"aria-hidden":"true"});const v=h("div",{class:"vis ptc"},cv);v._sys=makeSys(cv,row[5]);return v};break}
+   case"eff":{let col,gd;[o.id,o.name,o.emo,col,o.desc,gd,o.star,o.tag]=row;o.group=gd==="good"?"いいこうか":"わるいこうか";o.pickEmo=o.emo;
+     o.mkVis=()=>h("div",{class:"vis eff","aria-hidden":"true"},h("div",{class:"orb",style:"background:"+col},o.emo));o.lv={fn:LV_EFF[o.id]||null,max:undefined};break}
+   case"ench":{let items,ds;[o.id,o.name,o.max,items,ds,o.group,o.star,o.tag]=row;const keys=items.split(" ");
+     o.mkVis=()=>h("div",{class:"vis ench",title:keys.map(k=>ITEM_JP[k]).join("・")},...keys.map(k=>h("span",{"aria-hidden":"true"},ITEM[k])));
+     o.desc=ds+"（"+keys.map(k=>ITEM_JP[k]).join("・")+"）";o.lv={fn:LV_ENC[o.id]||null,max:o.max};break}
+   case"snd":{let use;[o.id,o.name,o.emo,use,o.group,o.star]=row;o.desc="使いどころ："+use;o.pickEmo=o.emo;o.mkVis=simple(o.emo);break}
+   case"mus":{let len,col;[o.id,o.name,o.desc,len,col,o.group,o.star,o.tag]=row;o.desc+="・"+len;
+     o.mkVis=()=>h("div",{class:"vis mus","aria-hidden":"true"},h("div",{class:"disc"},h("i",{style:"--lab:"+col})));break}
+   case"item":{[o.id,o.name,o.emo,o.group,o.desc,o.star,o.tag]=row;o.pickEmo=o.emo;o.mkVis=simple(o.emo);break}
+   case"block":{let t;[o.id,o.name,o.group,o.desc,o.star,o.tag,t]=row;o.mkVis=()=>h("div",{class:"vis blkv","aria-hidden":"true"},blockCanvas(o.id,t));break}
+   case"time":{let g;[o.id,o.name,o.emo,o.num,o.desc,g,o.star]=row;o.desc=`数字だと ${o.num}・${o.desc}`;o.group="時間";
+     o.mkVis=()=>h("div",{class:"vis sky","aria-hidden":"true",style:"background:"+g},o.emo);break}
+   case"weather":{let g,pre;[o.id,o.name,o.emo,o.desc,g,pre,o.star]=row;o.group="天気";
+     o.mkVis=()=>{const v=h("div",{class:"vis sky","aria-hidden":"true",style:"background:"+g},h("span",{class:"skyemo"},o.emo));if(pre){const cv=h("canvas",{class:"overlay"});v.prepend(cv);v._sys=makeSys(cv,pre)}return v};break}
+   case"dir":{let kind,a;[o.id,o.name,kind,a,o.desc,o.star]=row;o.group=kind==="yaw"?"よこの向き（東西南北）":"たての向き（上下）";
+     o.mkVis=()=>kind==="yaw"&&typeof a==="number"?h("div",{class:"vis compass","aria-hidden":"true"},h("div",{class:"dial"},h("span",{class:"n"},"北"),h("span",{class:"e"},"東"),h("span",{class:"s"},"南"),h("span",{class:"w"},"西"),h("i",{class:"arrow",style:`transform:rotate(${a}deg)`},"▲"))):h("div",{class:"vis simple","aria-hidden":"true"},a);break}
+   case"anim":{[o.id,o.name,o.emo,o.group,o.desc,o.star]=row;o.pickEmo=o.emo;o.mkVis=simple(o.emo);break}
+   case"cam":{[o.id,o.name,o.emo,o.desc,o.star,o.tag]=row;o.group="カメラの種類";o.pickEmo=o.emo;o.mkVis=simple(o.emo);break}
+   case"fmt":{let col;[o.id,o.name,col,o.group,o.desc,o.star]=row;
+     o.mkVis=()=>{const sp=h("span",{class:"fmtx",style:"color:"+col},o.id==="§k"?"▓▒░▓":"マイクラ");if(o.id==="§l")sp.style.fontWeight="800";if(o.id==="§o")sp.style.fontStyle="italic";return h("div",{class:"vis fmt","aria-hidden":"true"},sp)};break}
+   case"opt":{[o.id,o.name,o.emo,o.desc,o.star,o.tag,o.group]=row;o.pickEmo=o.emo;o.mkVis=simple(o.emo);break}
+   case"rule":{let df,vl;[o.id,o.name,o.emo,o.group,o.desc,df,vl,o.star,o.tag]=row;o.val=vl;o.def=df;o.pickEmo=o.emo;o.lvText=[["はじめ",df],["おすすめ",vl]];o.mkVis=simple(o.emo);break}
+   case"std":{[o.id,o.name,o.emo,o.group,o.desc,o.star,o.tag,o.x]=row;o.pickEmo=o.emo;o.mkVis=simple(o.emo);break}
+  }
+  o.shown=(def&&def.use==="x"&&o.x!=null)?o.x:o.id;
+  o.use=o.shown;
+  return o;
 }
 
-/* ====================== セクション ====================== */
-const state={};
+/* 絵（vis）の準備：パーティクルは画面に出ているときだけ動かす */
+function wireVis(vis,card){
+  if(!vis._sys)return;const s=vis._sys;io.observe(vis);
+  if(card){card.addEventListener("pointerenter",()=>hovered.add(s));card.addEventListener("pointerleave",()=>hovered.delete(s));
+    card.addEventListener("focusin",()=>hovered.add(s));card.addEventListener("focusout",()=>hovered.delete(s))}
+}
+
+function makeCard(o,def,hooks){
+  const vis=o.mkVis();
+  const left=o.star?h("span",{class:"bd star"},"★ おすすめ"):null;
+  const right=o.type==="ench"?h("span",{class:"bd lv"},"最大Lv."+o.max):tagBadge(o.tag);
+  vis.append(badgeRow(left,right));
+  let extra=null;
+  if(o.lv)extra=lvLines(o.lv.fn,o.type==="ench"?o.max:undefined);
+  if(o.lvText)extra=h("div",{class:"lvl"},...o.lvText.map(([a,b])=>h("div",{},h("b",{},a+" "),b)));
+  const isRule=def&&def.use==="x";
+  const main=h("button",{class:"card-main",type:"button","aria-pressed":"false"},vis,
+    h("div",{class:"body"},h("div",{class:"nm"},o.name),h("div",{class:"id"+(o.shown.length>26?" long":"")},o.shown),o.desc?h("div",{class:"ds"},o.desc):null,extra));
+  const copyB=h("button",{class:"mini",type:"button","aria-label":o.name+" の"+(isRule?"ルール":"ID")+"をコピー"},"コピー");
+  const zoomB=h("button",{class:"mini",type:"button","aria-label":o.name+" を拡大"},"拡大");
+  const card=h("div",{class:"card","data-on":"false"},main,h("div",{class:"card-foot"},copyB,zoomB));
+  card._o=o;
+  card._data={id:o.id,use:o.use,x:o.x,name:o.name,group:o.group,max:o.max,num:o.num,lvfn:o.lv&&o.lv.fn,val:o.val,def:o.def,star:!!o.star,emo:o.pickEmo,search:toKata([o.id,o.shown,o.name,o.desc,o.group].join(" "))};
+  main.addEventListener("click",()=>hooks.select(card,true));
+  copyB.addEventListener("click",e=>{e.stopPropagation();copyText(o.use,copyB)});
+  zoomB.addEventListener("click",e=>{e.stopPropagation();hooks.zoom(card)});
+  wireVis(vis,card);
+  return card;
+}
+
+/* ====================== 拡大表示 ====================== */
+const Z={items:[],i:0,vis:[],opener:null};
+function fitFont(text,wFrac,hFrac,min,max){
+  const W=Math.max(280,innerWidth*wFrac),H=Math.max(160,innerHeight*hFrac);
+  let w=0;for(const ch of text){w+=/[\x00-\x7f]/.test(ch)?0.6:1.05}
+  return Math.round(Math.max(min,Math.min(max,Math.sqrt((W*H)/(Math.max(1,w)*1.45)))));
+}
+function zoomClean(){for(const v of Z.vis){io.unobserve(v);if(v._sys)live.delete(v._sys)}Z.vis=[]}
+function zoomRender(){
+  zoomClean();
+  const it=Z.items[Z.i];const body=$("#zBody");body.replaceChildren(it.build());body.scrollTop=0;
+  const multi=Z.items.length>1;$("#zPrev").hidden=!multi;$("#zNext").hidden=!multi;$("#zPos").textContent=multi?`${Z.i+1} / ${Z.items.length}`:"";
+}
+function zoomOpen(items,i){
+  if(!items.length)return;
+  Z.items=items;Z.i=Math.max(0,i);Z.opener=document.activeElement;
+  $("#zoom").hidden=false;
+  for(const s of ["header.top","nav.tabs","main","footer"]){const n=$(s);if(n)n.inert=true}
+  document.body.style.overflow="hidden";
+  zoomRender();$("#zClose").focus();
+}
+function zoomClose(){
+  $("#zoom").hidden=true;zoomClean();
+  for(const s of ["header.top","nav.tabs","main","footer"]){const n=$(s);if(n)n.inert=false}
+  document.body.style.overflow="";
+  if(Z.opener&&Z.opener.focus&&document.contains(Z.opener))Z.opener.focus();
+}
+function zoomStep(d){if(Z.items.length<2)return;Z.i=(Z.i+d+Z.items.length)%Z.items.length;zoomRender()}
+function cmdZoomItem(getCmd,what){
+  return {build:()=>{
+    const cmd=getCmd();const t=h("div",{class:"z-cmdtext",style:"font-size:"+fitFont(cmd,0.86,0.5,22,96)+"px"});t.append(hl(cmd));
+    const w=h("div",{class:"z-cmd"},t);
+    if(what)w.append(h("div",{class:"z-desc"},what));
+    w.append(h("div",{class:"z-actions"},h("button",{class:"zbtn",type:"button",onclick:e=>copyText(cmd,e.currentTarget)},"コピー")));
+    return w}};
+}
+function cardZoomItem(card,lst,api){
+  return {build:()=>{
+    const o=card._o;const vis=o.mkVis();if(vis._sys){io.observe(vis);Z.vis.push(vis)}
+    const wrap=h("div",{class:"z-card"},vis,h("div",{class:"z-name"},o.name),
+      h("div",{class:"z-id",style:"font-size:"+fitFont(o.shown,0.8,0.22,22,110)+"px"},o.shown));
+    if(o.desc)wrap.append(h("div",{class:"z-desc"},o.desc));
+    if(o.lv&&o.lv.fn){const box=h("div",{class:"lvl big"});const n=Math.min(o.type==="ench"?o.max:5,5);
+      for(let L=1;L<=n;L++)box.append(h("div",{},h("b",{},"Lv."+L+(o.type==="eff"?"（コマンドでは "+(L-1)+"）":"")+" "),o.lv.fn(L)));wrap.append(box)}
+    else if(o.lv)wrap.append(h("div",{class:"lvl big none"},"レベルで変わりません"));
+    if(o.lvText)wrap.append(h("div",{class:"lvl big"},...o.lvText.map(([a,b])=>h("div",{},h("b",{},a+" "),b))));
+    const act=h("div",{class:"z-actions"},h("button",{class:"zbtn",type:"button",onclick:e=>copyText(o.use,e.currentTarget)},(lst.def.use==="x"?"ルールをコピー":"IDをコピー")));
+    if(api.hasMaker)act.append(h("button",{class:"zbtn sub",type:"button",onclick:()=>{api.pick(lst,card);zoomClose()}},"このIDでコマンドをつくる"));
+    wrap.append(act);return wrap}};
+}
+(function initZoom(){
+  $("#zClose").addEventListener("click",zoomClose);
+  $("#zPrev").addEventListener("click",()=>zoomStep(-1));
+  $("#zNext").addEventListener("click",()=>zoomStep(1));
+  document.addEventListener("keydown",e=>{
+    const z=$("#zoom");if(z.hidden)return;
+    if(e.key==="Escape"){e.preventDefault();zoomClose();return}
+    if(e.key==="ArrowLeft"){e.preventDefault();zoomStep(-1);return}
+    if(e.key==="ArrowRight"){e.preventDefault();zoomStep(1);return}
+    if(e.key==="Tab"){const f=[...z.querySelectorAll("button")].filter(b=>!b.hidden&&!b.disabled);if(!f.length)return;
+      const a=document.activeElement;if(e.shiftKey&&a===f[0]){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&a===f[f.length-1]){e.preventDefault();f[0].focus()}}
+  });
+})();
+
+/* ====================== 小さな部品 ====================== */
+function chatRow(cmd,what){
+  const chat=h("div",{class:"chat"});chat.append(hl(cmd));
+  return h("div",{class:"chat-row"},chat,
+    h("button",{class:"copy",type:"button",onclick:e=>copyText(cmd,e.currentTarget),"aria-label":"コピー: "+cmd},"コピー"),
+    h("button",{class:"zoom-mini",type:"button","aria-label":"拡大: "+cmd,onclick:()=>zoomOpen([cmdZoomItem(()=>cmd,what)],0)},"拡大"));
+}
 function syntaxLine(parts){const chat=h("div",{class:"chat"});parts.forEach((p,i)=>{if(i)chat.append(" ");chat.append(h("span",{class:"s-"+p[1]},p[0]))});return chat}
+
 function modesFig(){
   const wrap=h("div",{class:"modes"});
   const cell=k=>h("i",{class:"mc m-"+(k==="."?"air":k)},k==="D"?"↓":"");
@@ -1556,8 +2418,9 @@ function modesFig(){
   for(const[nm,d,fn]of FILL_MODES)wrap.append(h("figure",{class:"mode"},grid(fn),h("figcaption",{},h("b",{},nm),d)));
   return wrap;
 }
-function levelTable(c){
-  const isE=c.level==="eff";const rows=c.list.data;const cols=isE?4:5;
+
+function levelTable(c,def){
+  const isE=c.level==="eff";const rows=def.data;const cols=isE?4:5;
   const head=h("tr",{},h("th",{},isE?"こうか":"エンチャント"),...Array.from({length:cols},(_,i)=>h("th",{},`Lv.${i+1}`+(isE?`（つよさ${i}）`:""))));
   const tb=h("tbody");
   for(const r of rows){const id=r[0],nm=r[1];const fn=(isE?LV_EFF:LV_ENC)[id];const mx=isE?cols:r[2];
@@ -1567,37 +2430,310 @@ function levelTable(c){
     tb.append(tr)}
   return h("details",{class:"lvtable"},h("summary",{},"レベル早見表をひらく（"+rows.length+"こ）"),h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},head),tb)));
 }
+
+/* ====================== Tab補完 ====================== */
+const idsOf=a=>a.map(r=>r[0]);
+const SRC={
+ sel:()=>["@s","@a","@p","@r","@e","@e[type=","@a[tag="],
+ pos:()=>["~","^"],
+ mob:()=>idsOf(MOBS),item:()=>idsOf(ITEMS),block:()=>idsOf(BLOCKS),eff:()=>idsOf(EFF),ench:()=>idsOf(ENC),
+ snd:()=>idsOf(SND),mus:()=>idsOf(MUS),ptc:()=>idsOf(PTC),ev:()=>idsOf(EVENTS),anim:()=>idsOf(ANIMS),
+ cam:()=>idsOf(CAMS),hud:()=>idsOf(HUDS),rule:()=>idsOf(RULES),inp:()=>idsOf(INPUTS),abil:()=>idsOf(ABILS),
+ struct:()=>idsOf(LOC_STRUCT),biome:()=>idsOf(LOC_BIOME),mobev:()=>idsOf(MOBEVENTS),
+ mode:()=>["survival","creative","adventure","spectator","default"],
+ tf:()=>["true","false"],
+ rulejson:()=>GIVE_RULES.map(r=>r[7])
+};
+const R=x=>Array.isArray(x)?x.flatMap(R):(typeof x==="string"&&x[0]==="$")?((SRC[x.slice(1)]||(()=>[]))()):[x];
+const P=(...slots)=>a=>R(slots[a.length]||[]);
+const isNum=x=>x!==undefined&&(/^-?\d+(\.\d+)?$/.test(x)||x==="~");
+function kwWalk(a,start,def){
+  const cur=a.length;let i=start;
+  while(true){
+    if(i>=cur)return Object.keys(def);
+    const sl=def[a[i]];if(!sl){i++;continue}
+    const n=sl.length;if(cur<=i+n)return R(sl[cur-i-1]);
+    i+=n+1;
+  }
+}
+function subComplete(name,args){name=({teleport:"tp",msg:"tell",w:"tell"})[name]||name;const f=COMP[name];return f?f(args):[]}
+function commandNames(slash){
+  const base=CMDS.filter(c=>c.key!=="basics").map(c=>c.key);
+  const extra=["stopsound","setworldspawn","clearspawnpoint","tell","tellraw","me","kill","difficulty","xp","list","toggledownfall","daylock","alwaysday","testfor","wb","worldbuilder","teleport","help"];
+  return [...new Set([...base,...extra])].map(n=>(slash?"/":"")+n);
+}
+function execWalk(a){
+  const cur=a.length;let i=0;
+  const KWS=["as","at","if","unless","positioned","rotated","facing","align","anchored","in","run"];
+  while(true){
+    if(i>=cur)return KWS;
+    const k=a[i];
+    if(k==="run"){const rest=a.slice(i+1);return rest.length?subComplete(rest[0].replace(/^\//,""),rest.slice(1)):commandNames(false)}
+    const rest=a.slice(i+1);let slots=null;
+    if(k==="as"||k==="at")slots=["$sel"];
+    else if(k==="positioned")slots=rest[0]==="as"?["as","$sel"]:[["~","^","as"],"$pos","$pos"];
+    else if(k==="rotated")slots=rest[0]==="as"?["as","$sel"]:[["0","90","180","-90","~","as"],["0","90","-90","~"]];
+    else if(k==="facing")slots=rest[0]==="entity"?[["entity"],"$sel",["eyes","feet"]]:[["entity","~","^"],"$pos","$pos"];
+    else if(k==="align")slots=[["x","y","z","xz","xyz"]];
+    else if(k==="anchored")slots=[["eyes","feet"]];
+    else if(k==="in")slots=[["overworld","nether","the_end"]];
+    else if(k==="if"||k==="unless"){
+      const t=rest[0];
+      if(t==="entity")slots=[["entity"],"$sel"];
+      else if(t==="block")slots=[["block"],"$pos","$pos","$pos","$block"];
+      else if(t==="blocks")slots=[["blocks"],"$pos","$pos","$pos","$pos","$pos","$pos","$pos","$pos","$pos",["all","masked"]];
+      else if(t==="score")slots=rest[3]==="matches"?[["score"],"$sel",[],["matches","=","<",">","<=",">="],["1","10","1..","..10"]]:[["score"],"$sel",[],["matches","=","<",">","<=",">="],"$sel",[]];
+      else slots=[["entity","block","blocks","score"]];
+    }else{i++;continue}
+    const n=slots.length;
+    if(cur<=i+n)return R(slots[cur-i-1]);
+    i+=n+1;
+  }
+}
+const COMP={
+ summon:a=>{const i=a.length;
+   if(i===0)return R("$mob");if(i<=3)return R("$pos");
+   if(a[3]!==undefined&&a[4]==="facing"){
+     if(i===5)return R(["$sel","$pos"]);
+     if(a[5]&&a[5][0]==="@"){return i===6?R("$ev"):[]}
+     return i<=7?R("$pos"):i===8?R("$ev"):[];
+   }
+   if(i===4)return ["facing","0","90","180","-90",...R("$ev")];
+   if(isNum(a[4])){if(i===5)return ["0","90","-90"];if(i===6)return R("$ev")}
+   return [];},
+ event:P(["entity"],["$sel"],["$ev"]),
+ give:P(["$sel"],["$item"],["1","10","64"],["0"],["$rulejson"]),
+ replaceitem:a=>{const i=a.length;if(i===0)return["entity","block"];
+   if(a[0]==="entity"){if(i===1)return R("$sel");if(i===2)return["slot.armor.head","slot.armor.chest","slot.armor.legs","slot.armor.feet","slot.weapon.mainhand","slot.weapon.offhand","slot.hotbar","slot.inventory"];
+     if(i===3)return["0"];if(i===4)return["keep","destroy",...R("$item")];if(a[4]==="keep"||a[4]==="destroy")return i===5?R("$item"):i===6?["1","64"]:[];return i===5?["1","64"]:[]}
+   if(a[0]==="block"){if(i<=3)return R("$pos");if(i===4)return["slot.container"];if(i===5)return["0"];if(i===6)return["keep","destroy",...R("$item")];return i===7?["1","64"]:[]}
+   return[]},
+ clear:P(["$sel"],["$item"],["-1"],["1","5","64"]),
+ tp:a=>{const i=a.length;if(i===0)return R(["$sel","$pos"]);if(i===1)return R(["$pos","$sel"]);if(i<=3)return R("$pos");return["facing","0","90","180","-90"]},
+ spreadplayers:P(["~","0"],["~","0"],["5","10","20"],["20","50","100"],["$sel"]),
+ setblock:a=>a.length<3?R("$pos"):a.length===3?R("$block"):a.length===4?["replace","destroy","keep"]:[],
+ fill:a=>a.length<6?R("$pos"):a.length===6?R("$block"):a.length===7?["replace","destroy","keep","hollow","outline"]:(a[7]==="replace"&&a.length===8?R("$block"):[]),
+ clone:a=>a.length<9?R("$pos"):a.length===9?["replace","masked","filtered"]:a.length===10?["normal","force","move"]:[],
+ structure:a=>{const i=a.length;if(i===0)return["save","load","delete"];const m=a[0];
+   if(i===1)return["house","mystructure:house"];
+   if(m==="load"){if(i<=4)return R("$pos");if(i===5)return["0_degrees","90_degrees","180_degrees","270_degrees"];if(i===6)return["none","x","z","x_z"];if(i===7)return["block_by_block","layer_by_layer"];if(i===8)return["1","5","10"];return[]}
+   if(m==="save"){if(i<=7)return R("$pos");if(i===8)return R("$tf");if(i===9)return["memory","disk"];return[]}
+   return[]},
+ time:a=>a.length===0?["set","add","query"]:a.length===1?(a[0]==="set"?["day","night","noon","midnight","sunrise","sunset","0","6000","12000","18000"]:a[0]==="add"?["1000","6000","12000"]:["daytime","gametime","day"]):[],
+ weather:a=>a.length===0?["clear","rain","thunder","query"]:[],
+ spawnpoint:a=>a.length===0?R("$sel"):a.length<=3?R("$pos"):[],
+ setworldspawn:a=>a.length<3?R("$pos"):[],
+ clearspawnpoint:P(["$sel"]),
+ locate:a=>a.length===0?["structure","biome"]:a.length===1?R(a[0]==="structure"?"$struct":"$biome"):(a.length===2&&a[0]==="structure")?R("$tf"):[],
+ mobevent:P(["$mobev"],["$tf"]),
+ tickingarea:a=>{const i=a.length;if(i===0)return["add","remove","remove_all","list","preload"];const m=a[0];
+   if(m==="add"){if(i===1)return["circle","~"];
+     if(a[1]==="circle"){if(i<=4)return R("$pos");if(i===5)return["1","2","3","4"];if(i===6)return["area1"];if(i===7)return R("$tf");return[]}
+     if(i<=6)return R("$pos");if(i===7)return["area1","box1"];if(i===8)return R("$tf");return[]}
+   if(m==="list")return i===1?["all-dimensions"]:[];
+   if(m==="remove")return i===1?["area1"]:[];
+   if(m==="preload")return i===1?["area1"]:i===2?R("$tf"):[];
+   return[]},
+ effect:a=>{const i=a.length;if(i===0)return R("$sel");if(i===1)return["clear",...R("$eff")];if(a[1]==="clear")return[];if(i===2)return["30","60","999999"];if(i===3)return["0","1","2","4"];if(i===4)return R("$tf");return[]},
+ enchant:P(["$sel"],["$ench"],["1","2","3","4","5"]),
+ particle:a=>a.length===0?R("$ptc"):a.length<=3?R("$pos"):[],
+ playsound:a=>{const i=a.length;if(i===0)return R("$snd");if(i===1)return R("$sel");if(i<=4)return R("$pos");if(i===5)return["1","2"];if(i===6)return["1","2","0.5"];return[]},
+ stopsound:P(["$sel"],["$snd"]),
+ music:a=>{const i=a.length;if(i===0)return["play","queue","stop","volume"];const m=a[0];
+   if(m==="play"||m==="queue"){if(i===1)return R("$mus");if(i===2)return["1","0.5"];if(i===3)return["0","2","3"];if(i===4)return["loop","play_once"];return[]}
+   if(m==="stop")return i===1?["0","3"]:[];if(m==="volume")return i===1?["1","0.5","0"]:[];return[]},
+ playanimation:P(["$sel"],["$anim"],["none"],["0"],['"query.is_moving"','"query.is_sneaking"']),
+ camera:a=>{const i=a.length;if(i===0)return R("$sel");if(i===1)return["set","fade","clear"];const m=a[1];
+   if(m==="set"){if(i===2)return R("$cam");return kwWalk(a,3,{ease:[["1","3","5"],["in_out_sine","linear","in_sine","out_sine","out_back","out_bounce","out_elastic","spring"]],pos:["$pos","$pos","$pos"],rot:[["0","90","-90"],["0","90","180","-90"]],facing:[["$sel","~"]]})}
+   if(m==="fade")return kwWalk(a,2,{time:[["1","0.5","0"],["1","2","0"],["1","0.5","0"]],color:[["0","255"],["0","255"],["0","255"]]});
+   return[]},
+ camerashake:a=>{const i=a.length;if(i===0)return["add","stop"];if(i===1)return R("$sel");if(a[0]==="stop")return[];if(i===2)return["0.5","1","2","4"];if(i===3)return["1","2","5"];if(i===4)return["positional","rotational"];return[]},
+ hud:P(["$sel"],["hide","reset"],["$hud"]),
+ title:P(["$sel"],["title","subtitle","actionbar","clear","reset","times"]),
+ titleraw:P(["$sel"],["title","subtitle","actionbar","clear","reset","times"]),
+ tellraw:P(["$sel"],['{"rawtext":[{"text":"']),
+ say:()=>[],me:()=>[],tell:P(["$sel"]),
+ dialogue:P(["open","change"],["@e[type=npc,c=1]"],["$sel"]),
+ gamemode:P(["$mode","s","c","a"],["$sel"]),
+ gamerule:P(["$rule"],["$tf"]),
+ ability:P(["$sel"],["$abil"],["$tf"]),
+ immutableworld:P(["$tf"]),
+ inputpermission:a=>{const i=a.length;if(i===0)return["set","query"];if(i===1)return R("$sel");if(i===2)return R("$inp");if(i===3&&a[0]==="set")return["enabled","disabled"];return[]},
+ setmaxplayers:P(["2","5","10","20","30"]),
+ execute:execWalk,
+ scoreboard:a=>{const i=a.length;if(i===0)return["objectives","players"];const m=a[0];
+   if(m==="objectives"){if(i===1)return["add","remove","list","setdisplay"];const s=a[1];
+     if(s==="add")return i===2?["points","timer","kills"]:i===3?["dummy"]:[];
+     if(s==="remove")return i===2?["points"]:[];
+     if(s==="setdisplay")return i===2?["sidebar","list","belowname"]:i===3?["points"]:[];return[]}
+   if(m==="players"){if(i===1)return["set","add","remove","reset","random","list","operation","test"];const s=a[1];
+     if(i===2)return R("$sel");
+     if(["set","add","remove"].includes(s))return i===3?["points"]:i===4?["0","1","10"]:[];
+     if(s==="reset")return i===3?["points"]:[];
+     if(s==="random")return i===3?["dice"]:i===4?["1"]:i===5?["6"]:[];
+     if(s==="operation")return i===3?["total"]:i===4?["+=","-=","*=","/=","%=","=","<",">","><"]:i===5?R("$sel"):i===6?["points"]:[];
+     if(s==="test")return i===3?["points"]:i===4?["0","10"]:i===5?["*"]:[];return[]}
+   return[]},
+ tag:a=>{const i=a.length;if(i===0)return R("$sel");if(i===1)return["add","remove","list"];if(i===2&&a[1]!=="list")return["red","blue","teacher","goal","winner"];return[]},
+ kill:P(["$sel"]),difficulty:P(["peaceful","easy","normal","hard"]),xp:P(["1","10","100","1L","10L","-1L"],["$sel"]),
+ toggledownfall:()=>[],daylock:P(["$tf"]),alwaysday:P(["$tf"]),testfor:P(["$sel"]),wb:()=>[],worldbuilder:()=>[],list:()=>[],help:()=>[]
+};
+const nrm=s=>s.toLowerCase().replace(/^\//,"").replace(/^minecraft:/,"");
+/* いまのカーソル位置で、どこから何を補完するか */
+function computeCompletion(text,caret){
+  const before=text.slice(0,caret);
+  if((before.match(/"/g)||[]).length%2===1)return null;
+  const cur=(before.match(/\S*$/)||[""])[0];
+  const start=caret-cur.length;
+  const prev=before.slice(0,start).trim();
+  const toks=prev?prev.split(/\s+/):[];
+  let from=start,pref=cur,cands;
+  const sv=cur.match(/^(@[aeprsvc]\[(?:[^\]]*,)?)(type|m|tag|team)=([^,\]]*)$/);
+  const sm=cur.match(/^(@[aeprsvc]\[(?:[^\]]*,)?)([^,\]=]*)$/);
+  if(sv){from=start+sv[1].length+sv[2].length+1;pref=sv[3];
+    cands=sv[2]==="type"?[...idsOf(MOBS),"player"]:sv[2]==="m"?["survival","creative","adventure","spectator"]:sv[2]==="tag"?["!","red","blue","teacher","goal"]:["red","blue"]}
+  else if(sm){from=start+sm[1].length;pref=sm[2];cands=["type=","tag=","tag=!","r=","rm=","c=","name=","m=","x=","y=","z=","dx=","dy=","dz="]}
+  else if(toks.length===0){cands=commandNames(true)}
+  else cands=subComplete(toks[0].replace(/^\//,""),toks.slice(1));
+  const p=nrm(pref);
+  const list=[...new Set(cands)].filter(c=>nrm(c).startsWith(p));
+  return list.length?{start:from,cands:list}:null;
+}
+
+/* ---- 一時保存（タブをきりかえても、さっきの状態にもどる） ---- */
+let saved={};
+try{saved=JSON.parse(sessionStorage.getItem("zukan-v3")||"{}")||{}}catch(e){saved={}}
+function persist(key,st){
+  try{saved.tabs=saved.tabs||{};
+    saved.tabs[key]={preset:st.preset,lv:st.lv,sel:Object.fromEntries(Object.entries(st.sel).map(([k,v])=>[k,v&&v.id])),cmd:st.cmd,edited:st.edited};
+    sessionStorage.setItem("zukan-v3",JSON.stringify(saved))}catch(e){}
+}
+
 function renderCmd(c){
   const sec=h("section",{id:"sec-"+c.key});
   sec.append(h("div",{class:"sec-head"},h("h2",{},c.name),h("span",{class:"jp"},c.jp)),h("p",{class:"lead"},c.lead));
-  let maker=null,st=null;
-  if(c.maker){
-    st=state[c.key]={preset:0,item:null,lv:1};
-    const pick=h("span",{class:"maker-pick"});const presetBox=h("div",{class:"presets",role:"group","aria-label":"コマンドのかたち"});
-    const out=h("div",{class:"chat","aria-live":"polite"});const cbtn=h("button",{class:"copy",type:"button"},"コピー");
+  const defs=listsOf(c);
+  const lists=[];
+  const sv=(saved.tabs&&saved.tabs[c.key])||{};
+  const st=c.maker?{preset:Math.min(Math.max(0,sv.preset||0),c.maker.length-1),lv:sv.lv||0,sel:{},cmd:"",gen:"",edited:false}:null;
+  let maker=null,regen=()=>{},paint=()=>{};
+
+  /* ---------- コマンドメーカー ---------- */
+  if(st){
+    const pick=h("span",{class:"maker-pick"});
+    const presetBox=h("div",{class:"presets",role:"group","aria-label":"コマンドのかたち"});
+    const hlEl=h("pre",{class:"hl","aria-hidden":"true"});
+    const ta=h("textarea",{class:"ta",rows:"1",spellcheck:"false",autocomplete:"off",autocapitalize:"off",autocorrect:"off","aria-label":"コマンド（さわって書きかえできます）"});
+    const copyB=h("button",{class:"copy",type:"button"},"コピー");
+    const resetB=h("button",{class:"mini2",type:"button"},"もとにもどす");
+    const zoomB=h("button",{class:"mini2",type:"button"},"拡大");
+    let sess=null,tabOff=false;
+    const compBar=h("div",{class:"comp",hidden:true});
     let lvRow=null,lvVal=null,lvTxt=null,minus=null,plus=null;
+    const lvMax=()=>c.level==="ench"?((st.sel.id&&st.sel.id.max)||1):10;
     if(c.level){
       lvVal=h("span",{class:"lv-val"});lvTxt=h("span",{class:"lv-txt"});
-      minus=h("button",{class:"step",type:"button","aria-label":"レベルを下げる",onclick:()=>{st.lv=Math.max(1,st.lv-1);update()}},"−");
-      plus=h("button",{class:"step",type:"button","aria-label":"レベルを上げる",onclick:()=>{st.lv=Math.min(lvMax(),st.lv+1);update()}},"＋");
+      minus=h("button",{class:"step",type:"button","aria-label":"レベルを下げる",onclick:()=>{st.lv=Math.max(1,st.lv-1);regen()}},"−");
+      plus=h("button",{class:"step",type:"button","aria-label":"レベルを上げる",onclick:()=>{st.lv=Math.min(lvMax(),st.lv+1);regen()}},"＋");
       lvRow=h("div",{class:"lv-row"},h("span",{class:"lv-label"},c.level==="eff"?"つよさ":"レベル"),minus,lvVal,plus,lvTxt);
     }
-    const lvMax=()=>c.level==="ench"?(st.item.max||1):10;
-    maker=h("div",{class:"maker"},h("div",{class:"maker-top"},h("span",{class:"maker-title"},"コマンドメーカー"),pick),presetBox,lvRow,h("div",{class:"chat-row",style:"margin-top:8px"},out,cbtn));
-    const update=()=>{const it=st.item;if(!it)return;
-      if(c.level){if(!it.lvfn)st.lv=1;st.lv=Math.min(Math.max(1,st.lv),lvMax());
-        lvVal.textContent="Lv."+st.lv+(c.level==="eff"?`（コマンドでは ${st.lv-1}）`:"");
-        lvTxt.textContent=it.lvfn?"→ "+it.lvfn(st.lv):"→ このこうかはレベルで変わりません";
-        minus.disabled=!it.lvfn||st.lv<=1;plus.disabled=!it.lvfn||st.lv>=lvMax()}
-      const tpl=c.maker[st.preset][1];
-      const cmd=tpl.replace(/\{id\}/g,it.id).replace(/\{max\}/g,it.max||1).replace(/\{lv\}/g,st.lv).replace(/\{amp\}/g,st.lv-1).replace(/\{num\}/g,it.num!=null?it.num:it.id).replace(/\{val\}/g,it.val).replace(/\{def\}/g,it.def);
-      st.cmd=cmd;out.replaceChildren(hl(cmd));pick.replaceChildren("えらんでいるもの：",h("b",{},(it.emo?it.emo+" ":"")+it.name));
-      [...presetBox.children].forEach((b,i)=>b.setAttribute("aria-pressed",i===st.preset?"true":"false"))};
-    c.maker.forEach((p,i)=>presetBox.append(h("button",{class:"chip",type:"button",onclick:()=>{st.preset=i;update()}},p[0])));
-    cbtn.addEventListener("click",()=>copyText(st.cmd,cbtn));
-    st.update=update;
+    maker=h("div",{class:"maker"},
+      h("div",{class:"maker-top"},h("span",{class:"maker-title"},"コマンドメーカー"),pick),
+      presetBox,lvRow,
+      h("div",{class:"chat-row mk-row"},h("div",{class:"editor"},hlEl,ta),h("div",{class:"btn-col"},copyB,h("div",{class:"btn-row"},resetB,zoomB))),
+      compBar);
+    const tplOf=()=>c.maker[st.preset][1];
+    const usedKeys=()=>new Set([...tplOf().matchAll(/\{(\w+)\}/g)].map(m=>m[1]));
+    const clampLv=()=>{const it=st.sel.id;
+      if(c.level){if(!(it&&it.lvfn))st.lv=1;else{if(!st.lv)st.lv=(c.level==="ench"?(it.max||1):1);st.lv=Math.min(Math.max(1,st.lv),lvMax())}}};
+    const genCmd=()=>{
+      clampLv();const p=st.sel.id||{};
+      return tplOf().replace(/\{(\w+)\}/g,(m,k)=>{
+        if(k==="lv")return st.lv||1;if(k==="amp")return (st.lv||1)-1;
+        if(k==="max")return p.max||1;if(k==="num")return p.num!=null?p.num:(p.use||"");
+        if(k==="x")return p.x||"";if(k==="val")return p.val;if(k==="def")return p.def;if(k==="ent")return p.x||"pig";if(k==="id")return p.use||"";
+        const s=st.sel[k];return s?s.use:m});
+    };
+    paint=()=>{
+      hlEl.replaceChildren(hl(st.cmd),document.createTextNode("\u200b"));
+      if(ta.value!==st.cmd)ta.value=st.cmd;
+      maker.classList.toggle("edited",st.edited);resetB.disabled=!st.edited;
+    };
+    const refreshUI=()=>{
+      const used=usedKeys();
+      const prim=["id","max","lv","amp","num","val","def","ent","x"].some(k=>used.has(k));
+      const bits=[];const nm=it=>(it.emo?it.emo+" ":"")+it.name;
+      if(prim&&st.sel.id)bits.push(h("span",{},"えらんでいるもの：",h("b",{},nm(st.sel.id))));
+      for(const lst of lists){if(lst.slot==="id"||!used.has(lst.slot))continue;const it=st.sel[lst.slot];if(it)bits.push(h("span",{},(bits.length?"　／　":"")+(lst.def.label||lst.slot)+"：",h("b",{},nm(it))))}
+      pick.replaceChildren(...bits);
+      [...presetBox.children].forEach((b,i)=>b.setAttribute("aria-pressed",i===st.preset?"true":"false"));
+      if(lvRow){const showLv=used.has("lv")||used.has("amp");lvRow.hidden=!showLv;
+        if(showLv){const it=st.sel.id;lvVal.textContent="Lv."+st.lv+(c.level==="eff"?`（コマンドでは ${st.lv-1}）`:"");
+          lvTxt.textContent=it&&it.lvfn?"→ "+it.lvfn(st.lv):"→ このこうかはレベルで変わりません";
+          minus.disabled=!(it&&it.lvfn)||st.lv<=1;plus.disabled=!(it&&it.lvfn)||st.lv>=lvMax()}}
+    };
+    regen=(why)=>{
+      const was=st.edited;sess=null;st.gen=genCmd();st.cmd=st.gen;st.edited=false;paint();refreshUI();persist(c.key,st);renderBar();
+      if(was&&why!=="init")toast("えらびなおしたので、コマンドをつくりなおしました");
+    };
+    c.maker.forEach((p,i)=>presetBox.append(h("button",{class:"chip",type:"button","aria-pressed":"false",onclick:()=>{st.preset=i;regen()}},p[0])));
+    /* ---- Tab補完（マイクラのチャットと同じ：Tabで候補が順番に出る） ---- */
+    const tabBtn=h("button",{class:"cchip tab",type:"button",onmousedown:e=>e.preventDefault(),onclick:()=>{ta.focus();doTab(false)}},"Tab ⇥");
+    const replaceRange=(a,b,txt)=>{const v=ta.value;const nv=v.slice(0,a)+txt+v.slice(b);ta.value=nv;const pos=a+txt.length;ta.setSelectionRange(pos,pos);st.cmd=nv;st.edited=st.cmd!==st.gen;paint();persist(c.key,st);return pos};
+    const renderBar=()=>{
+      compBar.replaceChildren();
+      const focused=document.activeElement===ta;
+      if(!sess){if(!focused){compBar.hidden=true;return}compBar.hidden=false;compBar.append(tabBtn,h("span",{class:"comp-hint"},"Tab キーで、つづきを補完（Shift+Tab でもどる）"));return}
+      compBar.hidden=false;compBar.append(tabBtn);
+      const n=sess.cands.length,show=Math.min(n,14),from=Math.max(0,Math.min(sess.idx-4,n-show));
+      for(let k=from;k<from+show;k++)compBar.append(h("button",{class:"cchip"+(k===sess.idx?" on":""),type:"button",onmousedown:e=>e.preventDefault(),onclick:()=>pickCand(k)},sess.cands[k]));
+      if(n>show)compBar.append(h("span",{class:"comp-hint"},(sess.idx+1)+" / "+n));
+    };
+    const pickCand=k=>{sess.idx=k;sess.end=replaceRange(sess.start,sess.end,sess.cands[k]);renderBar();ta.focus()};
+    const startSess=caret=>{const r=computeCompletion(ta.value,caret);if(!r)return false;sess={start:r.start,cands:r.cands,idx:0,end:caret};sess.end=replaceRange(r.start,caret,r.cands[0]);renderBar();return true};
+    const doTab=back=>{
+      if(ta.selectionStart!==ta.selectionEnd)return false;
+      const caret=ta.selectionStart;
+      if(sess&&caret===sess.end){
+        if(!back&&sess.cands.length===1){
+          const v=ta.value;if(v[caret]!==" "){ta.value=v.slice(0,caret)+" "+v.slice(caret);st.cmd=ta.value;st.edited=st.cmd!==st.gen;paint();persist(c.key,st)}
+          ta.setSelectionRange(caret+1,caret+1);sess=null;if(!startSess(caret+1))renderBar();return true}
+        sess.idx=(sess.idx+(back?-1:1)+sess.cands.length)%sess.cands.length;
+        sess.end=replaceRange(sess.start,sess.end,sess.cands[sess.idx]);renderBar();return true}
+      if(back||tabOff)return false;
+      return startSess(caret);
+    };
+    ta.addEventListener("input",()=>{let v=ta.value;if(/[\r\n]/.test(v)){v=v.replace(/[\r\n]+/g," ");ta.value=v}st.cmd=v;st.edited=st.cmd!==st.gen;sess=null;tabOff=false;paint();persist(c.key,st);renderBar()});
+    ta.addEventListener("keydown",e=>{
+      if(e.isComposing||e.keyCode===229)return;
+      if(e.key==="Enter"){e.preventDefault();return}
+      if(e.key==="Tab"){if(doTab(e.shiftKey))e.preventDefault();return}
+      if(e.key==="Escape"&&sess){e.preventDefault();sess=null;tabOff=true;renderBar();return}
+      if(["ArrowLeft","ArrowRight","Home","End"].includes(e.key)){sess=null;renderBar()}
+    });
+    ta.addEventListener("pointerdown",()=>{sess=null});
+    ta.addEventListener("focus",renderBar);
+    ta.addEventListener("blur",()=>{sess=null;tabOff=false;setTimeout(renderBar,0)});
+    copyB.addEventListener("click",()=>copyText(st.cmd,copyB));
+    resetB.addEventListener("click",()=>{st.cmd=st.gen;st.edited=false;paint();persist(c.key,st);toast("もとのコマンドにもどしました")});
+    zoomB.addEventListener("click",()=>zoomOpen([cmdZoomItem(()=>st.cmd,pick.textContent)],0));
     sec.append(maker);
   }
+  const flashMaker=()=>{if(!maker)return;maker.classList.remove("flash");void maker.offsetWidth;maker.classList.add("flash");
+    if(getComputedStyle(maker).position==="static"){const r=maker.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)maker.scrollIntoView({behavior:RM.matches?"auto":"smooth",block:"center"})}};
+  const setSel=(lst,card)=>{
+    lst.cards.forEach(k=>{const on=k===card;k.dataset.on=on?"true":"false";k.querySelector(".card-main").setAttribute("aria-pressed",on?"true":"false")});
+    if(st)st.sel[lst.slot]=card._data;
+  };
+  const select=(lst,card,flash)=>{
+    setSel(lst,card);if(!st)return;
+    if(lst.slot==="id"&&c.level==="ench")st.lv=card._data.max||1;
+    if(lst.def.link&&card._data.x){const t=lists[0]&&lists[0].cards.find(k=>k._data.id===card._data.x);if(t)setSel(lists[0],t)}
+    regen();if(flash)flashMaker();
+  };
+  const api={hasMaker:!!st,pick:(lst,card)=>{select(lst,card,false)}};
+
+  /* ---------- 構文・例・メモ ---------- */
   sec.append(h("h3",{},"書き方（構文）"));
   sec.append(h("div",{class:"syntax"},...c.syntax.map(syntaxLine)));
   sec.append(h("div",{class:"legend"},h("span",{class:"l-cmd"},"コマンド名・決まったことば"),h("span",{class:"l-req"},"< > かならず書く"),h("span",{class:"l-opt"},"[ ] 書かなくてもOK")));
@@ -1606,50 +2742,75 @@ function renderCmd(c){
   sec.append(dl);
   if(c.modes){sec.append(h("h3",{},"置き方の図（横から見たところ）"),modesFig())}
   sec.append(h("h3",{},"使ってみよう（例）"));
-  sec.append(h("div",{class:"examples"},...c.examples.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd),h("p",{class:"what"},w)))));
+  sec.append(h("div",{class:"examples"},...c.examples.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd,w),h("p",{class:"what"},w)))));
   if(c.notes)sec.append(h("div",{class:"notes"},...c.notes.map(([k,t])=>h("div",{class:"note"+(k==="warn"?" warn":""),html:t}))));
   const quick=[...(c.quick||[])];
   if(c.give)quick.push({title:"先に持たせるアイテム",lead:"タップでコピー。もらったら手に持ってから /enchant を打とう。",items:c.give.map(g=>["/give @s "+g,"/give @s "+g])});
   for(const q of quick){sec.append(h("h3",{},q.title),q.lead?h("p",{class:"lead",style:"margin-bottom:8px"},q.lead):null,
     h("div",{class:"give"},...q.items.map(([lab,cmd])=>h("button",{type:"button",title:cmd,onclick:()=>copyText(cmd,null)},lab))))}
-  if(c.table){sec.append(h("h3",{},"一覧"));const tb=h("tbody");
-    for(const r of c.table.rows)tb.append(h("tr",{},h("td",{},h("code",{},r[0])),h("td",{},r[1]),h("td",{},h("code",{},r[2]))));
+  if(c.table){sec.append(h("h3",{},"一覧"));const tb=h("tbody");const pl=!!c.table.plain;
+    for(const r of c.table.rows)tb.append(h("tr",{},...r.map((x,i)=>h("td",{},(i===1&&!pl)?x:(i!==1&&!pl?h("code",{},x):x)))));
     sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},...c.table.head.map(x=>h("th",{},x)))),tb)))}
-  if(c.list){
+
+  /* ---------- 図鑑（カードの一覧） ---------- */
+  defs.forEach((def,li)=>{
+    const lst={def,slot:def.slot,cards:[],shown:[],li,reset:()=>{}};lists.push(lst);
     const grid=h("div",{class:"grid"});const count=h("span",{class:"count"});
-    const cards=c.list.data.map(r=>cardFor(c.list.type,r));
-    const groups=[...new Set(cards.map(k=>k._data.group))];
+    const hooks={select:(card,flash)=>select(lst,card,flash),
+      zoom:card=>zoomOpen(lst.shown.map(k=>cardZoomItem(k,lst,api)),Math.max(0,lst.shown.indexOf(card)))};
+    lst.cards=def.data.map(row=>makeCard(describe(def.type,row,def),def,hooks));
+    const groups=[...new Set(lst.cards.map(k=>k._data.group))];
     let fGroup=null,fStar=false,q="";
-    const search=h("input",{class:"search",type:"search",placeholder:"さがす（名前・ID）　例：ねこ、fire","aria-label":"図鑑をさがす"});
+    const search=h("input",{class:"search",type:"search",placeholder:"さがす（名前・ID）　例：ねこ、fire","aria-label":def.title+"をさがす"});
     const filters=h("div",{class:"filters",role:"group","aria-label":"しぼりこみ"});
-    const mk=(label,fn)=>h("button",{class:"chip",type:"button","aria-pressed":"false",onclick:fn},label);
-    const allBtn=mk("ぜんぶ",()=>{fGroup=null;draw()});filters.append(allBtn);
-    const gBtns=groups.length>1?groups.map(g=>{const b=mk(g,()=>{fGroup=fGroup===g?null:g;draw()});b._g=g;filters.append(b);return b}):[];
-    const hasStar=cards.some(k=>k._data.star);
-    const starBtn=mk("★ おすすめだけ",()=>{fStar=!fStar;draw()});if(hasStar)filters.append(starBtn);
+    const mkChip=(label,fn)=>h("button",{class:"chip",type:"button","aria-pressed":"false",onclick:fn},label);
+    const allBtn=mkChip("ぜんぶ",()=>{fGroup=null;draw()});filters.append(allBtn);
+    const gBtns=groups.length>1?groups.map(g=>{const b=mkChip(g,()=>{fGroup=fGroup===g?null:g;draw()});b._g=g;filters.append(b);return b}):[];
+    const hasStar=lst.cards.some(k=>k._data.star);
+    const starBtn=mkChip("★ おすすめだけ",()=>{fStar=!fStar;draw()});if(hasStar)filters.append(starBtn);
     search.addEventListener("input",()=>{q=toKata(search.value.trim());draw()});
     function draw(){
       allBtn.setAttribute("aria-pressed",fGroup?"false":"true");gBtns.forEach(b=>b.setAttribute("aria-pressed",b._g===fGroup?"true":"false"));starBtn.setAttribute("aria-pressed",fStar?"true":"false");
-      grid.replaceChildren();let n=0,last=null;
-      for(const k of cards){const d=k._data;if(fGroup&&d.group!==fGroup)continue;if(fStar&&!d.star)continue;if(q&&!d.search.includes(q))continue;
+      grid.replaceChildren();lst.shown=[];let last=null;
+      for(const k of lst.cards){const d=k._data;if(fGroup&&d.group!==fGroup)continue;if(fStar&&!d.star)continue;if(q&&!d.search.includes(q))continue;
         if(!fGroup&&!q&&groups.length>1&&d.group!==last){grid.append(h("div",{class:"grp-title"},d.group));last=d.group}
-        grid.append(k);n++}
-      if(!n)grid.append(h("div",{class:"empty",style:"grid-column:1/-1"},"見つかりません。ひらがな・カタカナ・英語でためしてみよう。"));
-      count.textContent=n+"こ";
+        grid.append(k);lst.shown.push(k)}
+      if(!lst.shown.length)grid.append(h("div",{class:"empty",style:"grid-column:1/-1"},"見つかりません。ひらがな・カタカナ・英語でためしてみよう。"));
+      count.textContent=lst.shown.length+"こ";
     }
-    const select=(k,flash)=>{if(!st)return;cards.forEach(x=>x.setAttribute("aria-pressed","false"));k.setAttribute("aria-pressed","true");
-      st.item=k._data;if(c.level==="ench")st.lv=k._data.max||1;st.update();
-      if(flash&&maker){maker.classList.remove("flash");void maker.offsetWidth;maker.classList.add("flash");
-        if(getComputedStyle(maker).position==="static"){const r=maker.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)maker.scrollIntoView({behavior:RM.matches?"auto":"smooth",block:"center"})}}};
-    cards.forEach(k=>k.addEventListener("click",()=>select(k,true)));
-    sec.append(h("h3",{},c.list.title,count),h("div",{class:"finder"},search,filters),grid);
+    lst.reset=()=>{fGroup=null;fStar=false;q="";search.value="";draw()};
+    sec.append(h("h3",{},def.title,count));
+    if(def.lead)sec.append(h("p",{class:"lead",style:"margin:-4px 0 10px"},def.lead));
+    sec.append(h("div",{class:"finder"},search,filters),grid);
     draw();
-    if(c.level)sec.append(h("h3",{},"レベル早見表"),levelTable(c));
-    select(cards.find(k=>k._data.star)||cards[0],false);
+  });
+  const d0=defs[0];
+  if(c.level&&d0)sec.append(h("h3",{},"レベル早見表"),levelTable(c,d0));
+  const ideas=IDEAS[c.key];
+  if(ideas)sec.append(h("h3",{},"💡 アイデア集"),h("p",{class:"lead",style:"margin:-4px 0 10px"},"作ってみたくなるコマンドを集めました。コピーしてそのまま使えます（座標などは、自分のワールドに合わせて直してね）。"),
+    h("div",{class:"ideas"},...ideas.map(([t,d,cs])=>h("div",{class:"idea"},h("h4",{},t),h("p",{},d),...cs.map(cmd=>chatRow(cmd,t+"："+d))))));
+
+  /* ---------- さいしょの選択（前回のこりがあればそれを使う） ---------- */
+  lists.forEach(lst=>{
+    const want=sv.sel&&sv.sel[lst.slot];
+    let card=want&&lst.cards.find(k=>k._data.id===want);
+    if(!card&&lst.def.defaultId)card=lst.cards.find(k=>k._data.id===lst.def.defaultId);
+    if(!card)card=lst.cards.find(k=>k._data.star)||lst.cards[0];
+    if(card)setSel(lst,card);
+  });
+  if(st){
+    if(!st.lv&&c.level==="ench"&&st.sel.id)st.lv=st.sel.id.max||1;
+    regen("init");
+    if(sv.edited&&sv.cmd&&sv.cmd!==st.gen){st.cmd=sv.cmd;st.edited=true;paint()}
   }
+  c._api={focus(li,id){
+    const lst=lists[li];if(!lst)return;lst.reset();
+    const card=lst.cards.find(k=>k._data.id===id);if(!card)return;
+    select(lst,card,false);
+    requestAnimationFrame(()=>{card.scrollIntoView({block:"start",behavior:RM.matches?"auto":"smooth"});card.classList.remove("flash");void card.offsetWidth;card.classList.add("flash")});
+  }};
   return sec;
 }
-
 function renderBasics(c){
   const B=BASICS;const sec=h("section",{id:"sec-basics"});
   sec.append(h("div",{class:"sec-head"},h("h2",{},"きほん"),h("span",{class:"jp"},c.jp)),h("p",{class:"lead"},c.lead));
@@ -1665,25 +2826,94 @@ function renderBasics(c){
   sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},h("th",{},"書き方"),h("th",{},"場所"),h("th",{},"ポイント"))),tb3)));
   sec.append(h("div",{class:"notes"},h("div",{class:"note",html:"<b>~ と ^ のちがい：</b>~ は東西南北で決まる（向きをかえても同じ）。^ は自分の向いている方向で決まる（「目の前」にしたいときは ^）。"})));
   sec.append(h("h3",{},"うまくいかないとき"),h("div",{class:"notes"},...B.trouble.map(t=>h("div",{class:"note warn",html:t}))));
-  sec.append(h("h3",{},"先生のおたすけコマンド"),h("div",{class:"examples"},...B.teacher.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd),h("p",{class:"what"},w)))));
+  sec.append(h("h3",{},"先生のおたすけコマンド"),h("div",{class:"examples"},...B.teacher.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd,w),h("p",{class:"what"},w)))));
   sec.append(h("div",{class:"notes"},h("div",{class:"note warn",html:"<b>/kill @e[type=!player]</b> はプレイヤー以外の<b>ぜんぶ</b>（動物、落ちているアイテム、防具立て、エージェント、NPCなど）を消します。使うときは気をつけて。"})));
   return sec;
 }
 
+
+
+
+/* ====================== 検索 ====================== */
+const SEARCH=[];
+function buildIndex(){
+  for(const c of CMDS)SEARCH.push({kind:"cmd",key:c.key,label:c.name,sub:c.jp,text:toKata([c.name,c.jp,c.lead||"",KW[c.key]||""].join(" "))});
+  const seen=new Set();
+  for(const c of CMDS){listsOf(c).forEach((def,li)=>{
+    if(seen.has(def.data))return;seen.add(def.data);
+    for(const row of def.data){const o=describe(def.type,row,def);
+      SEARCH.push({kind:"id",key:c.key,li,id:o.id,label:o.name,sub:o.shown,tab:c.name,text:toKata([o.id,o.shown,o.name,o.desc,o.group].join(" "))})}
+  })}
+}
+function runSearch(raw){
+  const q=toKata(raw.trim().replace(/^\//,""));if(!q)return{cmds:[],ids:[]};
+  const terms=q.split(/\s+/).filter(Boolean);
+  const scoreOf=e=>{
+    if(!terms.every(t=>e.text.includes(t)))return -1;
+    const lab=toKata(e.label.replace(/^\//,""));const sub=toKata(e.sub||"");let s=0;
+    for(const t of terms){if(lab===t)s+=100;else if(lab.startsWith(t))s+=50;else if(lab.includes(t)||sub.includes(t))s+=20;else s+=5}
+    return s};
+  const pick=kind=>SEARCH.filter(e=>e.kind===kind).map(e=>[scoreOf(e),e]).filter(x=>x[0]>=0).sort((a,b)=>b[0]-a[0]).slice(0,kind==="cmd"?8:10).map(x=>x[1]);
+  return{cmds:pick("cmd"),ids:pick("id")};
+}
+const FAV=["summon","give","tp","effect","particle","title","fill","gamerule"];
+const gs=$("#gsearch"),sres=$("#sres");
+function closeResults(){sres.hidden=true;gs.setAttribute("aria-expanded","false")}
+function goCmd(key){closeResults();gs.value="";gs.blur();show(key,true)}
+function goId(e){closeResults();gs.value="";gs.blur();show(e.key,true,true);const c=CMDS.find(x=>x.key===e.key);if(c&&c._api)c._api.focus(e.li,e.id)}
+function renderResults(raw){
+  sres.replaceChildren();
+  const btn=(label,sub,tag,fn)=>h("button",{type:"button",role:"option",onclick:fn},h("span",{class:"rl"},label),h("span",{class:"rs"},sub),tag?h("span",{class:"rt"},tag):null);
+  if(!raw.trim()){
+    sres.append(h("h4",{},"よく使うコマンド"));
+    FAV.forEach(k=>{const c=CMDS.find(x=>x.key===k);if(c)sres.append(btn(c.name,c.jp,"",()=>goCmd(c.key)))});
+  }else{
+    const{cmds,ids}=runSearch(raw);
+    if(cmds.length){sres.append(h("h4",{},"コマンド"));cmds.forEach(e=>{const c=CMDS.find(x=>x.key===e.key);sres.append(btn(e.label,e.sub,"",()=>goCmd(c.key)))})}
+    if(ids.length){sres.append(h("h4",{},"図鑑のID（タップでそのカードへ）"));ids.forEach(e=>sres.append(btn(e.label,e.sub,e.tab,()=>goId(e))))}
+    if(!cmds.length&&!ids.length)sres.append(h("p",{class:"sres-empty"},"見つかりません。ひらがな・カタカナ・英語でためしてみよう。"));
+  }
+  sres.hidden=false;gs.setAttribute("aria-expanded","true");
+}
+gs.addEventListener("input",()=>renderResults(gs.value));
+gs.addEventListener("focus",()=>renderResults(gs.value));
+gs.addEventListener("keydown",e=>{
+  const btns=[...sres.querySelectorAll("button")];
+  if(e.key==="ArrowDown"){e.preventDefault();if(btns[0])btns[0].focus()}
+  else if(e.key==="Enter"&&!e.isComposing&&e.keyCode!==229){e.preventDefault();if(btns[0])btns[0].click()}
+  else if(e.key==="Escape"){closeResults();gs.blur()}
+});
+sres.addEventListener("keydown",e=>{
+  const btns=[...sres.querySelectorAll("button")];const i=btns.indexOf(document.activeElement);
+  if(e.key==="ArrowDown"){e.preventDefault();btns[Math.min(i+1,btns.length-1)].focus()}
+  else if(e.key==="ArrowUp"){e.preventDefault();if(i<=0)gs.focus();else btns[i-1].focus()}
+  else if(e.key==="Escape"){closeResults();gs.focus()}
+});
+document.addEventListener("pointerdown",e=>{if(!e.target.closest(".searchbox"))closeResults()});
+document.addEventListener("keydown",e=>{
+  if(!$("#zoom").hidden)return;
+  const tg=(e.target.tagName||"").toLowerCase();
+  if((e.key==="/"&&tg!=="input"&&tg!=="textarea")||((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k")){e.preventDefault();gs.focus();gs.select()}
+});
+
 /* ====================== タブ ====================== */
-const tabsEl=$("#tabs"),groupsEl=$("#groups"),main=$("#main");const built={};
+const tabsEl=$("#tabs"),groupsEl=$("#groups"),main=$("#main");const built={};const scrollMemo={};let curKey=null;
 const GROUPS=[...new Set(ORDER.map(k=>GROUP[k]))];
 GROUPS.forEach(g=>groupsEl.append(h("button",{class:"gchip",type:"button","aria-pressed":"false","data-g":g,onclick:()=>show(CMDS.find(c=>GROUP[c.key]===g).key,true)},g)));
-function show(key,push){
+function show(key,push,keepScroll){
   const c=CMDS.find(x=>x.key===key)||CMDS[0];const g=GROUP[c.key];
+  if(curKey)scrollMemo[curKey]=window.scrollY;
   for(const b of groupsEl.children)b.setAttribute("aria-pressed",b.dataset.g===g?"true":"false");
   tabsEl.replaceChildren(...CMDS.filter(x=>GROUP[x.key]===g).map(x=>h("button",{class:"tab",role:"tab",type:"button",id:"tab-"+x.key,"aria-selected":x.key===c.key?"true":"false","aria-controls":"sec-"+x.key,onclick:()=>show(x.key,true)},h("span",{class:"tn"},x.name),h("span",{class:"tj"},x.jp))));
   if(!built[c.key])built[c.key]=c.key==="basics"?renderBasics(c):renderCmd(c);
+  curKey=c.key;
   main.replaceChildren(built[c.key]);
-  if(push){try{history.replaceState(null,"","#"+c.key)}catch(e){}window.scrollTo({top:0})}
-  const ch=groupsEl.querySelector('[aria-pressed="true"]');const x=ch.getBoundingClientRect().left-groupsEl.getBoundingClientRect().left+groupsEl.scrollLeft;groupsEl.scrollLeft=Math.max(0,x-groupsEl.clientWidth/2+ch.offsetWidth/2);
+  if(push){try{history.replaceState(null,"","#"+c.key)}catch(e){}}
+  if(!keepScroll)window.scrollTo({top:push?(scrollMemo[c.key]||0):0});
+  const ch=groupsEl.querySelector('[aria-pressed="true"]');if(ch){const x=ch.getBoundingClientRect().left-groupsEl.getBoundingClientRect().left+groupsEl.scrollLeft;groupsEl.scrollLeft=Math.max(0,x-groupsEl.clientWidth/2+ch.offsetWidth/2)}
 }
 window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+buildIndex();
 show((location.hash||"").slice(1)||"basics");
 
 const nav=$("nav.tabs");const setNav=()=>document.documentElement.style.setProperty("--nav-h",nav.offsetHeight+"px");
