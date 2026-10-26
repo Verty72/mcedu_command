@@ -269,38 +269,7 @@ td.muted{color:var(--muted)}
 .mini.done{background:var(--req);color:#fff;border-color:var(--req)}
 .id.long{font-size:11px}
 .card[data-on="true"] .disc,.card:hover .disc{animation:spin 2.4s linear infinite}
-.zoom{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
-.zoom[hidden]{display:none}
-.z-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-bottom:2px solid var(--line);background:var(--surface)}
-.z-nav{display:flex;gap:10px;align-items:center}
-.z-pos{font-family:var(--pixel);color:var(--muted);min-width:5em;text-align:center}
-.zb{border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 16px;font-size:16px;font-weight:700;cursor:pointer;min-height:44px}
-.zb:hover{border-color:var(--cmd)}
-.zb[hidden]{display:none}
-.z-body{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:16px 20px 28px}
-.z-card{width:min(100%,920px);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;margin:auto}
-.z-name{font-size:clamp(28px,5vw,60px);font-weight:800;line-height:1.2}
-.z-id{font-family:var(--pixel);color:var(--req);word-break:break-all;overflow-wrap:anywhere;line-height:1.3;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:.3em .6em;max-width:100%}
-.z-desc{font-size:clamp(16px,2.4vw,28px);color:var(--muted);line-height:1.5}
-.z-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:6px}
-.zbtn{font-size:clamp(16px,2vw,22px);font-weight:800;padding:12px 26px;border-radius:12px;border:2px solid var(--cmd);cursor:pointer;background:var(--cmd);color:#fff;min-height:52px}
-.zbtn.sub{background:var(--surface);color:var(--ink);border-color:var(--line)}
-.zbtn:hover{filter:brightness(1.07)}
-.z-cmd{width:min(100%,1500px);display:flex;flex-direction:column;gap:18px;margin:auto;align-items:stretch}
-.z-cmdtext{font-family:var(--pixel);line-height:1.5;background:var(--chat);color:var(--chat-ink);padding:.7em .9em;border-radius:14px;white-space:pre-wrap;word-break:normal;overflow-wrap:anywhere}
-.z-cmd .z-desc{text-align:center}
-.lvl.big{font-size:clamp(15px,2.2vw,24px);text-align:left;border-top:0;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 18px;width:min(100%,720px)}
-.zoom .vis{height:clamp(150px,32vh,330px);width:min(100%,620px);border-radius:16px;font-size:clamp(80px,22vh,220px);overflow:hidden}
-.zoom canvas.blk{width:clamp(120px,26vh,260px)!important;height:clamp(120px,26vh,260px)!important}
-.zoom .vis.eff .orb{width:clamp(110px,24vh,230px);height:clamp(110px,24vh,230px);font-size:clamp(56px,12vh,120px)}
-.zoom .dial{width:clamp(130px,26vh,260px);height:clamp(130px,26vh,260px);font-size:clamp(14px,3vh,28px)}
-.zoom .dial .arrow{font-size:clamp(36px,8vh,80px)}
-.zoom .disc{width:clamp(130px,26vh,260px);height:clamp(130px,26vh,260px);animation:spin 3s linear infinite}
-.zoom .disc i{width:34%;height:34%}
-.zoom .fmtx{font-size:clamp(48px,12vh,120px)}
-.zoom .vis.ench{font-size:clamp(50px,10vh,100px)}
-.zoom .vis.sky{font-size:clamp(80px,20vh,200px)}
-@media (prefers-reduced-motion:reduce){.card.flash{animation:none}.zoom .disc{animation:none}}
+@media (prefers-reduced-motion:reduce){.card.flash{animation:none}.zl .disc{animation:none}}
 
 .comp{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
 .comp[hidden]{display:none}
@@ -319,30 +288,109 @@ td.muted{color:var(--muted)}
 footer p{margin:0 0 6px}
 footer .credit{font-size:12px;opacity:.85}
 @media (max-width:420px){.ideas{grid-template-columns:1fr}}
+/* ---- v5: 複数行メーカー・拡大パネル・もくじ ---- */
+.mk-rows{display:flex;flex-direction:column;gap:8px}
+.mrow{display:flex;gap:8px;align-items:stretch;border-radius:8px}
+.mrow.on{box-shadow:0 0 0 3px var(--opt)}
+.mrow .copy{min-height:44px}
+.rnum{flex:0 0 auto;align-self:center;font-family:var(--pixel);font-size:14px;color:var(--muted);width:1.6em;text-align:center}
+.mrow.on .rnum{color:var(--opt);font-weight:800}
+.rdel{flex:0 0 auto;border:1.5px solid var(--line);background:var(--surface);border-radius:8px;width:34px;cursor:pointer;font-weight:800;color:var(--muted)}
+.rdel:hover{border-color:var(--hostile);color:var(--hostile)}
+.mrow:not(.multi) .rnum,.mrow:not(.multi) .rdel{display:none}
+.mrow.edited .editor::after,.zm-row.edited .editor::after{content:"✏️ いじった";position:absolute;right:10px;top:-10px;background:var(--opt);color:#fff;font-size:11px;font-weight:800;padding:0 10px;border-radius:999px;line-height:20px;pointer-events:none}
+.mk-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mk-actions .mini2{flex:0 0 auto}
+.mini2.zoomb{border-color:var(--cmd);color:var(--cmd)}
+#zlayer{position:fixed;inset:0;pointer-events:none;z-index:100}
+.zp{position:fixed;pointer-events:auto;display:flex;flex-direction:column;background:var(--bg);border:3px solid var(--cmd);border-radius:14px;box-shadow:0 18px 40px -16px rgba(0,0,0,.55);overflow:hidden;width:calc(50vw - 12px);height:calc(50vh - 34px)}
+.zp.s0{top:8px;left:8px}.zp.s1{top:8px;right:8px}.zp.s2{bottom:52px;left:8px}.zp.s3{bottom:52px;right:8px}
+.zp.max{top:8px;left:8px;right:8px;bottom:52px;width:auto;height:auto}
+@supports (top:env(safe-area-inset-top)){.zp.s0,.zp.s1,.zp.max{top:calc(8px + env(safe-area-inset-top,0px))}.zp.s2,.zp.s3,.zp.max{bottom:calc(52px + env(safe-area-inset-bottom,0px))}}
+@media (max-width:700px){.zp:not(.max){width:calc(100vw - 16px);left:8px;right:auto}}
+.zp-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding:6px 8px;background:var(--surface);border-bottom:2px solid var(--line)}
+.zp-title{font-weight:800;font-size:13px;flex:1 1 6em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zp-nav,.zp-size,.zp-win{display:flex;align-items:center;gap:4px}
+.zpb{border:1.5px solid var(--line);background:var(--surface-2);border-radius:8px;padding:3px 9px;font-size:13px;font-weight:800;cursor:pointer;min-height:30px;white-space:nowrap;color:var(--ink)}
+.zpb:hover:not(:disabled){border-color:var(--cmd)}
+.zpb:disabled{opacity:.4;cursor:default}
+.zpb.close{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.zp-range{width:clamp(70px,9vw,140px);accent-color:var(--cmd)}
+.zp-pos{font-family:var(--pixel);font-size:12px;color:var(--muted);min-width:3.5em;text-align:center}
+.zp-body{flex:1;min-height:0;padding:12px 16px;container-type:size;container-name:zp;overflow:hidden}
+.zc{height:100%;display:grid;grid-template-columns:minmax(60px,30%) minmax(0,1fr);gap:18px}
+.zl{container-type:size;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center}
+.zl .vis{width:min(100cqw,100cqh);height:min(100cqw,100cqh);border-radius:14px;font-size:55cqmin;overflow:hidden;padding-top:0}
+.zl canvas.blk{width:60cqmin!important;height:60cqmin!important}
+.zl .vis.eff .orb{width:72cqmin;height:72cqmin;font-size:36cqmin}
+.zl .dial{width:82cqmin;height:82cqmin;font-size:8cqmin}
+.zl .dial .arrow{font-size:22cqmin}
+.zl .disc{width:80cqmin;height:80cqmin;animation:spin 3s linear infinite}
+.zl .disc i{width:34%;height:34%}
+.zl .fmtx{font-size:17cqmin}
+.zl .vis.ench{font-size:24cqmin}
+.zl .vis.sky{font-size:50cqmin}
+.zr{height:100%;min-width:0;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.zr>:first-child,.zt>:first-child,.zm-rows>:first-child{margin-top:auto}
+.zr>:last-child,.zt>:last-child,.zm-rows>:last-child{margin-bottom:auto}
+.z-name{font-size:clamp(14px,7cqh,52px);font-weight:800;line-height:1.2}
+.z-id{font-family:var(--pixel);color:var(--req);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:.12em .45em;line-height:1.25;white-space:nowrap;overflow:hidden;box-sizing:border-box;width:100%;flex:0 0 auto}
+.z-id.wrap{white-space:normal;overflow-wrap:anywhere;word-break:break-all}
+.z-desc{font-size:clamp(12px,4cqh,26px);color:var(--muted);line-height:1.45}
+.lvl.big{font-size:clamp(11px,3.4cqh,22px);border-top:0;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:6px 14px}
+.z-actions{display:flex;flex-wrap:wrap;gap:8px}
+.zbtn{font-size:clamp(12px,3.2cqh,18px);font-weight:800;padding:.45em 1.1em;border-radius:10px;border:2px solid var(--cmd);cursor:pointer;background:var(--cmd);color:#fff}
+.zbtn.sub{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.zbtn.small{font-size:13px;padding:4px 12px}
+.zbtn:hover{filter:brightness(1.07)}
+@container zp (orientation:portrait){.zc{grid-template-columns:1fr;grid-template-rows:minmax(0,32%) minmax(0,1fr);gap:10px}}
+.zt{height:100%;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.z-cmdtext{font-family:var(--pixel);line-height:1.45;background:var(--chat);color:var(--chat-ink);padding:.35em .6em;border-radius:12px;white-space:pre-wrap;word-break:normal;overflow-wrap:anywhere}
+.z-cmdtext .t-cmd{color:var(--c-cmd)} .z-cmdtext .t-sel{color:var(--c-sel)} .z-cmdtext .t-num{color:var(--c-num)} .z-cmdtext .t-id{color:var(--c-req)} .z-cmdtext .t-str{color:var(--c-str)}
+.zm{height:100%;display:flex;flex-direction:column;gap:8px}
+.zm-rows{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:10px;padding-top:12px}
+.zm-row{display:flex;gap:8px;align-items:stretch;border-radius:10px}
+.zm-row.on{box-shadow:0 0 0 3px var(--opt)}
+.zm-row .copy{min-height:0}
+.editor.big .hl,.editor.big .ta{font-size:var(--zfs,40px);padding:.25em .5em;line-height:1.4}
+.editor.big .hl{min-height:calc(1.4em + .5em)}
+.zm-foot{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.toc-in{max-width:1180px;margin:0 auto;display:flex;gap:6px;align-items:center;overflow-x:auto;padding:5px 14px 6px;scrollbar-width:thin;border-top:1px dashed var(--line)}
+.toc-in[hidden]{display:none}
+.toc-lab{font-size:12px;color:var(--muted);font-weight:800;white-space:nowrap;margin-right:2px}
+.toc-b{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:1px 11px;font-size:12.5px;cursor:pointer;white-space:nowrap;line-height:1.7}
+.toc-b:hover{border-color:var(--cmd);color:var(--cmd)}
+h3.hit{animation:hit 1.4s ease;border-radius:6px}
+@keyframes hit{0%{background:var(--tip)}100%{background:transparent}}
+.float-ctl{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:130;display:flex;gap:8px;flex-wrap:wrap}
+.ui-toggle[hidden]{display:none}
+body.hide-zp #zlayer{display:none}
+.ui-toggle{border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 6px 16px -8px rgba(0,0,0,.45)}
+.ui-toggle:hover{border-color:var(--cmd)}
+body.hide-ui nav.tabs,body.hide-ui main .maker{display:none}
+@media (prefers-reduced-motion:reduce){h3.hit{animation:none}}
 @media (max-width:700px),(max-height:560px){.maker{position:static}}
 @media (prefers-reduced-motion:reduce){.maker.flash{animation:none}.card:hover .disc,.card[aria-pressed="true"] .disc{animation:none}.toast{transition:none}}
-@media print{nav.tabs,.maker,.finder,.theme-btn,.copy,.zoom,.card-foot,.zoom-mini{display:none!important}body{background:#fff}.card{break-inside:avoid}}
+@media print{nav.tabs,.maker,.finder,.theme-btn,.copy,.zp,#zlayer,.float-ctl,.toc-in,.card-foot,.zoom-mini{display:none!important}body{background:#fff}.card{break-inside:avoid}}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="brand">
     <h1>マイクラ教育版 コマンド図鑑</h1>
-    <p>図鑑のカードをタップすると、そのIDでコマンドができるよ。コマンドは書きかえもOK。「拡大」で大きく見せられます。</p>
+    <p>図鑑のカードをタップすると、そのIDでコマンドができるよ。コマンドは書きかえもOK。「拡大」で大きく見せられます（4つまで）。</p>
   </div>
   <button class="theme-btn" id="themeBtn" type="button">画面の明るさ：自動</button>
 </header>
-<nav class="tabs" aria-label="コマンドをえらぶ"><div class="nav-top"><div class="searchbox"><input class="gsearch" id="gsearch" type="search" placeholder="さがす（例：ワープ、title）" aria-label="コマンドや図鑑のIDをさがす（/ キーでも開けます）" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sres"><div class="sres" id="sres" role="listbox" hidden></div></div><div class="groups-in" id="groups" role="group" aria-label="なかま"></div></div><div class="tabs-in" id="tabs" role="tablist"></div></nav>
+<nav class="tabs" aria-label="コマンドをえらぶ"><div class="nav-top"><div class="searchbox"><input class="gsearch" id="gsearch" type="search" placeholder="さがす（例：ワープ、title）" aria-label="コマンドや図鑑のIDをさがす（/ キーでも開けます）" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sres"><div class="sres" id="sres" role="listbox" hidden></div></div><div class="groups-in" id="groups" role="group" aria-label="なかま"></div></div><div class="tabs-in" id="tabs" role="tablist"></div><div class="toc-in" id="toc" aria-label="もくじ" hidden></div></nav>
 <main id="main"></main>
 <footer>
   <p>マイクラ教育版（統合版ベース）向け。バージョンによって使えないIDや、見え方・音がちがうことがあります。カードの絵や、レベルごとの数字は「だいたい」の目安です。</p>
   <p class="credit">文責：ひろ　／　授業でのご利用はご自由に。無断での転載・販売はご遠慮ください。　／　Minecraft は Mojang Studios / Microsoft の商標です。この資料は非公式です。</p>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<div class="zoom" id="zoom" role="dialog" aria-modal="true" aria-label="拡大表示" hidden>
-  <div class="z-bar"><div class="z-nav"><button type="button" id="zPrev" class="zb">‹ 前へ</button><span id="zPos" class="z-pos"></span><button type="button" id="zNext" class="zb">次へ ›</button></div><button type="button" id="zClose" class="zb z-close">✕ とじる（Esc）</button></div>
-  <div class="z-body" id="zBody"></div>
-</div>
+<div id="zlayer"></div>
+<div class="float-ctl"><button class="ui-toggle" id="uiToggle" type="button" aria-pressed="false">⬆ タブとメーカーをかくす</button><button class="ui-toggle" id="zpToggle" type="button" aria-pressed="false" hidden>拡大をかくす</button></div>
 
 <script>
 /* ====================== データ ====================== */
@@ -2337,76 +2385,167 @@ function makeCard(o,def,hooks){
   return card;
 }
 
-/* ====================== 拡大表示 ====================== */
-const Z={items:[],i:0,vis:[],opener:null};
-function fitFont(text,wFrac,hFrac,min,max){
-  const W=Math.max(280,innerWidth*wFrac),H=Math.max(160,innerHeight*hFrac);
-  let w=0;for(const ch of text){w+=/[\x00-\x7f]/.test(ch)?0.6:1.05}
-  return Math.round(Math.max(min,Math.min(max,Math.sqrt((W*H)/(Math.max(1,w)*1.45)))));
+/* ====================== 拡大パネル（画面の4分の1ずつ・最大4こ） ====================== */
+const ZP={list:[],top:100};
+function fitBinary(apply,ok,lo,hi){let best=lo;apply(lo);if(!ok())return lo;while(lo<=hi){const mid=(lo+hi)>>1;apply(mid);if(ok()){best=mid;lo=mid+1}else hi=mid-1}apply(best);return best}
+function openPanel(spec){
+  if(ZP.list.length>=4){closePanel(ZP.list[0]);toast("拡大は4つまで。いちばん古いものと入れかえました")}
+  const used=new Set(ZP.list.map(q=>q.slot));let slot=0;while(used.has(slot))slot++;
+  const p={slot,fs:null,cur:40,max:false,content:null,i:spec.nav?spec.nav.i:0};
+  const title=h("span",{class:"zp-title"});
+  const pos=h("span",{class:"zp-pos"});
+  const prev=h("button",{class:"zpb",type:"button","aria-label":"前へ",onclick:()=>step(-1)},"‹ 前");
+  const next=h("button",{class:"zpb",type:"button","aria-label":"次へ",onclick:()=>step(1)},"次 ›");
+  const range=h("input",{type:"range",min:"12",max:"260",step:"2",class:"zp-range","aria-label":"文字の大きさ"});
+  const minus=h("button",{class:"zpb",type:"button","aria-label":"文字を小さく",onclick:()=>setFs(Math.max(12,Math.round(p.cur*0.85)))},"A−");
+  const plus=h("button",{class:"zpb",type:"button","aria-label":"文字を大きく",onclick:()=>setFs(Math.min(260,Math.round(p.cur*1.15)))},"A＋");
+  const fitB=h("button",{class:"zpb",type:"button",title:"パネルにぴったりの大きさにもどす",onclick:()=>{p.fs=null;fit()}},"ぴったり");
+  const maxB=h("button",{class:"zpb",type:"button",onclick:()=>{p.max=!p.max;layout()}},"大きく");
+  const moveB=h("button",{class:"zpb",type:"button","aria-label":"となりの場所へ動かす",title:"となりの場所へ動かす",onclick:()=>move()},"⇄");
+  const closeB=h("button",{class:"zpb close",type:"button","aria-label":"とじる",onclick:()=>closePanel(p)},"✕");
+  const body=h("div",{class:"zp-body"});
+  const el=h("div",{class:"zp",role:"region","aria-label":"拡大表示"},
+    h("div",{class:"zp-bar"},title,spec.nav?h("span",{class:"zp-nav"},prev,pos,next):null,
+      h("span",{class:"zp-size"},minus,range,plus,fitB),h("span",{class:"zp-win"},maxB,moveB,closeB)),body);
+  range.addEventListener("input",()=>setFs(+range.value));
+  function apply(v){p.cur=v;range.value=v;if(p.content)p.content.apply(v)}
+  function setFs(v){p.fs=v;apply(v)}
+  function fit(){if(!p.content)return;if(p.fs!=null){apply(p.fs);return}
+    const v=fitBinary(x=>p.content.apply(x),()=>p.content.ok(),12,260);p.cur=v;range.value=v}
+  let fitQ=0;p.refit=()=>{if(p.fs!=null||fitQ)return;fitQ=requestAnimationFrame(()=>{fitQ=0;fit()})};
+  function render(){
+    if(p.content&&p.content.destroy)p.content.destroy();
+    const it=spec.nav?spec.nav.items[p.i]:null;
+    p.content=spec.make(it,p);
+    title.textContent=p.content.title||spec.title||"";
+    body.replaceChildren(p.content.el);
+    if(spec.nav){pos.textContent=(p.i+1)+" / "+spec.nav.items.length;prev.disabled=next.disabled=spec.nav.items.length<2}
+    requestAnimationFrame(fit);
+  }
+  function step(d){const n=spec.nav.items.length;p.i=(p.i+d+n)%n;render()}
+  function front(){el.style.zIndex=++ZP.top}
+  function layout(){el.className="zp s"+p.slot+(p.max?" max":"");maxB.textContent=p.max?"4分の1にもどす":"大きく";front();requestAnimationFrame(fit)}
+  function move(){const to=(p.slot+1)%4;const other=ZP.list.find(q=>q!==p&&q.slot===to);if(other){other.slot=p.slot;other.layout()}p.slot=to;layout()}
+  p.layout=layout;p.el=el;
+  el.addEventListener("pointerdown",front);
+  el.addEventListener("keydown",e=>{if(e.key==="Escape"){e.stopPropagation();closePanel(p)}});
+  p.ro=new ResizeObserver(()=>p.refit());p.ro.observe(body);
+  document.body.classList.remove("hide-zp");
+  $("#zlayer").append(el);ZP.list.push(p);layout();render();updateZT();
+  return p;
 }
-function zoomClean(){for(const v of Z.vis){io.unobserve(v);if(v._sys)live.delete(v._sys)}Z.vis=[]}
-function zoomRender(){
-  zoomClean();
-  const it=Z.items[Z.i];const body=$("#zBody");body.replaceChildren(it.build());body.scrollTop=0;
-  const multi=Z.items.length>1;$("#zPrev").hidden=!multi;$("#zNext").hidden=!multi;$("#zPos").textContent=multi?`${Z.i+1} / ${Z.items.length}`:"";
+function updateZT(){
+  const b=$("#zpToggle");const n=ZP.list.length;b.hidden=!n;
+  if(!n)document.body.classList.remove("hide-zp");
+  const hid=document.body.classList.contains("hide-zp");
+  b.setAttribute("aria-pressed",hid?"true":"false");b.textContent=hid?`拡大を出す（${n}）`:`拡大をかくす（${n}）`;
 }
-function zoomOpen(items,i){
-  if(!items.length)return;
-  Z.items=items;Z.i=Math.max(0,i);Z.opener=document.activeElement;
-  $("#zoom").hidden=false;
-  for(const s of ["header.top","nav.tabs","main","footer"]){const n=$(s);if(n)n.inert=true}
-  document.body.style.overflow="hidden";
-  zoomRender();$("#zClose").focus();
+function closePanel(p){
+  if(p.ro)p.ro.disconnect();if(p.content&&p.content.destroy)p.content.destroy();
+  p.el.remove();ZP.list=ZP.list.filter(q=>q!==p);updateZT();
 }
-function zoomClose(){
-  $("#zoom").hidden=true;zoomClean();
-  for(const s of ["header.top","nav.tabs","main","footer"]){const n=$(s);if(n)n.inert=false}
-  document.body.style.overflow="";
-  if(Z.opener&&Z.opener.focus&&document.contains(Z.opener))Z.opener.focus();
+/* カードの拡大：左に小さめの絵、右に大きなID */
+function cardContent(card,lst,api){
+  const o=card._o;const vis=o.mkVis();if(vis._sys)io.observe(vis);
+  const idEl=h("div",{class:"z-id"+(o.shown.length>30?" wrap":"")},o.shown);
+  const right=h("div",{class:"zr"},h("div",{class:"z-name"},o.name),idEl);
+  if(o.desc)right.append(h("div",{class:"z-desc"},o.desc));
+  if(o.lv&&o.lv.fn){const box=h("div",{class:"lvl big"});const n=Math.min(o.type==="ench"?o.max:5,5);
+    for(let L=1;L<=n;L++)box.append(h("div",{},h("b",{},"Lv."+L+(o.type==="eff"?"（コマンドでは "+(L-1)+"）":"")+" "),o.lv.fn(L)));right.append(box)}
+  else if(o.lv)right.append(h("div",{class:"lvl big none"},"レベルで変わりません"));
+  if(o.lvText)right.append(h("div",{class:"lvl big"},...o.lvText.map(([a,b])=>h("div",{},h("b",{},a+" "),b))));
+  const act=h("div",{class:"z-actions"},h("button",{class:"zbtn",type:"button",onclick:e=>copyText(o.use,e.currentTarget)},lst.def.use==="x"?"ルールをコピー":"IDをコピー"));
+  if(api.hasMaker)act.append(h("button",{class:"zbtn sub",type:"button",onclick:()=>{api.pick(lst,card);toast("コマンドメーカーに入れました")}},"このIDでコマンドをつくる"));
+  right.append(act);
+  return {el:h("div",{class:"zc"},h("div",{class:"zl"},vis),right),title:o.name,
+    apply:fs=>{idEl.style.fontSize=fs+"px"},
+    ok:()=>right.scrollHeight<=right.clientHeight+1&&idEl.scrollWidth<=idEl.clientWidth+1,
+    destroy:()=>{io.unobserve(vis);if(vis._sys){live.delete(vis._sys);hovered.delete(vis._sys)}}};
 }
-function zoomStep(d){if(Z.items.length<2)return;Z.i=(Z.i+d+Z.items.length)%Z.items.length;zoomRender()}
-function cmdZoomItem(getCmd,what){
-  return {build:()=>{
-    const cmd=getCmd();const t=h("div",{class:"z-cmdtext",style:"font-size:"+fitFont(cmd,0.86,0.5,22,96)+"px"});t.append(hl(cmd));
-    const w=h("div",{class:"z-cmd"},t);
-    if(what)w.append(h("div",{class:"z-desc"},what));
-    w.append(h("div",{class:"z-actions"},h("button",{class:"zbtn",type:"button",onclick:e=>copyText(cmd,e.currentTarget)},"コピー")));
-    return w}};
+function openCardPanel(lst,card,api){
+  const items=lst.shown.length?lst.shown.slice():[card];
+  openPanel({nav:{items,i:Math.max(0,items.indexOf(card))},make:k=>cardContent(k,lst,api)});
 }
-function cardZoomItem(card,lst,api){
-  return {build:()=>{
-    const o=card._o;const vis=o.mkVis();if(vis._sys){io.observe(vis);Z.vis.push(vis)}
-    const wrap=h("div",{class:"z-card"},vis,h("div",{class:"z-name"},o.name),
-      h("div",{class:"z-id",style:"font-size:"+fitFont(o.shown,0.8,0.22,22,110)+"px"},o.shown));
-    if(o.desc)wrap.append(h("div",{class:"z-desc"},o.desc));
-    if(o.lv&&o.lv.fn){const box=h("div",{class:"lvl big"});const n=Math.min(o.type==="ench"?o.max:5,5);
-      for(let L=1;L<=n;L++)box.append(h("div",{},h("b",{},"Lv."+L+(o.type==="eff"?"（コマンドでは "+(L-1)+"）":"")+" "),o.lv.fn(L)));wrap.append(box)}
-    else if(o.lv)wrap.append(h("div",{class:"lvl big none"},"レベルで変わりません"));
-    if(o.lvText)wrap.append(h("div",{class:"lvl big"},...o.lvText.map(([a,b])=>h("div",{},h("b",{},a+" "),b))));
-    const act=h("div",{class:"z-actions"},h("button",{class:"zbtn",type:"button",onclick:e=>copyText(o.use,e.currentTarget)},(lst.def.use==="x"?"ルールをコピー":"IDをコピー")));
-    if(api.hasMaker)act.append(h("button",{class:"zbtn sub",type:"button",onclick:()=>{api.pick(lst,card);zoomClose()}},"このIDでコマンドをつくる"));
-    wrap.append(act);return wrap}};
+/* 例・アイデアの拡大（文字だけ） */
+function openTextPanel(cmd,what){
+  openPanel({title:"コマンド",make:()=>{
+    const t=h("div",{class:"z-cmdtext"});t.append(hl(cmd));
+    const box=h("div",{class:"zt"},t,what?h("div",{class:"z-desc"},what):null,h("div",{class:"z-actions"},h("button",{class:"zbtn",type:"button",onclick:e=>copyText(cmd,e.currentTarget)},"コピー")));
+    return {el:box,title:"コマンド",apply:fs=>{t.style.fontSize=fs+"px"},ok:()=>box.scrollHeight<=box.clientHeight+1};
+  }});
 }
-(function initZoom(){
-  $("#zClose").addEventListener("click",zoomClose);
-  $("#zPrev").addEventListener("click",()=>zoomStep(-1));
-  $("#zNext").addEventListener("click",()=>zoomStep(1));
-  document.addEventListener("keydown",e=>{
-    const z=$("#zoom");if(z.hidden)return;
-    if(e.key==="Escape"){e.preventDefault();zoomClose();return}
-    if(e.key==="ArrowLeft"){e.preventDefault();zoomStep(-1);return}
-    if(e.key==="ArrowRight"){e.preventDefault();zoomStep(1);return}
-    if(e.key==="Tab"){const f=[...z.querySelectorAll("button")].filter(b=>!b.hidden&&!b.disabled);if(!f.length)return;
-      const a=document.activeElement;if(e.shiftKey&&a===f[0]){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&a===f[f.length-1]){e.preventDefault();f[0].focus()}}
+/* コマンドメーカーの拡大（書きかえOK・メーカーと同時に変わる） */
+function makerContent(c,st,ops,p){
+  const compBar=h("div",{class:"comp",hidden:true});
+  const rowsBox=h("div",{class:"zm-rows"});
+  const root=h("div",{class:"zm"},rowsBox,compBar,
+    h("div",{class:"zm-foot"},h("button",{class:"zbtn sub small",type:"button",onclick:()=>ops.addRow()},"＋ 行をふやす"),h("span",{class:"comp-hint"},"ここでも書きかえ・Tab補完ができます")));
+  let eds=[];
+  const build=()=>{rowsBox.replaceChildren();eds=st.rows.map((r,i)=>{
+      const ed=makeEditor({get:()=>st.rows[i]?st.rows[i].cmd:"",set:v=>ops.setRow(i,v),compBar,onFocus:()=>ops.setActive(i),cls:"big"});
+      ed.row=h("div",{class:"zm-row"},ed.wrap,h("button",{class:"copy",type:"button",onclick:e=>copyText(st.rows[i].cmd,e.currentTarget)},"コピー"));return ed});
+    rowsBox.append(...eds.map(e=>e.row))};
+  const refresh=()=>{if(eds.length!==st.rows.length)build();const multi=st.rows.length>1;
+    eds.forEach((ed,i)=>{ed.paint();ed.row.classList.toggle("on",multi&&i===st.active);ed.row.classList.toggle("edited",!!st.rows[i].edited)});p.refit()};
+  st.subs.add(refresh);refresh();
+  return {el:root,title:c.name+" のコマンド",apply:fs=>root.style.setProperty("--zfs",fs+"px"),ok:()=>rowsBox.scrollHeight<=rowsBox.clientHeight+1,destroy:()=>st.subs.delete(refresh)};
+}
+
+/* ====================== コマンド入力欄（色つき表示＋Tab補完） ====================== */
+function makeEditor(o){
+  const hlEl=h("pre",{class:"hl","aria-hidden":"true"});
+  const ta=h("textarea",{class:"ta",rows:"1",spellcheck:"false",autocomplete:"off",autocapitalize:"off",autocorrect:"off","aria-label":o.label||"コマンド（さわって書きかえできます）"});
+  const wrap=h("div",{class:"editor"+(o.cls?" "+o.cls:"")},hlEl,ta);
+  const bar=o.compBar;let sess=null,tabOff=false;
+  const ed={wrap,ta};
+  const paint=()=>{const v=o.get();hlEl.replaceChildren(hl(v),document.createTextNode("\u200b"));if(ta.value!==v)ta.value=v};
+  ed.paint=paint;
+  const replaceRange=(a,b,txt)=>{const v=ta.value;const pos=a+txt.length;ta.value=v.slice(0,a)+txt+v.slice(b);ta.setSelectionRange(pos,pos);o.set(ta.value);paint();return pos};
+  const renderBar=()=>{
+    if(!bar)return;
+    if(document.activeElement!==ta&&!sess){if(bar._owner===ed){bar.hidden=true;bar.replaceChildren();bar._owner=null}return}
+    bar._owner=ed;bar.replaceChildren();bar.hidden=false;
+    bar.append(h("button",{class:"cchip tab",type:"button",onmousedown:e=>e.preventDefault(),onclick:()=>{ta.focus();doTab(false)}},"Tab ⇥"));
+    if(!sess){bar.append(h("span",{class:"comp-hint"},"Tab キーで、つづきを補完（Shift+Tab でもどる）"));return}
+    const n=sess.cands.length,show=Math.min(n,14),from=Math.max(0,Math.min(sess.idx-4,n-show));
+    for(let k=from;k<from+show;k++)bar.append(h("button",{class:"cchip"+(k===sess.idx?" on":""),type:"button",onmousedown:e=>e.preventDefault(),onclick:()=>pickCand(k)},sess.cands[k]));
+    if(n>show)bar.append(h("span",{class:"comp-hint"},(sess.idx+1)+" / "+n));
+  };
+  const pickCand=k=>{sess.idx=k;sess.end=replaceRange(sess.start,sess.end,sess.cands[k]);renderBar();ta.focus()};
+  const startSess=caret=>{const r=computeCompletion(ta.value,caret);if(!r)return false;sess={start:r.start,cands:r.cands,idx:0,end:caret};sess.end=replaceRange(r.start,caret,r.cands[0]);renderBar();return true};
+  const doTab=back=>{
+    if(ta.selectionStart!==ta.selectionEnd)return false;
+    const caret=ta.selectionStart;
+    if(sess&&caret===sess.end){
+      if(!back&&sess.cands.length===1){
+        const v=ta.value;if(v[caret]!==" "){ta.value=v.slice(0,caret)+" "+v.slice(caret);o.set(ta.value);paint()}
+        ta.setSelectionRange(caret+1,caret+1);sess=null;if(!startSess(caret+1))renderBar();return true}
+      sess.idx=(sess.idx+(back?-1:1)+sess.cands.length)%sess.cands.length;
+      sess.end=replaceRange(sess.start,sess.end,sess.cands[sess.idx]);renderBar();return true}
+    if(back||tabOff)return false;
+    return startSess(caret);
+  };
+  ta.addEventListener("input",()=>{let v=ta.value;if(/[\r\n]/.test(v)){v=v.replace(/[\r\n]+/g," ");ta.value=v}sess=null;tabOff=false;o.set(v);paint();renderBar()});
+  ta.addEventListener("keydown",e=>{
+    if(e.isComposing||e.keyCode===229)return;
+    if(e.key==="Enter"){e.preventDefault();return}
+    if(e.key==="Tab"){if(doTab(e.shiftKey))e.preventDefault();return}
+    if(e.key==="Escape"&&sess){e.preventDefault();e.stopPropagation();sess=null;tabOff=true;renderBar();return}
+    if(["ArrowLeft","ArrowRight","Home","End"].includes(e.key)){sess=null;renderBar()}
   });
-})();
+  ta.addEventListener("pointerdown",()=>{sess=null});
+  ta.addEventListener("focus",()=>{if(o.onFocus)o.onFocus();renderBar()});
+  ta.addEventListener("blur",()=>{sess=null;tabOff=false;setTimeout(renderBar,0)});
+  paint();
+  return ed;
+}
 
 /* ====================== 小さな部品 ====================== */
 function chatRow(cmd,what){
   const chat=h("div",{class:"chat"});chat.append(hl(cmd));
   return h("div",{class:"chat-row"},chat,
     h("button",{class:"copy",type:"button",onclick:e=>copyText(cmd,e.currentTarget),"aria-label":"コピー: "+cmd},"コピー"),
-    h("button",{class:"zoom-mini",type:"button","aria-label":"拡大: "+cmd,onclick:()=>zoomOpen([cmdZoomItem(()=>cmd,what)],0)},"拡大"));
+    h("button",{class:"zoom-mini",type:"button","aria-label":"拡大: "+cmd,onclick:()=>openTextPanel(cmd,what)},"拡大"));
 }
 function syntaxLine(parts){const chat=h("div",{class:"chat"});parts.forEach((p,i)=>{if(i)chat.append(" ");chat.append(h("span",{class:"s-"+p[1]},p[0]))});return chat}
 
@@ -2605,7 +2744,7 @@ let saved={};
 try{saved=JSON.parse(sessionStorage.getItem("zukan-v3")||"{}")||{}}catch(e){saved={}}
 function persist(key,st){
   try{saved.tabs=saved.tabs||{};
-    saved.tabs[key]={preset:st.preset,lv:st.lv,sel:Object.fromEntries(Object.entries(st.sel).map(([k,v])=>[k,v&&v.id])),cmd:st.cmd,edited:st.edited};
+    saved.tabs[key]={preset:st.preset,lv:st.lv,sel:Object.fromEntries(Object.entries(st.sel).map(([k,v])=>[k,v&&v.id])),rows:st.rows.map(r=>({cmd:r.cmd,gen:r.gen,edited:r.edited})),active:st.active};
     sessionStorage.setItem("zukan-v3",JSON.stringify(saved))}catch(e){}
 }
 
@@ -2615,20 +2754,21 @@ function renderCmd(c){
   const defs=listsOf(c);
   const lists=[];
   const sv=(saved.tabs&&saved.tabs[c.key])||{};
-  const st=c.maker?{preset:Math.min(Math.max(0,sv.preset||0),c.maker.length-1),lv:sv.lv||0,sel:{},cmd:"",gen:"",edited:false}:null;
-  let maker=null,regen=()=>{},paint=()=>{};
+  const st=c.maker?{preset:Math.min(Math.max(0,sv.preset||0),c.maker.length-1),lv:sv.lv||0,sel:{},
+    rows:(Array.isArray(sv.rows)&&sv.rows.length)?sv.rows.map(r=>({cmd:String(r.cmd||""),gen:String(r.gen||r.cmd||""),edited:!!r.edited})):[{cmd:String(sv.cmd||""),gen:"",edited:!!sv.edited}],
+    active:0,subs:new Set()}:null;
+  if(st)st.active=Math.min(Math.max(0,sv.active||0),st.rows.length-1);
+  let maker=null,regen=()=>{},emit=()=>{},ops=null;
 
-  /* ---------- コマンドメーカー ---------- */
+  /* ---------- コマンドメーカー（何行でも並べられる） ---------- */
   if(st){
     const pick=h("span",{class:"maker-pick"});
     const presetBox=h("div",{class:"presets",role:"group","aria-label":"コマンドのかたち"});
-    const hlEl=h("pre",{class:"hl","aria-hidden":"true"});
-    const ta=h("textarea",{class:"ta",rows:"1",spellcheck:"false",autocomplete:"off",autocapitalize:"off",autocorrect:"off","aria-label":"コマンド（さわって書きかえできます）"});
-    const copyB=h("button",{class:"copy",type:"button"},"コピー");
-    const resetB=h("button",{class:"mini2",type:"button"},"もとにもどす");
-    const zoomB=h("button",{class:"mini2",type:"button"},"拡大");
-    let sess=null,tabOff=false;
+    const rowsBox=h("div",{class:"mk-rows"});
     const compBar=h("div",{class:"comp",hidden:true});
+    const addB=h("button",{class:"mini2",type:"button"},"＋ 行をふやす");
+    const resetB=h("button",{class:"mini2",type:"button"},"もとにもどす");
+    const zoomB=h("button",{class:"mini2 zoomb",type:"button"},"拡大");
     let lvRow=null,lvVal=null,lvTxt=null,minus=null,plus=null;
     const lvMax=()=>c.level==="ench"?((st.sel.id&&st.sel.id.max)||1):10;
     if(c.level){
@@ -2639,9 +2779,7 @@ function renderCmd(c){
     }
     maker=h("div",{class:"maker"},
       h("div",{class:"maker-top"},h("span",{class:"maker-title"},"コマンドメーカー"),pick),
-      presetBox,lvRow,
-      h("div",{class:"chat-row mk-row"},h("div",{class:"editor"},hlEl,ta),h("div",{class:"btn-col"},copyB,h("div",{class:"btn-row"},resetB,zoomB))),
-      compBar);
+      presetBox,lvRow,rowsBox,compBar,h("div",{class:"mk-actions"},addB,resetB,zoomB));
     const tplOf=()=>c.maker[st.preset][1];
     const usedKeys=()=>new Set([...tplOf().matchAll(/\{(\w+)\}/g)].map(m=>m[1]));
     const clampLv=()=>{const it=st.sel.id;
@@ -2653,11 +2791,6 @@ function renderCmd(c){
         if(k==="max")return p.max||1;if(k==="num")return p.num!=null?p.num:(p.use||"");
         if(k==="x")return p.x||"";if(k==="val")return p.val;if(k==="def")return p.def;if(k==="ent")return p.x||"pig";if(k==="id")return p.use||"";
         const s=st.sel[k];return s?s.use:m});
-    };
-    paint=()=>{
-      hlEl.replaceChildren(hl(st.cmd),document.createTextNode("\u200b"));
-      if(ta.value!==st.cmd)ta.value=st.cmd;
-      maker.classList.toggle("edited",st.edited);resetB.disabled=!st.edited;
     };
     const refreshUI=()=>{
       const used=usedKeys();
@@ -2672,51 +2805,35 @@ function renderCmd(c){
           lvTxt.textContent=it&&it.lvfn?"→ "+it.lvfn(st.lv):"→ このこうかはレベルで変わりません";
           minus.disabled=!(it&&it.lvfn)||st.lv<=1;plus.disabled=!(it&&it.lvfn)||st.lv>=lvMax()}}
     };
+    const save=()=>persist(c.key,st);
+    emit=()=>{for(const f of st.subs)f()};
+    ops={
+      setRow(i,v){const r=st.rows[i];if(!r)return;r.cmd=v;r.edited=v!==r.gen;save();emit()},
+      setActive(i){if(st.active===i||!st.rows[i])return;st.active=i;save();emit()},
+      addRow(){if(st.rows.length>=8){toast("行は8つまでです");return}const a=st.rows[st.active];st.rows.splice(st.active+1,0,{cmd:a.cmd,gen:a.gen,edited:a.edited});st.active++;save();emit();
+        toast("行をふやしました。カードやボタンをえらぶと、むらさきのわくの行がかわります")},
+      delRow(i){if(st.rows.length<=1)return;st.rows.splice(i,1);if(i<st.active||st.active>=st.rows.length)st.active=Math.max(0,st.active-1);save();emit()}
+    };
     regen=(why)=>{
-      const was=st.edited;sess=null;st.gen=genCmd();st.cmd=st.gen;st.edited=false;paint();refreshUI();persist(c.key,st);renderBar();
-      if(was&&why!=="init")toast("えらびなおしたので、コマンドをつくりなおしました");
+      const r=st.rows[st.active];const was=r.edited;r.gen=genCmd();r.cmd=r.gen;r.edited=false;refreshUI();save();emit();
+      if(was&&why!=="init")toast(st.rows.length>1?"えらびなおしたので、むらさきのわくの行をつくりなおしました":"えらびなおしたので、コマンドをつくりなおしました");
     };
+    let eds=[];
+    const buildRows=()=>{rowsBox.replaceChildren();eds=st.rows.map((r,i)=>{
+        const ed=makeEditor({get:()=>st.rows[i]?st.rows[i].cmd:"",set:v=>ops.setRow(i,v),compBar,onFocus:()=>ops.setActive(i)});
+        const row=h("div",{class:"mrow"},h("span",{class:"rnum"},String(i+1)),ed.wrap,
+          h("button",{class:"copy",type:"button",onclick:e=>copyText(st.rows[i].cmd,e.currentTarget)},"コピー"),
+          h("button",{class:"rdel",type:"button","aria-label":(i+1)+"行目を消す",title:"この行を消す",onclick:()=>ops.delRow(i)},"✕"));
+        row.addEventListener("pointerdown",e=>{if(!e.target.closest("button"))ops.setActive(i)});
+        ed.row=row;return ed});
+      rowsBox.append(...eds.map(e=>e.row))};
+    st.subs.add(()=>{if(eds.length!==st.rows.length)buildRows();const multi=st.rows.length>1;
+      eds.forEach((ed,i)=>{ed.paint();ed.row.classList.toggle("on",multi&&i===st.active);ed.row.classList.toggle("multi",multi);ed.row.classList.toggle("edited",!!st.rows[i].edited)});
+      resetB.disabled=!st.rows[st.active].edited});
     c.maker.forEach((p,i)=>presetBox.append(h("button",{class:"chip",type:"button","aria-pressed":"false",onclick:()=>{st.preset=i;regen()}},p[0])));
-    /* ---- Tab補完（マイクラのチャットと同じ：Tabで候補が順番に出る） ---- */
-    const tabBtn=h("button",{class:"cchip tab",type:"button",onmousedown:e=>e.preventDefault(),onclick:()=>{ta.focus();doTab(false)}},"Tab ⇥");
-    const replaceRange=(a,b,txt)=>{const v=ta.value;const nv=v.slice(0,a)+txt+v.slice(b);ta.value=nv;const pos=a+txt.length;ta.setSelectionRange(pos,pos);st.cmd=nv;st.edited=st.cmd!==st.gen;paint();persist(c.key,st);return pos};
-    const renderBar=()=>{
-      compBar.replaceChildren();
-      const focused=document.activeElement===ta;
-      if(!sess){if(!focused){compBar.hidden=true;return}compBar.hidden=false;compBar.append(tabBtn,h("span",{class:"comp-hint"},"Tab キーで、つづきを補完（Shift+Tab でもどる）"));return}
-      compBar.hidden=false;compBar.append(tabBtn);
-      const n=sess.cands.length,show=Math.min(n,14),from=Math.max(0,Math.min(sess.idx-4,n-show));
-      for(let k=from;k<from+show;k++)compBar.append(h("button",{class:"cchip"+(k===sess.idx?" on":""),type:"button",onmousedown:e=>e.preventDefault(),onclick:()=>pickCand(k)},sess.cands[k]));
-      if(n>show)compBar.append(h("span",{class:"comp-hint"},(sess.idx+1)+" / "+n));
-    };
-    const pickCand=k=>{sess.idx=k;sess.end=replaceRange(sess.start,sess.end,sess.cands[k]);renderBar();ta.focus()};
-    const startSess=caret=>{const r=computeCompletion(ta.value,caret);if(!r)return false;sess={start:r.start,cands:r.cands,idx:0,end:caret};sess.end=replaceRange(r.start,caret,r.cands[0]);renderBar();return true};
-    const doTab=back=>{
-      if(ta.selectionStart!==ta.selectionEnd)return false;
-      const caret=ta.selectionStart;
-      if(sess&&caret===sess.end){
-        if(!back&&sess.cands.length===1){
-          const v=ta.value;if(v[caret]!==" "){ta.value=v.slice(0,caret)+" "+v.slice(caret);st.cmd=ta.value;st.edited=st.cmd!==st.gen;paint();persist(c.key,st)}
-          ta.setSelectionRange(caret+1,caret+1);sess=null;if(!startSess(caret+1))renderBar();return true}
-        sess.idx=(sess.idx+(back?-1:1)+sess.cands.length)%sess.cands.length;
-        sess.end=replaceRange(sess.start,sess.end,sess.cands[sess.idx]);renderBar();return true}
-      if(back||tabOff)return false;
-      return startSess(caret);
-    };
-    ta.addEventListener("input",()=>{let v=ta.value;if(/[\r\n]/.test(v)){v=v.replace(/[\r\n]+/g," ");ta.value=v}st.cmd=v;st.edited=st.cmd!==st.gen;sess=null;tabOff=false;paint();persist(c.key,st);renderBar()});
-    ta.addEventListener("keydown",e=>{
-      if(e.isComposing||e.keyCode===229)return;
-      if(e.key==="Enter"){e.preventDefault();return}
-      if(e.key==="Tab"){if(doTab(e.shiftKey))e.preventDefault();return}
-      if(e.key==="Escape"&&sess){e.preventDefault();sess=null;tabOff=true;renderBar();return}
-      if(["ArrowLeft","ArrowRight","Home","End"].includes(e.key)){sess=null;renderBar()}
-    });
-    ta.addEventListener("pointerdown",()=>{sess=null});
-    ta.addEventListener("focus",renderBar);
-    ta.addEventListener("blur",()=>{sess=null;tabOff=false;setTimeout(renderBar,0)});
-    copyB.addEventListener("click",()=>copyText(st.cmd,copyB));
-    resetB.addEventListener("click",()=>{st.cmd=st.gen;st.edited=false;paint();persist(c.key,st);toast("もとのコマンドにもどしました")});
-    zoomB.addEventListener("click",()=>zoomOpen([cmdZoomItem(()=>st.cmd,pick.textContent)],0));
+    addB.addEventListener("click",()=>ops.addRow());
+    resetB.addEventListener("click",()=>{const r=st.rows[st.active];r.cmd=r.gen;r.edited=false;save();emit();toast("もとのコマンドにもどしました")});
+    zoomB.addEventListener("click",()=>openPanel({title:c.name+" のコマンド",make:(it,p)=>makerContent(c,st,ops,p)}));
     sec.append(maker);
   }
   const flashMaker=()=>{if(!maker)return;maker.classList.remove("flash");void maker.offsetWidth;maker.classList.add("flash");
@@ -2734,21 +2851,21 @@ function renderCmd(c){
   const api={hasMaker:!!st,pick:(lst,card)=>{select(lst,card,false)}};
 
   /* ---------- 構文・例・メモ ---------- */
-  sec.append(h("h3",{},"書き方（構文）"));
+  sec.append(h("h3",{"data-toc":"構文"},"書き方（構文）"));
   sec.append(h("div",{class:"syntax"},...c.syntax.map(syntaxLine)));
   sec.append(h("div",{class:"legend"},h("span",{class:"l-cmd"},"コマンド名・決まったことば"),h("span",{class:"l-req"},"< > かならず書く"),h("span",{class:"l-opt"},"[ ] 書かなくてもOK")));
   const dl=h("dl",{class:"parts"});
   for(const[t,k,a,b]of c.parts){dl.append(h("dt",{class:"k-"+(k==="lit"?"cmd":k)},t),h("dd",{},a,b?h("small",{},b):null))}
   sec.append(dl);
-  if(c.modes){sec.append(h("h3",{},"置き方の図（横から見たところ）"),modesFig())}
-  sec.append(h("h3",{},"使ってみよう（例）"));
+  if(c.modes){sec.append(h("h3",{"data-toc":"置き方の図"},"置き方の図（横から見たところ）"),modesFig())}
+  sec.append(h("h3",{"data-toc":"例"},"使ってみよう（例）"));
   sec.append(h("div",{class:"examples"},...c.examples.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd,w),h("p",{class:"what"},w)))));
   if(c.notes)sec.append(h("div",{class:"notes"},...c.notes.map(([k,t])=>h("div",{class:"note"+(k==="warn"?" warn":""),html:t}))));
   const quick=[...(c.quick||[])];
   if(c.give)quick.push({title:"先に持たせるアイテム",lead:"タップでコピー。もらったら手に持ってから /enchant を打とう。",items:c.give.map(g=>["/give @s "+g,"/give @s "+g])});
-  for(const q of quick){sec.append(h("h3",{},q.title),q.lead?h("p",{class:"lead",style:"margin-bottom:8px"},q.lead):null,
+  for(const q of quick){sec.append(h("h3",{"data-toc":q.title},q.title),q.lead?h("p",{class:"lead",style:"margin-bottom:8px"},q.lead):null,
     h("div",{class:"give"},...q.items.map(([lab,cmd])=>h("button",{type:"button",title:cmd,onclick:()=>copyText(cmd,null)},lab))))}
-  if(c.table){sec.append(h("h3",{},"一覧"));const tb=h("tbody");const pl=!!c.table.plain;
+  if(c.table){sec.append(h("h3",{"data-toc":"一覧"},"一覧"));const tb=h("tbody");const pl=!!c.table.plain;
     for(const r of c.table.rows)tb.append(h("tr",{},...r.map((x,i)=>h("td",{},(i===1&&!pl)?x:(i!==1&&!pl?h("code",{},x):x)))));
     sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},...c.table.head.map(x=>h("th",{},x)))),tb)))}
 
@@ -2757,7 +2874,7 @@ function renderCmd(c){
     const lst={def,slot:def.slot,cards:[],shown:[],li,reset:()=>{}};lists.push(lst);
     const grid=h("div",{class:"grid"});const count=h("span",{class:"count"});
     const hooks={select:(card,flash)=>select(lst,card,flash),
-      zoom:card=>zoomOpen(lst.shown.map(k=>cardZoomItem(k,lst,api)),Math.max(0,lst.shown.indexOf(card)))};
+      zoom:card=>openCardPanel(lst,card,api)};
     lst.cards=def.data.map(row=>makeCard(describe(def.type,row,def),def,hooks));
     const groups=[...new Set(lst.cards.map(k=>k._data.group))];
     let fGroup=null,fStar=false,q="";
@@ -2779,15 +2896,15 @@ function renderCmd(c){
       count.textContent=lst.shown.length+"こ";
     }
     lst.reset=()=>{fGroup=null;fStar=false;q="";search.value="";draw()};
-    sec.append(h("h3",{},def.title,count));
+    sec.append(h("h3",{"data-toc":def.title.replace(/（.*$/,"")},def.title,count));
     if(def.lead)sec.append(h("p",{class:"lead",style:"margin:-4px 0 10px"},def.lead));
     sec.append(h("div",{class:"finder"},search,filters),grid);
     draw();
   });
   const d0=defs[0];
-  if(c.level&&d0)sec.append(h("h3",{},"レベル早見表"),levelTable(c,d0));
+  if(c.level&&d0)sec.append(h("h3",{"data-toc":"レベル早見表"},"レベル早見表"),levelTable(c,d0));
   const ideas=IDEAS[c.key];
-  if(ideas)sec.append(h("h3",{},"💡 アイデア集"),h("p",{class:"lead",style:"margin:-4px 0 10px"},"作ってみたくなるコマンドを集めました。コピーしてそのまま使えます（座標などは、自分のワールドに合わせて直してね）。"),
+  if(ideas)sec.append(h("h3",{"data-toc":"アイデア集"},"💡 アイデア集"),h("p",{class:"lead",style:"margin:-4px 0 10px"},"作ってみたくなるコマンドを集めました。コピーしてそのまま使えます（座標などは、自分のワールドに合わせて直してね）。"),
     h("div",{class:"ideas"},...ideas.map(([t,d,cs])=>h("div",{class:"idea"},h("h4",{},t),h("p",{},d),...cs.map(cmd=>chatRow(cmd,t+"："+d))))));
 
   /* ---------- さいしょの選択（前回のこりがあればそれを使う） ---------- */
@@ -2800,8 +2917,9 @@ function renderCmd(c){
   });
   if(st){
     if(!st.lv&&c.level==="ench"&&st.sel.id)st.lv=st.sel.id.max||1;
+    const ar=st.rows[st.active];const keepCmd=ar.cmd,keepEd=ar.edited;
     regen("init");
-    if(sv.edited&&sv.cmd&&sv.cmd!==st.gen){st.cmd=sv.cmd;st.edited=true;paint()}
+    if(keepEd&&keepCmd&&keepCmd!==ar.gen){ar.cmd=keepCmd;ar.edited=true;persist(c.key,st);emit()}
   }
   c._api={focus(li,id){
     const lst=lists[li];if(!lst)return;lst.reset();
@@ -2814,19 +2932,19 @@ function renderCmd(c){
 function renderBasics(c){
   const B=BASICS;const sec=h("section",{id:"sec-basics"});
   sec.append(h("div",{class:"sec-head"},h("h2",{},"きほん"),h("span",{class:"jp"},c.jp)),h("p",{class:"lead"},c.lead));
-  sec.append(h("h3",{},"コマンドを打つまで"),h("ol",{class:"steps"},...B.steps.map(([t,d])=>h("li",{},h("div",{},h("b",{},t),h("div",{style:"color:var(--muted);font-size:14.5px"},d))))));
-  sec.append(h("h3",{},"だれに？（ターゲットセレクター）"));
+  sec.append(h("h3",{"data-toc":"コマンドを打つまで"},"コマンドを打つまで"),h("ol",{class:"steps"},...B.steps.map(([t,d])=>h("li",{},h("div",{},h("b",{},t),h("div",{style:"color:var(--muted);font-size:14.5px"},d))))));
+  sec.append(h("h3",{"data-toc":"だれに？（ターゲットセレクター）"},"だれに？（ターゲットセレクター）"));
   const tb=h("tbody");for(const[a,b,e]of B.sel)tb.append(h("tr",{},h("td",{},h("code",{},a)),h("td",{},b),h("td",{},h("code",{},e))));
   sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},h("th",{},"書き方"),h("th",{},"だれ？"),h("th",{},"例"))),tb)));
   sec.append(h("p",{class:"lead",style:"margin:14px 0 8px"},"[ ] をつけると、しぼりこめます。"));
   const tb2=h("tbody");for(const[a,b]of B.filt)tb2.append(h("tr",{},h("td",{},h("code",{},a)),h("td",{},b)));
   sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},h("th",{},"書き方"),h("th",{},"いみ"))),tb2)));
-  sec.append(h("h3",{},"どこに？（座標）"));
+  sec.append(h("h3",{"data-toc":"どこに？（座標）"},"どこに？（座標）"));
   const tb3=h("tbody");for(const[a,b,n]of B.pos)tb3.append(h("tr",{},h("td",{},h("code",{},a)),h("td",{},b),h("td",{style:"color:var(--muted)"},n)));
   sec.append(h("div",{class:"tbl-wrap"},h("table",{},h("thead",{},h("tr",{},h("th",{},"書き方"),h("th",{},"場所"),h("th",{},"ポイント"))),tb3)));
   sec.append(h("div",{class:"notes"},h("div",{class:"note",html:"<b>~ と ^ のちがい：</b>~ は東西南北で決まる（向きをかえても同じ）。^ は自分の向いている方向で決まる（「目の前」にしたいときは ^）。"})));
-  sec.append(h("h3",{},"うまくいかないとき"),h("div",{class:"notes"},...B.trouble.map(t=>h("div",{class:"note warn",html:t}))));
-  sec.append(h("h3",{},"先生のおたすけコマンド"),h("div",{class:"examples"},...B.teacher.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd,w),h("p",{class:"what"},w)))));
+  sec.append(h("h3",{"data-toc":"うまくいかないとき"},"うまくいかないとき"),h("div",{class:"notes"},...B.trouble.map(t=>h("div",{class:"note warn",html:t}))));
+  sec.append(h("h3",{"data-toc":"先生のおたすけコマンド"},"先生のおたすけコマンド"),h("div",{class:"examples"},...B.teacher.map(([cmd,w])=>h("div",{class:"ex"},chatRow(cmd,w),h("p",{class:"what"},w)))));
   sec.append(h("div",{class:"notes"},h("div",{class:"note warn",html:"<b>/kill @e[type=!player]</b> はプレイヤー以外の<b>ぜんぶ</b>（動物、落ちているアイテム、防具立て、エージェント、NPCなど）を消します。使うときは気をつけて。"})));
   return sec;
 }
@@ -2891,7 +3009,6 @@ sres.addEventListener("keydown",e=>{
 });
 document.addEventListener("pointerdown",e=>{if(!e.target.closest(".searchbox"))closeResults()});
 document.addEventListener("keydown",e=>{
-  if(!$("#zoom").hidden)return;
   const tg=(e.target.tagName||"").toLowerCase();
   if((e.key==="/"&&tg!=="input"&&tg!=="textarea")||((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k")){e.preventDefault();gs.focus();gs.select()}
 });
@@ -2900,6 +3017,21 @@ document.addEventListener("keydown",e=>{
 const tabsEl=$("#tabs"),groupsEl=$("#groups"),main=$("#main");const built={};const scrollMemo={};let curKey=null;
 const GROUPS=[...new Set(ORDER.map(k=>GROUP[k]))];
 GROUPS.forEach(g=>groupsEl.append(h("button",{class:"gchip",type:"button","aria-pressed":"false","data-g":g,onclick:()=>show(CMDS.find(c=>GROUP[c.key]===g).key,true)},g)));
+const tocEl=$("#toc");
+function jumpTo(el){
+  const nx=el.nextElementSibling;if(nx&&nx.tagName==="DETAILS")nx.open=true;
+  const hidden=document.body.classList.contains("hide-ui");
+  const navH=hidden?0:$("nav.tabs").offsetHeight;
+  const mk=$("main .maker");let mkH=0;
+  if(mk&&!hidden&&getComputedStyle(mk).position==="sticky")mkH=mk.offsetHeight+8;
+  window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+scrollY-navH-mkH-10),behavior:RM.matches?"auto":"smooth"});
+  el.classList.remove("hit");void el.offsetWidth;el.classList.add("hit");
+}
+function buildToc(sec){
+  const hs=[...sec.querySelectorAll("h3[data-toc]")];tocEl.replaceChildren();
+  if(!hs.length){tocEl.hidden=true;return}
+  tocEl.hidden=false;tocEl.append(h("span",{class:"toc-lab"},"もくじ"),...hs.map(x=>h("button",{class:"toc-b",type:"button",onclick:()=>jumpTo(x)},x.dataset.toc)));
+}
 function show(key,push,keepScroll){
   const c=CMDS.find(x=>x.key===key)||CMDS[0];const g=GROUP[c.key];
   if(curKey)scrollMemo[curKey]=window.scrollY;
@@ -2908,6 +3040,7 @@ function show(key,push,keepScroll){
   if(!built[c.key])built[c.key]=c.key==="basics"?renderBasics(c):renderCmd(c);
   curKey=c.key;
   main.replaceChildren(built[c.key]);
+  buildToc(built[c.key]);
   if(push){try{history.replaceState(null,"","#"+c.key)}catch(e){}}
   if(!keepScroll)window.scrollTo({top:push?(scrollMemo[c.key]||0):0});
   const ch=groupsEl.querySelector('[aria-pressed="true"]');if(ch){const x=ch.getBoundingClientRect().left-groupsEl.getBoundingClientRect().left+groupsEl.scrollLeft;groupsEl.scrollLeft=Math.max(0,x-groupsEl.clientWidth/2+ch.offsetWidth/2)}
@@ -2924,6 +3057,9 @@ try{mode=localStorage.getItem("zukan-theme")||"auto"}catch(e){}
 const applyTheme=()=>{if(mode==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",mode);tb.textContent="画面の明るさ："+lab[mode]};
 tb.addEventListener("click",()=>{mode=modes[(modes.indexOf(mode)+1)%3];try{localStorage.setItem("zukan-theme",mode)}catch(e){}applyTheme()});
 applyTheme();
+$("#zpToggle").addEventListener("click",()=>{document.body.classList.toggle("hide-zp");updateZT();if(!document.body.classList.contains("hide-zp"))ZP.list.forEach(q=>q.refit())});
+const uiT=$("#uiToggle");
+uiT.addEventListener("click",()=>{const on=document.body.classList.toggle("hide-ui");uiT.setAttribute("aria-pressed",on?"true":"false");uiT.textContent=on?"⬇ タブとメーカーを出す":"⬆ タブとメーカーをかくす"});
 
 </script>
 </body>
