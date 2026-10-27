@@ -369,6 +369,35 @@ body.hide-zp #zlayer{display:none}
 .ui-toggle:hover{border-color:var(--cmd)}
 body.hide-ui nav.tabs,body.hide-ui main .maker{display:none}
 @media (prefers-reduced-motion:reduce){h3.hit{animation:none}}
+
+/* ---- v6: 置き場所えらび・ドラッグ・たたむ見出し ---- */
+.zp-pick{display:grid;grid-template-columns:repeat(2,18px);gap:2px;margin:0 2px}
+.zq{width:18px;height:12px;padding:0;border:1.5px solid var(--muted);background:var(--surface);border-radius:3px;cursor:pointer}
+.zq:hover{border-color:var(--cmd);background:var(--neutral-bg)}
+.zq.on{background:var(--cmd);border-color:var(--cmd)}
+.zp-bar{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.zp-bar button,.zp-bar input{cursor:pointer}
+.zp.dragging{opacity:.85;box-shadow:0 24px 50px -10px rgba(0,0,0,.6)}
+.zp.dragging .zp-bar{cursor:grabbing}
+.zdrop{position:fixed;top:8px;left:8px;right:8px;bottom:52px;display:grid;grid-template:1fr 1fr/1fr 1fr;gap:12px;pointer-events:none}
+.zdrop i{border:3px dashed var(--cmd);border-radius:14px;background:rgba(232,120,12,.06)}
+.zdrop i.on{background:rgba(232,120,12,.25)}
+.fold{border-top:1.5px solid var(--line)}
+.fold:last-of-type{border-bottom:1.5px solid var(--line)}
+.fold-sum{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 4px;border-radius:8px}
+.fold-sum::-webkit-details-marker{display:none}
+.fold-sum::before{content:"▶";font-size:11px;color:var(--cmd);transition:transform .15s}
+.fold[open]>.fold-sum::before{transform:rotate(90deg)}
+.fold-sum h3{margin:0}
+.fold-sum::after{content:"ひらく";margin-left:auto;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 10px;white-space:nowrap}
+.fold[open]>.fold-sum::after{content:"とじる"}
+.fold-sum:hover h3{color:var(--cmd)}
+.fold-sum:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.fold-body{padding:2px 0 22px}
+.toc-sep{flex:0 0 1px;height:18px;background:var(--line);margin:0 4px}
+.toc-b.sub{color:var(--muted);border-style:dashed}
+.brand p.by{font-size:12.5px;opacity:.9}
+@media (prefers-reduced-motion:reduce){.fold-sum::before{transition:none}}
 @media (max-width:700px),(max-height:560px){.maker{position:static}}
 @media (prefers-reduced-motion:reduce){.maker.flash{animation:none}.card:hover .disc,.card[aria-pressed="true"] .disc{animation:none}.toast{transition:none}}
 @media print{nav.tabs,.maker,.finder,.theme-btn,.copy,.zp,#zlayer,.float-ctl,.toc-in,.card-foot,.zoom-mini{display:none!important}body{background:#fff}.card{break-inside:avoid}}
@@ -378,7 +407,7 @@ body.hide-ui nav.tabs,body.hide-ui main .maker{display:none}
 <header class="top">
   <div class="brand">
     <h1>マイクラ教育版 コマンド図鑑</h1>
-    <p>図鑑のカードをタップすると、そのIDでコマンドができるよ。コマンドは書きかえもOK。「拡大」で大きく見せられます（4つまで）。</p>
+    <p class="by">制作：ひろ　｜　「ここがわかりにくい」「このコマンドもほしい」など、改善のアイデアやまちがいに気づいたら、ひろまで気軽に教えてください。</p>
   </div>
   <button class="theme-btn" id="themeBtn" type="button">画面の明るさ：自動</button>
 </header>
@@ -386,7 +415,7 @@ body.hide-ui nav.tabs,body.hide-ui main .maker{display:none}
 <main id="main"></main>
 <footer>
   <p>マイクラ教育版（統合版ベース）向け。バージョンによって使えないIDや、見え方・音がちがうことがあります。カードの絵や、レベルごとの数字は「だいたい」の目安です。</p>
-  <p class="credit">文責：ひろ　／　授業でのご利用はご自由に。無断での転載・販売はご遠慮ください。　／　Minecraft は Mojang Studios / Microsoft の商標です。この資料は非公式です。</p>
+  <p class="credit">制作：ひろ　／　授業でのご利用はご自由に。無断での転載・販売はご遠慮ください。　／　Minecraft は Mojang Studios / Microsoft の商標です。この資料は非公式です。</p>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="zlayer"></div>
@@ -2401,12 +2430,14 @@ function openPanel(spec){
   const plus=h("button",{class:"zpb",type:"button","aria-label":"文字を大きく",onclick:()=>setFs(Math.min(260,Math.round(p.cur*1.15)))},"A＋");
   const fitB=h("button",{class:"zpb",type:"button",title:"パネルにぴったりの大きさにもどす",onclick:()=>{p.fs=null;fit()}},"ぴったり");
   const maxB=h("button",{class:"zpb",type:"button",onclick:()=>{p.max=!p.max;layout()}},"大きく");
-  const moveB=h("button",{class:"zpb",type:"button","aria-label":"となりの場所へ動かす",title:"となりの場所へ動かす",onclick:()=>move()},"⇄");
+  const QN=["左上","右上","左下","右下"];
+  const qBtns=QN.map((n,i)=>h("button",{class:"zq",type:"button","aria-label":n+"へ動かす",title:n+"へ",onclick:()=>moveTo(i)}));
+  const pickBox=h("span",{class:"zp-pick",role:"group","aria-label":"置く場所（ドラッグでも動かせます）"},...qBtns);
   const closeB=h("button",{class:"zpb close",type:"button","aria-label":"とじる",onclick:()=>closePanel(p)},"✕");
   const body=h("div",{class:"zp-body"});
-  const el=h("div",{class:"zp",role:"region","aria-label":"拡大表示"},
-    h("div",{class:"zp-bar"},title,spec.nav?h("span",{class:"zp-nav"},prev,pos,next):null,
-      h("span",{class:"zp-size"},minus,range,plus,fitB),h("span",{class:"zp-win"},maxB,moveB,closeB)),body);
+  const bar=h("div",{class:"zp-bar",title:"ここをドラッグすると、置く場所をかえられます"},title,spec.nav?h("span",{class:"zp-nav"},prev,pos,next):null,
+      h("span",{class:"zp-size"},minus,range,plus,fitB),h("span",{class:"zp-win"},maxB,pickBox,closeB));
+  const el=h("div",{class:"zp",role:"region","aria-label":"拡大表示"},bar,body);
   range.addEventListener("input",()=>setFs(+range.value));
   function apply(v){p.cur=v;range.value=v;if(p.content)p.content.apply(v)}
   function setFs(v){p.fs=v;apply(v)}
@@ -2424,8 +2455,31 @@ function openPanel(spec){
   }
   function step(d){const n=spec.nav.items.length;p.i=(p.i+d+n)%n;render()}
   function front(){el.style.zIndex=++ZP.top}
-  function layout(){el.className="zp s"+p.slot+(p.max?" max":"");maxB.textContent=p.max?"4分の1にもどす":"大きく";front();requestAnimationFrame(fit)}
-  function move(){const to=(p.slot+1)%4;const other=ZP.list.find(q=>q!==p&&q.slot===to);if(other){other.slot=p.slot;other.layout()}p.slot=to;layout()}
+  function layout(){el.className="zp s"+p.slot+(p.max?" max":"");maxB.textContent=p.max?"4分の1にもどす":"大きく";
+    qBtns.forEach((b,i)=>b.classList.toggle("on",!p.max&&i===p.slot));front();requestAnimationFrame(fit)}
+  function moveTo(to){if(to===p.slot&&!p.max)return;const other=ZP.list.find(q=>q!==p&&q.slot===to);if(other){other.slot=p.slot;other.layout()}p.slot=to;p.max=false;layout()}
+  /* バーをドラッグ → はなした場所（左上・右上・左下・右下）へ */
+  const quadAt=(x,y)=>(y>innerHeight/2?2:0)+(x>innerWidth/2?1:0);
+  let drag=null;
+  bar.addEventListener("pointerdown",e=>{
+    if(e.button!==0||e.target.closest("button,input"))return;
+    e.preventDefault();bar.setPointerCapture(e.pointerId);
+    drag={x:e.clientX,y:e.clientY,moved:false,dz:null};front();
+  });
+  bar.addEventListener("pointermove",e=>{
+    if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+    if(!drag.moved&&Math.hypot(dx,dy)<6)return;
+    if(!drag.moved){drag.moved=true;el.classList.add("dragging");
+      drag.dz=h("div",{class:"zdrop","aria-hidden":"true"},h("i"),h("i"),h("i"),h("i"));drag.dz.style.zIndex=ZP.top;el.style.zIndex=++ZP.top;$("#zlayer").append(drag.dz)}
+    el.style.translate=dx+"px "+dy+"px";
+    const q=quadAt(e.clientX,e.clientY);[...drag.dz.children].forEach((c,i)=>c.classList.toggle("on",i===q));
+  });
+  const endDrag=e=>{
+    if(!drag)return;const d=drag;drag=null;
+    if(d.dz)d.dz.remove();el.classList.remove("dragging");el.style.translate="";
+    if(d.moved&&e&&e.type==="pointerup")moveTo(quadAt(e.clientX,e.clientY));
+  };
+  bar.addEventListener("pointerup",endDrag);bar.addEventListener("pointercancel",endDrag);
   p.layout=layout;p.el=el;
   el.addEventListener("pointerdown",front);
   el.addEventListener("keydown",e=>{if(e.key==="Escape"){e.stopPropagation();closePanel(p)}});
@@ -2924,6 +2978,7 @@ function renderCmd(c){
   c._api={focus(li,id){
     const lst=lists[li];if(!lst)return;lst.reset();
     const card=lst.cards.find(k=>k._data.id===id);if(!card)return;
+    const fd=card.closest("details.fold");if(fd)fd.open=true;
     select(lst,card,false);
     requestAnimationFrame(()=>{card.scrollIntoView({block:"start",behavior:RM.matches?"auto":"smooth"});card.classList.remove("flash");void card.offsetWidth;card.classList.add("flash")});
   }};
@@ -3019,7 +3074,8 @@ const GROUPS=[...new Set(ORDER.map(k=>GROUP[k]))];
 GROUPS.forEach(g=>groupsEl.append(h("button",{class:"gchip",type:"button","aria-pressed":"false","data-g":g,onclick:()=>show(CMDS.find(c=>GROUP[c.key]===g).key,true)},g)));
 const tocEl=$("#toc");
 function jumpTo(el){
-  const nx=el.nextElementSibling;if(nx&&nx.tagName==="DETAILS")nx.open=true;
+  const f=el.closest("details.fold");
+  if(f){f.open=true;const inner=f.querySelector(":scope>.fold-body>details");if(inner)inner.open=true}
   const hidden=document.body.classList.contains("hide-ui");
   const navH=hidden?0:$("nav.tabs").offsetHeight;
   const mk=$("main .maker");let mkH=0;
@@ -3027,17 +3083,30 @@ function jumpTo(el){
   window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+scrollY-navH-mkH-10),behavior:RM.matches?"auto":"smooth"});
   el.classList.remove("hit");void el.offsetWidth;el.classList.add("hit");
 }
+/* 見出しごとに「ひらく／とじる」 */
+function foldSections(sec){
+  let cur=null;
+  for(const el of [...sec.children]){
+    if(el.tagName==="H3"&&el.dataset.toc){
+      const body=h("div",{class:"fold-body"});const sum=h("summary",{class:"fold-sum"});
+      cur=h("details",{class:"fold"},sum,body);el.replaceWith(cur);sum.append(el);continue;
+    }
+    if(cur)cur.lastChild.append(el);
+  }
+}
 function buildToc(sec){
   const hs=[...sec.querySelectorAll("h3[data-toc]")];tocEl.replaceChildren();
   if(!hs.length){tocEl.hidden=true;return}
-  tocEl.hidden=false;tocEl.append(h("span",{class:"toc-lab"},"もくじ"),...hs.map(x=>h("button",{class:"toc-b",type:"button",onclick:()=>jumpTo(x)},x.dataset.toc)));
+  const all=open=>sec.querySelectorAll("details.fold").forEach(d=>d.open=open);
+  tocEl.hidden=false;tocEl.append(h("span",{class:"toc-lab"},"もくじ"),...hs.map(x=>h("button",{class:"toc-b",type:"button",onclick:()=>jumpTo(x)},x.dataset.toc)),
+    h("span",{class:"toc-sep"}),h("button",{class:"toc-b sub",type:"button",onclick:()=>all(true)},"ぜんぶひらく"),h("button",{class:"toc-b sub",type:"button",onclick:()=>all(false)},"ぜんぶとじる"));
 }
 function show(key,push,keepScroll){
   const c=CMDS.find(x=>x.key===key)||CMDS[0];const g=GROUP[c.key];
   if(curKey)scrollMemo[curKey]=window.scrollY;
   for(const b of groupsEl.children)b.setAttribute("aria-pressed",b.dataset.g===g?"true":"false");
   tabsEl.replaceChildren(...CMDS.filter(x=>GROUP[x.key]===g).map(x=>h("button",{class:"tab",role:"tab",type:"button",id:"tab-"+x.key,"aria-selected":x.key===c.key?"true":"false","aria-controls":"sec-"+x.key,onclick:()=>show(x.key,true)},h("span",{class:"tn"},x.name),h("span",{class:"tj"},x.jp))));
-  if(!built[c.key])built[c.key]=c.key==="basics"?renderBasics(c):renderCmd(c);
+  if(!built[c.key]){built[c.key]=c.key==="basics"?renderBasics(c):renderCmd(c);foldSections(built[c.key])}
   curKey=c.key;
   main.replaceChildren(built[c.key]);
   buildToc(built[c.key]);
