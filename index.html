@@ -54,13 +54,13 @@ button,input{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 
 /* header */
-.top{padding:22px 20px 10px;max-width:1180px;margin:0 auto;display:flex;gap:16px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+.top{padding:22px 20px 10px;max-width:1440px;margin:0 auto;display:flex;gap:16px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
 .brand h1{margin:0;font-family:var(--deco);font-weight:400;font-size:clamp(26px,4.4vw,40px);line-height:1.15;letter-spacing:.02em}
 .brand p{margin:6px 0 0;color:var(--muted);font-size:14px}
 .theme-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer}
 
 nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:2px solid var(--line)}
-.tabs-in{max-width:1180px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:8px 14px 0;scrollbar-width:thin}
+.tabs-in{max-width:1440px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:8px 14px 0;scrollbar-width:thin}
 .tab{flex:0 0 auto;border:0;background:none;padding:8px 12px 10px;border-radius:10px 10px 0 0;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;border-bottom:4px solid transparent;margin-bottom:-2px}
 .tab .tn{font-family:var(--pixel);font-size:16px}
 .tab .tj{font-size:11.5px;color:var(--muted)}
@@ -68,7 +68,7 @@ nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:
 .tab[aria-selected="true"]{border-bottom-color:var(--cmd);background:var(--surface-2)}
 .tab[aria-selected="true"] .tn{color:var(--cmd)}
 
-main{max-width:1180px;margin:0 auto;padding:22px 20px 60px}
+main{max-width:1440px;margin:0 auto;padding:22px 20px 60px}
 .sec-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;margin:4px 0 6px}
 .sec-head h2{margin:0;font-family:var(--pixel);font-weight:600;font-size:clamp(32px,6vw,52px);line-height:1;color:var(--cmd)}
 .sec-head .jp{font-size:clamp(18px,2.6vw,24px);font-weight:800}
@@ -174,7 +174,7 @@ td:first-child code{color:var(--cmd)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;transition:.2s;z-index:120;pointer-events:none}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
-footer{max-width:1180px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:13px}
+footer{max-width:1440px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:13px}
 
 
 
@@ -223,7 +223,7 @@ td.muted{color:var(--muted)}
 .m-S{background:#8A8A8A;box-shadow:inset -2px -2px 0 rgba(0,0,0,.2)}
 .m-air{outline:1.5px dashed var(--line);outline-offset:-2px}
 /* ---- v3: 検索・拡大・編集 ---- */
-.nav-top{max-width:1180px;margin:0 auto;display:flex;gap:8px 12px;align-items:center;padding:8px 14px 0;flex-wrap:wrap}
+.nav-top{max-width:1440px;margin:0 auto;display:flex;gap:8px 12px;align-items:center;padding:8px 14px 0;flex-wrap:wrap}
 .searchbox{position:relative;flex:0 0 280px;max-width:100%}
 .searchbox::before{content:"🔍";position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
 .gsearch{width:100%;border:2px solid var(--line);background:var(--surface-2);border-radius:999px;padding:6px 14px 6px 38px;font-size:15px;min-height:40px}
@@ -356,7 +356,7 @@ footer .credit{font-size:12px;opacity:.85}
 .editor.big .hl,.editor.big .ta{font-size:var(--zfs,40px);padding:.25em .5em;line-height:1.4}
 .editor.big .hl{min-height:calc(1.4em + .5em)}
 .zm-foot{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.toc-in{max-width:1180px;margin:0 auto;display:flex;gap:6px;align-items:center;overflow-x:auto;padding:5px 14px 6px;scrollbar-width:thin;border-top:1px dashed var(--line)}
+.toc-in{max-width:1440px;margin:0 auto;display:flex;gap:6px;align-items:center;overflow-x:auto;padding:5px 14px 6px;scrollbar-width:thin;border-top:1px dashed var(--line)}
 .toc-in[hidden]{display:none}
 .toc-lab{font-size:12px;color:var(--muted);font-weight:800;white-space:nowrap;margin-right:2px}
 .toc-b{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:1px 11px;font-size:12.5px;cursor:pointer;white-space:nowrap;line-height:1.7}
@@ -402,6 +402,43 @@ body.hide-ui nav.tabs,body.hide-ui main .maker{display:none}
 /* ---- v7: 読みやすい等幅フォント ---- */
 .id,.z-id{font-weight:600}
 .tab[aria-selected="true"] .tn{font-weight:600}
+
+/* ---- v8: 横長でコンパクトなカード ---- */
+body{--ic:56px;--col:265px;--idfs:17px;--nmfs:14px;--dsfs:12px;--dsl:2}
+body.cs-s{--ic:42px;--col:205px;--idfs:15px;--nmfs:13px;--dsfs:11.5px;--dsl:1}
+body.cs-l{--ic:76px;--col:330px;--idfs:22px;--nmfs:16px;--dsfs:13.5px;--dsl:2}
+.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--col)),1fr));gap:8px}
+.card{flex-direction:row;align-items:stretch}
+.card-main{flex-direction:row;align-items:center;gap:10px;padding:7px 4px 7px 8px;min-width:0}
+.card .vis{width:var(--ic);height:var(--ic);flex:0 0 auto;border-radius:8px;font-size:calc(var(--ic)*.62);padding:0;overflow:hidden}
+.card .vis.fmt,.card .vis.ench{padding:0}
+.card .vis.ptc{width:calc(var(--ic)*1.4)}
+.card .vis.eff .orb{width:calc(var(--ic)*.74);height:calc(var(--ic)*.74);font-size:calc(var(--ic)*.38);box-shadow:inset -3px -4px 0 rgba(0,0,0,.18),inset 3px 3px 0 rgba(255,255,255,.25)}
+.card canvas.blk{width:calc(var(--ic)*.72)!important;height:calc(var(--ic)*.72)!important}
+.card .dial{width:calc(var(--ic)*.9);height:calc(var(--ic)*.9);font-size:calc(var(--ic)*.15);border-width:2px}
+.card .dial .arrow{font-size:calc(var(--ic)*.3)}
+.card .disc{width:calc(var(--ic)*.84);height:calc(var(--ic)*.84)}
+.card .disc i{width:34%;height:34%;box-shadow:inset 0 0 0 calc(var(--ic)*.08) var(--lab),inset 0 0 0 calc(var(--ic)*.12) #111}
+.card .fmtx{font-size:calc(var(--ic)*.23);text-shadow:1px 1px 0 rgba(0,0,0,.45)}
+.card .vis.ench{font-size:calc(var(--ic)*.28);gap:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center}
+.card .vis.sky{font-size:calc(var(--ic)*.55)}
+.sdot{position:absolute;top:1px;left:2px;font-size:12px;line-height:1;color:#E0A100;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 1px #fff}
+.card .body{padding:0;gap:1px;min-width:0;flex:1}
+.card .nm{font-size:var(--nmfs);line-height:1.3;display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
+.card .nm .bd{font-size:10px;padding:0 6px;box-shadow:none;line-height:1.6}
+.card .id{font-size:var(--idfs);line-height:1.25;overflow-wrap:anywhere;word-break:break-all}
+.card .id.mid{font-size:calc(var(--idfs)*.88)}
+.card .id.long{font-size:calc(var(--idfs)*.76)}
+.card .id{word-break:normal}
+body:not(.cs-l) .card .lvl div+div{display:none}
+body:not(.cs-l) .card .lvl div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.cs-s .card .lvl{display:none}
+.card .ds{font-size:var(--dsfs);line-height:1.45;display:-webkit-box;-webkit-line-clamp:var(--dsl);-webkit-box-orient:vertical;overflow:hidden}
+.card .lvl{font-size:11px;margin-top:2px;padding-top:2px;line-height:1.4}
+.card-foot{flex-direction:column;justify-content:center;padding:6px 6px 6px 0;gap:4px}
+.card .mini{flex:0 0 auto;min-height:26px;font-size:11px;padding:2px 6px}
+.sizeset{display:flex;gap:4px;align-items:center;margin-left:auto}
+.szl{font-size:12px;color:var(--muted);margin-right:2px}
 @media (max-width:700px),(max-height:560px){.maker{position:static}}
 @media (prefers-reduced-motion:reduce){.maker.flash{animation:none}.card:hover .disc,.card[aria-pressed="true"] .disc{animation:none}.toast{transition:none}}
 @media print{nav.tabs,.maker,.finder,.theme-btn,.copy,.zp,#zlayer,.float-ctl,.toc-in,.card-foot,.zoom-mini{display:none!important}body{background:#fff}.card{break-inside:avoid}}
@@ -1060,6 +1097,308 @@ const STRUCTS=[
  ["0_degrees none block_by_block 5","1ブロックずつ（5秒）","🧱","できていく様子が見える",1,0,"アニメーション"],
  ["0_degrees none layer_by_layer 5","1段ずつ（5秒）","🏗️","下から順に組み上がる",1,0,"アニメーション"]
 ];
+
+/* ====================== 追加データ（v8：ID をふやす） ====================== */
+MOBS.push(
+ ["skeleton_horse","スケルトンホース","🐴","pass","ほねのウマ"],
+ ["zombie_horse","ゾンビホース","🐴","pass","ゾンビのウマ"],
+ ["trader_llama","行商人のラマ","🦙","pass","行商人といっしょにいる"],
+ ["tadpole","オタマジャクシ","🐸","pass","大きくなるとカエルに"],
+ ["zombie_villager_v2","村人ゾンビ","🧟","hostile","なおすと村人にもどる"],
+ ["elder_guardian","エルダーガーディアン","🐡","hostile","海底神殿のボス",0,"warn"],
+ ["endermite","エンダーマイト","🐛","hostile","エンダーパールから出る"],
+ ["piglin_brute","ピグリンブルート","🐗","hostile","とても強いピグリン"],
+ ["zoglin","ゾグリン","🐗","hostile","ゾンビ化したホグリン"]
+);
+ITEMS.push(
+ ["wooden_sword","木の剣","🗡️","ぶき・どうぐ","いちばん弱い剣"],
+ ["stone_sword","石の剣","🗡️","ぶき・どうぐ",""],
+ ["iron_sword","鉄の剣","🗡️","ぶき・どうぐ",""],
+ ["golden_sword","金の剣","🗡️","ぶき・どうぐ","はやいけど、こわれやすい"],
+ ["netherite_sword","ネザライトの剣","⚔️","ぶき・どうぐ","いちばん強い剣"],
+ ["wooden_pickaxe","木のツルハシ","⛏️","ぶき・どうぐ",""],
+ ["stone_pickaxe","石のツルハシ","⛏️","ぶき・どうぐ",""],
+ ["iron_pickaxe","鉄のツルハシ","⛏️","ぶき・どうぐ","ダイヤをほれる"],
+ ["netherite_pickaxe","ネザライトのツルハシ","⛏️","ぶき・どうぐ","いちばん強いツルハシ"],
+ ["iron_axe","鉄の斧","🪓","ぶき・どうぐ",""],
+ ["iron_shovel","鉄のシャベル","🥄","ぶき・どうぐ",""],
+ ["diamond_hoe","ダイヤのクワ","🌱","ぶき・どうぐ","畑をたがやす"],
+ ["brush","ブラシ","🖌️","ぶき・どうぐ","あやしい砂をはらう"],
+ ["lava_bucket","溶岩入りバケツ","🌋","ぶき・どうぐ","溶岩を置ける",0,"warn"],
+ ["milk_bucket","ミルク入りバケツ","🥛","ぶき・どうぐ","飲むとこうかが消える"],
+ ["empty_map","白紙の地図","🗺️","ぶき・どうぐ","使うとまわりの地図になる"],
+ ["recovery_compass","リカバリーコンパス","🧭","ぶき・どうぐ","たおれた場所をさす"],
+ ["ender_eye","エンダーアイ","👁️","ぶき・どうぐ","要塞の方へとんでいく"],
+ ["experience_bottle","エンチャントのびん","🧪","ぶき・どうぐ","わると経験値が出る"],
+ ["fire_charge","ファイヤーチャージ","☄️","ぶき・どうぐ","火をつける",0,"warn"],
+ ["carrot_on_a_stick","ニンジン付きの棒","🥕","ぶき・どうぐ","ブタをあやつる"],
+ ["wind_charge","ウィンドチャージ","🌀","ぶき・どうぐ","風の弾でとびあがる",0,"new"],
+ ["iron_helmet","鉄のヘルメット","🪖","ぼうぐ",""],
+ ["iron_chestplate","鉄のチェストプレート","👕","ぼうぐ",""],
+ ["iron_leggings","鉄のレギンス","👖","ぼうぐ",""],
+ ["iron_boots","鉄のブーツ","👢","ぼうぐ",""],
+ ["netherite_helmet","ネザライトのヘルメット","🪖","ぼうぐ","いちばん強い防具"],
+ ["netherite_chestplate","ネザライトのチェストプレート","👕","ぼうぐ",""],
+ ["netherite_leggings","ネザライトのレギンス","👖","ぼうぐ",""],
+ ["netherite_boots","ネザライトのブーツ","👢","ぼうぐ",""],
+ ["leather_helmet","革の帽子","🎩","ぼうぐ","染めて色をかえられる"],
+ ["leather_chestplate","革の上着","🧥","ぼうぐ",""],
+ ["leather_leggings","革のズボン","👖","ぼうぐ",""],
+ ["leather_boots","革のブーツ","🥾","ぼうぐ",""],
+ ["cooked_porkchop","焼き豚","🍖","たべもの","たくさん回復"],
+ ["cooked_mutton","焼き羊肉","🍖","たべもの",""],
+ ["cooked_cod","焼き魚（タラ）","🐟","たべもの",""],
+ ["cooked_salmon","焼き鮭","🐟","たべもの",""],
+ ["mushroom_stew","キノコシチュー","🍲","たべもの",""],
+ ["rabbit_stew","ウサギシチュー","🍲","たべもの","とてもよく回復"],
+ ["beetroot_soup","ビートルートスープ","🥣","たべもの",""],
+ ["potato","ジャガイモ","🥔","たべもの","植えると育つ"],
+ ["beetroot","ビートルート","🟣","たべもの",""],
+ ["dried_kelp","乾燥コンブ","🌿","たべもの","すぐ食べられる"],
+ ["glow_berries","グロウベリー","🫐","たべもの","光るベリー"],
+ ["chorus_fruit","コーラスフルーツ","🍇","たべもの","食べるとワープする"],
+ ["egg","卵","🥚","そざい","なげるとヒヨコが出ることも"],
+ ["netherite_ingot","ネザライトインゴット","⬛","そざい","いちばん強い素材"],
+ ["copper_ingot","銅インゴット","🟫","そざい",""],
+ ["amethyst_shard","アメジストのかけら","💜","そざい","望遠鏡の材料"],
+ ["quartz","ネザークォーツ","🤍","そざい",""],
+ ["glowstone_dust","グロウストーンダスト","✨","そざい",""],
+ ["gunpowder","火薬","💥","そざい","TNTや花火の材料"],
+ ["slime_ball","スライムボール","🟢","そざい","ねばねば"],
+ ["blaze_rod","ブレイズロッド","🔥","そざい",""],
+ ["feather","羽根","🪶","そざい","矢や羽根ペンの材料"],
+ ["leather","革","🟤","そざい",""],
+ ["ink_sac","イカスミ","⚫","そざい","黒い染料"],
+ ["clay_ball","粘土玉","🩶","そざい",""],
+ ["flint","火打石","🪨","そざい",""],
+ ["sugar","砂糖","🧂","そざい","ケーキの材料"],
+ ["honeycomb","ハニカム","🍯","そざい",""],
+ ["gold_nugget","金塊","🟡","そざい","小さな金"],
+ ["nether_star","ネザースター","🌟","そざい","ウィザーをたおすと出る"],
+ ["painting","絵画","🖼️","かざり・のりもの","かべにかざる"],
+ ["frame","額縁","🖼️","かざり・のりもの","アイテムをかざる"],
+ ["glow_frame","輝く額縁","🖼️","かざり・のりもの","暗くても見える額縁"],
+ ["oak_sign","オークの看板","🪧","かざり・のりもの","文字を書ける",1],
+ ["armor_stand","防具立て","🧍","かざり・のりもの","防具をかざる"],
+ ["flower_pot","植木鉢","🪴","かざり・のりもの",""],
+ ["minecart","トロッコ","🛒","かざり・のりもの","レールの上を走る"],
+ ["oak_boat","オークのボート","🛶","かざり・のりもの","水の上を進む"],
+ ["music_disc_cat","レコード（Cat）","💿","かざり・のりもの","ジュークボックスで流す"],
+ ["music_disc_pigstep","レコード（Pigstep）","💿","かざり・のりもの",""],
+ ["music_disc_otherside","レコード（Otherside）","💿","かざり・のりもの",""],
+ ["sheep_spawn_egg","ヒツジのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["cat_spawn_egg","ネコのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["wolf_spawn_egg","オオカミのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["horse_spawn_egg","ウマのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["rabbit_spawn_egg","ウサギのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["fox_spawn_egg","キツネのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["panda_spawn_egg","パンダのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["parrot_spawn_egg","オウムのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["bee_spawn_egg","ミツバチのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["axolotl_spawn_egg","ウーパールーパーのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["frog_spawn_egg","カエルのスポーンエッグ","🥚","スポーンエッグ",""],
+ ["zombie_spawn_egg","ゾンビのスポーンエッグ","🥚","スポーンエッグ","",0,"warn"],
+ ["creeper_spawn_egg","クリーパーのスポーンエッグ","🥚","スポーンエッグ","",0,"warn"],
+ ["skeleton_spawn_egg","スケルトンのスポーンエッグ","🥚","スポーンエッグ","",0,"warn"],
+ ["npc_spawn_egg","NPCのスポーンエッグ","🥚","スポーンエッグ","話しかけられるキャラ",1,"edu"]
+);
+BLOCKS.push(
+ ["granite","花崗岩","きほん","赤っぽい石",0,0,{p:"noise",c:"#9A6C5B",c2:"#B07F6C"}],
+ ["diorite","閃緑岩","きほん","白っぽい石",0,0,{p:"noise",c:"#BFBFBF",c2:"#E8E8E8"}],
+ ["andesite","安山岩","きほん","灰色の石",0,0,{p:"noise",c:"#858585",c2:"#9C9C9C"}],
+ ["deepslate","深層岩","きほん","地下深くの石",0,0,{p:"noise",c:"#4D4D52",c2:"#3A3A3E"}],
+ ["cobbled_deepslate","深層岩の丸石","きほん","",0,0,{p:"cobble",c:"#4D4D52",c2:"#2E2E33"}],
+ ["gravel","砂利","きほん","下に何もないと落ちる",0,0,{p:"noise",c:"#837F7E",c2:"#6A6564"}],
+ ["clay","粘土","きほん","",0,0,{p:"flat",c:"#A0A6B3",c2:"#959BA8"}],
+ ["mud","泥","きほん","",0,0,{p:"noise",c:"#3C3837",c2:"#4A4544"}],
+ ["moss_block","苔ブロック","きほん","",0,0,{p:"noise",c:"#5A7A2E",c2:"#6B8E35"}],
+ ["podzol","ポドゾル","きほん","森の地面",0,0,{p:"grass",c:"#866043",c2:"#7A5530"}],
+ ["mycelium","菌糸","きほん","キノコ島の地面",0,0,{p:"grass",c:"#866043",c2:"#6E6276"}],
+ ["sandstone","砂岩","きほん","砂漠の石",0,0,{p:"plank",c:"#D8CB94",c2:"#C2B47E"}],
+ ["smooth_stone","なめらかな石","きほん","",0,0,{p:"flat",c:"#A2A2A2",c2:"#9A9A9A"}],
+ ["mossy_cobblestone","苔むした丸石","きほん","",0,0,{p:"cobble",c:"#7E7E7E",c2:"#5E7A3A"}],
+ ["spruce_planks","トウヒの板","きほん","",0,0,{p:"plank",c:"#735531",c2:"#5C4325"}],
+ ["birch_planks","シラカバの板","きほん","",0,0,{p:"plank",c:"#C9B77D",c2:"#B5A36A"}],
+ ["dark_oak_planks","ダークオークの板","きほん","",0,0,{p:"plank",c:"#432B14",c2:"#36230F"}],
+ ["cherry_planks","サクラの板","きほん","ピンクの板",1,0,{p:"plank",c:"#E3B3AC",c2:"#CF9C95"}],
+ ["spruce_log","トウヒの原木","きほん","",0,0,{p:"log",c:"#3B2A18",c2:"#2C1F11"}],
+ ["birch_log","シラカバの原木","きほん","白い木",0,0,{p:"log",c:"#D7D3C8",c2:"#3A3A3A"}],
+ ["cherry_log","サクラの原木","きほん","",0,0,{p:"log",c:"#3A2430",c2:"#2A1822"}],
+ ["quartz_block","クォーツブロック","きほん","真っ白でつるつる",0,0,{p:"flat",c:"#ECE6DF",c2:"#E0D9D1"}],
+ ["light_gray_wool","薄灰色の羊毛","カラフル","",0,0,{p:"wool",c:"#8E8E86",c2:"#7F7F78"}],
+ ["gray_wool","灰色の羊毛","カラフル","",0,0,{p:"wool",c:"#3F4447",c2:"#363A3D"}],
+ ["cyan_wool","青緑の羊毛","カラフル","",0,0,{p:"wool",c:"#158991",c2:"#127A81"}],
+ ["green_wool","緑の羊毛","カラフル","",0,0,{p:"wool",c:"#546D1B",c2:"#4A6117"}],
+ ["brown_wool","茶色の羊毛","カラフル","",0,0,{p:"wool",c:"#724728",c2:"#653F23"}],
+ ["magenta_wool","赤紫の羊毛","カラフル","",0,0,{p:"wool",c:"#BD44B3",c2:"#A93BA0"}],
+ ["yellow_concrete","黄色のコンクリート","カラフル","",0,0,{p:"flat",c:"#F0AF15",c2:"#E6A712"}],
+ ["lime_concrete","黄緑のコンクリート","カラフル","",0,0,{p:"flat",c:"#5EA818",c2:"#58A016"}],
+ ["orange_concrete","オレンジのコンクリート","カラフル","",0,0,{p:"flat",c:"#E06100",c2:"#D45C00"}],
+ ["pink_concrete","ピンクのコンクリート","カラフル","",0,0,{p:"flat",c:"#D5658E",c2:"#CB5F87"}],
+ ["light_blue_concrete","空色のコンクリート","カラフル","",0,0,{p:"flat",c:"#2389C6",c2:"#2183BD"}],
+ ["purple_concrete","紫のコンクリート","カラフル","",0,0,{p:"flat",c:"#64209C",c2:"#5E1E94"}],
+ ["green_concrete","緑のコンクリート","カラフル","",0,0,{p:"flat",c:"#495B24",c2:"#455622"}],
+ ["black_concrete","黒いコンクリート","カラフル","",0,0,{p:"flat",c:"#080A0F",c2:"#0C0E13"}],
+ ["red_stained_glass","赤い色付きガラス","カラフル","すけて見える色ガラス",0,0,{p:"glass",c:"#B4302E",c2:"#FFFFFF"}],
+ ["blue_stained_glass","青い色付きガラス","カラフル","",0,0,{p:"glass",c:"#334CB2",c2:"#FFFFFF"}],
+ ["yellow_stained_glass","黄色の色付きガラス","カラフル","",0,0,{p:"glass",c:"#E5E533",c2:"#FFFFFF"}],
+ ["lime_stained_glass","黄緑の色付きガラス","カラフル","",0,0,{p:"glass",c:"#7FCC19",c2:"#FFFFFF"}],
+ ["tinted_glass","遮光ガラス","カラフル","光を通さないガラス",0,0,{p:"glass",c:"#2C2632",c2:"#55505C"}],
+ ["coal_ore","石炭鉱石","鉱石","",0,0,{p:"glow",c:"#8A8A8A",c2:"#2B2B2B"}],
+ ["iron_ore","鉄鉱石","鉱石","",0,0,{p:"glow",c:"#8A8A8A",c2:"#D8AF93"}],
+ ["gold_ore","金鉱石","鉱石","",0,0,{p:"glow",c:"#8A8A8A",c2:"#F5D33C"}],
+ ["diamond_ore","ダイヤモンド鉱石","鉱石","みんなのあこがれ",1,0,{p:"glow",c:"#8A8A8A",c2:"#4AEDD9"}],
+ ["emerald_ore","エメラルド鉱石","鉱石","",0,0,{p:"glow",c:"#8A8A8A",c2:"#17DD62"}],
+ ["lapis_ore","ラピスラズリ鉱石","鉱石","",0,0,{p:"glow",c:"#8A8A8A",c2:"#1F45A8"}],
+ ["redstone_ore","レッドストーン鉱石","鉱石","",0,0,{p:"glow",c:"#8A8A8A",c2:"#FF2A1A"}],
+ ["copper_block","銅ブロック","きらきら","時間がたつと緑色になる",0,0,{p:"metal",c:"#C06A4E",c2:"#E7956F"}],
+ ["amethyst_block","アメジストブロック","きらきら","たたくと音が鳴る",0,0,{p:"glow",c:"#8C61C6",c2:"#B58AF0"}],
+ ["netherite_block","ネザライトブロック","きらきら","",0,0,{p:"metal",c:"#443F42",c2:"#5E585B"}],
+ ["coal_block","石炭ブロック","きらきら","",0,0,{p:"noise",c:"#181818",c2:"#2A2A2A"}],
+ ["shroomlight","シュルームライト","きらきら","オレンジに光る",0,0,{p:"glow",c:"#F09846",c2:"#FFD18A"}],
+ ["lantern","ランタン","きらきら","明かり",0,0,{p:"glow",c:"#3A3A3A",c2:"#FFC23A"}],
+ ["crying_obsidian","泣く黒曜石","きらきら","",0,0,{p:"glow",c:"#1D1426",c2:"#8A2BE2"}],
+ ["blue_ice","青氷","しぜん・ふしぎ","いちばんすべる氷",0,0,{p:"ice",c:"#74A8FD",c2:"#B4D2FF"}],
+ ["powder_snow","粉雪","しぜん・ふしぎ","しずむ雪。こおるので注意",0,"warn",{p:"noise",c:"#F8FDFD",c2:"#E8F2F4"}],
+ ["netherrack","ネザーラック","しぜん・ふしぎ","ネザーの地面",0,0,{p:"noise",c:"#6F3534",c2:"#5A2A29"}],
+ ["soul_sand","ソウルサンド","しぜん・ふしぎ","歩くとおそくなる",0,0,{p:"noise",c:"#514033",c2:"#3F3127"}],
+ ["end_stone","エンドストーン","しぜん・ふしぎ","エンドの地面",0,0,{p:"noise",c:"#DBDE9E",c2:"#C8CB8C"}],
+ ["sponge","スポンジ","しぜん・ふしぎ","水をすいとる",0,0,{p:"noise",c:"#C3C04A",c2:"#B0AD3C"}],
+ ["hay_block","干し草の俵","しぜん・ふしぎ","落ちてもダメージが少ない",0,0,{p:"log",c:"#B5970D",c2:"#8F7A0B"}],
+ ["pumpkin","カボチャ","しぜん・ふしぎ","",0,0,{p:"log",c:"#C67615",c2:"#A8620F"}],
+ ["carved_pumpkin","くりぬいたカボチャ","しぜん・ふしぎ","かぶることもできる",0,0,{p:"box",c:"#C67615",c2:"#2B1A0A"}],
+ ["lit_pumpkin","ジャック・オ・ランタン","しぜん・ふしぎ","光るカボチャ",1,0,{p:"box",c:"#C67615",c2:"#FFD24A"}],
+ ["melon_block","スイカ","しぜん・ふしぎ","",0,0,{p:"log",c:"#6F9B1E",c2:"#5A7F18"}],
+ ["cactus","サボテン","しぜん・ふしぎ","さわるといたい",0,0,{p:"log",c:"#4D7A26",c2:"#3C6320"}],
+ ["web","クモの巣","しぜん・ふしぎ","ひっかかると動きがおそくなる",0,0,{p:"glass",c:"#E8E8E8",c2:"#FFFFFF"}],
+ ["anvil","金床","べんり","道具を直す・名前をつける",0,0,{p:"box",c:"#4A4A4A",c2:"#2E2E2E"}],
+ ["enchanting_table","エンチャントテーブル","べんり","",1,0,{p:"box",c:"#3A1D4F",c2:"#1F9A9A"}],
+ ["ender_chest","エンダーチェスト","べんり","どこでも同じ中身",0,0,{p:"chest",c:"#1F3B3D",c2:"#0E1E20"}],
+ ["barrel","たる","べんり","アイテムをしまう",0,0,{p:"plank",c:"#7B5A36",c2:"#5E4426"}],
+ ["smoker","燻製器","べんり","食べ物をはやく焼く",0,0,{p:"furnace",c:"#6B6B6B",c2:"#2B2B2B"}],
+ ["blast_furnace","溶鉱炉","べんり","鉱石をはやくとかす",0,0,{p:"furnace",c:"#5A5A5A",c2:"#1E1E1E"}],
+ ["loom","機織り機","べんり","旗にもようをつける",0,0,{p:"table",c:"#B8945F",c2:"#E6E6E6"}],
+ ["smithing_table","鍛冶台","べんり","",0,0,{p:"table",c:"#3A3A3A",c2:"#7B5A36"}],
+ ["cartography_table","製図台","べんり","地図をつくる",0,0,{p:"table",c:"#7B5A36",c2:"#E6E6E6"}],
+ ["lectern","書見台","べんり","本を置いてみんなで読む",0,0,{p:"plank",c:"#B8945F",c2:"#7B5A36"}],
+ ["beehive","養蜂箱","べんり","ミツバチの家",0,0,{p:"plank",c:"#C9A15A",c2:"#8C6A2E"}],
+ ["bell","鐘","べんり","鳴らすと村人が家に帰る",0,0,{p:"metal",c:"#F5D33C",c2:"#FFF39A"}],
+ ["ladder","はしご","べんり","",0,0,{p:"plank",c:"#7B5A36",c2:"#4A3420"}],
+ ["scaffolding","足場","べんり","のぼりおりできる",0,0,{p:"plank",c:"#D6B56E",c2:"#A8893F"}],
+ ["campfire","たき火","べんり","",0,0,{p:"torch",c:"#6B5235",c2:"#FF8A1A"}],
+ ["rail","レール","しかけ・レッドストーン","トロッコの道",0,0,{p:"border",c:"#8A8A8A",c2:"#6B4A2E"}],
+ ["golden_rail","パワードレール","しかけ・レッドストーン","トロッコを加速する",0,0,{p:"border",c:"#F5D33C",c2:"#6B4A2E"}],
+ ["redstone_lamp","レッドストーンランプ","しかけ・レッドストーン","信号で光る",0,0,{p:"glow",c:"#6B3A1E",c2:"#FFB060"}],
+ ["lever","レバー","しかけ・レッドストーン","ON/OFFのスイッチ",1,0,{p:"box",c:"#7B5A36",c2:"#8A8A8A"}],
+ ["stone_button","石のボタン","しかけ・レッドストーン","おすと少しだけ信号",1,0,{p:"flat",c:"#8A8A8A",c2:"#7A7A7A"}],
+ ["target","的","しかけ・レッドストーン","当てると信号が出る",0,0,{p:"box",c:"#E8E8E8",c2:"#C8413A"}],
+ ["observer","オブザーバー","しかけ・レッドストーン","変化を見つけると信号",0,0,{p:"box",c:"#6E6E6E",c2:"#2B2B2B"}],
+ ["piston","ピストン","しかけ・レッドストーン","ブロックをおす",0,0,{p:"plank",c:"#9C7A48",c2:"#7A7A7A"}],
+ ["sticky_piston","粘着ピストン","しかけ・レッドストーン","ブロックをおしてひく",0,0,{p:"plank",c:"#7FB85A",c2:"#7A7A7A"}],
+ ["dispenser","ディスペンサー","しかけ・レッドストーン","アイテムを発射する",0,0,{p:"furnace",c:"#7E7E7E",c2:"#2B2B2B"}],
+ ["hopper","ホッパー","しかけ・レッドストーン","アイテムを運ぶ",0,0,{p:"box",c:"#4A4A4A",c2:"#2B2B2B"}],
+ ["daylight_detector","日照センサー","しかけ・レッドストーン","昼になると信号",0,0,{p:"box",c:"#C9B98A",c2:"#4A6FA8"}]
+);
+SND.push(
+ ["note.creeper","クリーパーの音（音ブロック）","💥","おもしろ演出","音ブロック"],
+ ["note.zombie","ゾンビの音（音ブロック）","🧟","こわい演出","音ブロック"],
+ ["note.skeleton","スケルトンの音（音ブロック）","💀","こわい演出","音ブロック"],
+ ["note.enderdragon","ドラゴンの音（音ブロック）","🐉","ボス登場","音ブロック"],
+ ["note.piglin","ピグリンの音（音ブロック）","🐽","おもしろ演出","音ブロック"],
+ ["random.burp","げっぷ","😋","おもしろ","ゲーム",1],
+ ["random.fuse","導火線のジジジ","🧨","ドキドキ","ゲーム",1],
+ ["random.anvil_use","金床を使う音","🔨","作業","ゲーム"],
+ ["random.anvil_break","金床がこわれる音","💔","しっぱい","ゲーム"],
+ ["random.enderchestopen","エンダーチェストをあける","📦","アイテムゲット","ゲーム"],
+ ["random.shulkerboxopen","シュルカーボックスをあける","🎁","プレゼント","ゲーム"],
+ ["random.lever_click","レバーのカチッ","🕹️","スイッチ","ゲーム"],
+ ["random.potion.brewed","ポーションができた","🧪","完成","ゲーム"],
+ ["camera.take_picture","カメラのシャッター","📷","写真","ゲーム",1],
+ ["item.book.page_turn","本をめくる音","📖","おはなし","ゲーム"],
+ ["block.enchanting_table.use","エンチャントの音","🔮","まほう","ゲーム"],
+ ["beacon.activate","ビーコンがつく","🔆","パワーアップ","ゲーム",1],
+ ["beacon.power","ビーコンのパワー","⚡","パワーアップ","ゲーム"],
+ ["conduit.activate","コンジットがつく","🌊","水の演出","ゲーム"],
+ ["portal.travel","ポータルでワープ","🌀","テレポート","ゲーム",1],
+ ["portal.trigger","ポータルに入る","🌀","テレポート","ゲーム"],
+ ["block.end_portal.spawn","エンドポータルが開く","🌌","大イベント","ゲーム",1],
+ ["raid.horn","襲撃の角笛","📯","きけん！","ゲーム"],
+ ["horn.call.0","ヤギの角笛","📯","集合","ゲーム"],
+ ["bubble.pop","あわがはじける","🫧","かわいい","ゲーム"],
+ ["pumpkin.carve","カボチャをくりぬく","🎃","工作","ゲーム"],
+ ["mob.chicken.plop","ニワトリが卵をうむ","🥚","おもしろ","ゲーム"],
+ ["mob.cow.milk","ミルクをしぼる","🥛","のんびり","ゲーム"],
+ ["mob.sheep.shear","ヒツジの毛をかる","✂️","作業","ゲーム"],
+ ["firework.large_blast","大きな花火","🎆","おいわい","ドカン",1],
+ ["item.trident.thunder","トライデントの雷","⚡","びっくり","ドカン"],
+ ["item.trident.throw","トライデントをなげる","🔱","こうげき","ドカン"],
+ ["item.shield.block","盾でふせぐ","🛡️","ガード","ドカン"],
+ ["crossbow.shoot","クロスボウをうつ","🎯","こうげき","ドカン"],
+ ["game.player.die","たおれた音","😵","ゲームオーバー","ドカン"],
+ ["game.player.attack.strong","強いこうげき","👊","ヒット","ドカン"],
+ ["damage.fallbig","高いところから落ちた","🪂","いたい","ドカン"],
+ ["mace.smash_ground","メイスでドーン","🔨","こうげき","ドカン",0,"new"],
+ ["wind_charge.burst","風の弾がはじける","🌀","びっくり","ドカン",0,"new"],
+ ["ambient.cave","洞窟のこわい音","🕳️","こわい","しぜん",1],
+ ["ambient.weather.lightning.impact","雷が落ちた","⚡","びっくり","しぜん"],
+ ["ambient.underwater.enter","水にもぐる","🤿","水の演出","しぜん"],
+ ["liquid.water","水が流れる","💧","しずか","しぜん"],
+ ["liquid.lava","溶岩がぐつぐつ","🌋","あつい","しぜん"],
+ ["fire.ignite","火をつける","🔥","はじまり","しぜん"],
+ ["fire.fire","火がもえる","🔥","たき火","しぜん"],
+ ["dig.grass","草をこわす","🌱","作業","しぜん"],
+ ["dig.stone","石をこわす","🪨","作業","しぜん"],
+ ["dig.wood","木をこわす","🪵","作業","しぜん"],
+ ["mob.cat.purr","ネコのゴロゴロ","😺","かわいい","いきもの",1],
+ ["mob.cat.hiss","ネコのシャー！","😾","おこる","いきもの"],
+ ["mob.wolf.howl","オオカミの遠吠え","🐺","集合","いきもの",1],
+ ["mob.wolf.growl","オオカミのうなり声","🐺","きけん","いきもの"],
+ ["mob.wolf.whine","イヌのクーン","🐶","かなしい","いきもの"],
+ ["mob.wolf.panting","イヌのハッハッ","🐶","かわいい","いきもの"],
+ ["mob.parrot.idle","オウムの鳴き声","🦜","かわいい","いきもの"],
+ ["mob.panda.sneeze","パンダのくしゃみ","🐼","おもしろ","いきもの",1],
+ ["mob.fox.ambient","キツネの鳴き声","🦊","かわいい","いきもの"],
+ ["mob.horse.idle","ウマのいななき","🐎","出発","いきもの"],
+ ["mob.horse.gallop","ウマが走る","🐎","レース","いきもの"],
+ ["mob.axolotl.idle","ウーパールーパー","🦎","かわいい","いきもの"],
+ ["mob.goat.ambient.screamer","さけぶヤギ","🐐","大爆笑","いきもの",1],
+ ["mob.bee.loop","ハチのブーン","🐝","しぜん","いきもの"],
+ ["mob.frog.ambient","カエルの鳴き声","🐸","しぜん","いきもの"],
+ ["mob.allay.idle","アレイの声","🧚","かわいい","いきもの"],
+ ["mob.sniffer.happy","スニッファーがよろこぶ","🦕","よろこび","いきもの"],
+ ["mob.villager.haggle","村人「ふむふむ」","🤔","考え中","いきもの"],
+ ["mob.wanderingtrader.yes","行商人「はい」","🧳","正解","いきもの"],
+ ["mob.creeper.say","クリーパーのシュー","💥","ドキドキ","いきもの",1],
+ ["mob.skeleton.say","スケルトンのカタカタ","💀","こわい","いきもの"],
+ ["mob.spider.say","クモの声","🕷️","こわい","いきもの"],
+ ["mob.endermen.scream","エンダーマンのさけび","🕴️","こわい","いきもの"],
+ ["mob.blaze.breathe","ブレイズの息","🔥","ネザー","いきもの"],
+ ["mob.slime.big","スライムがはねる","🟩","おもしろ","いきもの"],
+ ["mob.ghast.fireball","ガストの火の玉","☄️","こうげき","いきもの"],
+ ["mob.elderguardian.curse","エルダーガーディアンの呪い","🐡","びっくり","いきもの"],
+ ["mob.ravager.roar","ラヴェジャーのほえ声","🐂","ボス登場","いきもの"],
+ ["mob.warden.roar","ウォーデンのほえ声","👁️","とてもこわい","いきもの"],
+ ["mob.warden.heartbeat","ウォーデンの心臓の音","💓","ドキドキ","いきもの"],
+ ["mob.enderdragon.flap","ドラゴンのはばたき","🐉","ボス戦","いきもの"],
+ ["mob.wither.ambient","ウィザーの声","☠️","ボス戦","いきもの"],
+ ["mob.zombie.death","ゾンビをたおした","🧟","やったね","いきもの"],
+ ["mob.agent.spawn","エージェントが出る音","🤖","プログラミング","教育版",1],
+ ["sparkler.active","手持ち花火","🎇","おいわい","教育版"],
+ ["balloon.pop","風船がわれる","🎈","びっくり","教育版"],
+ ["elemconstruct.active","元素構成器の音","⚗️","実験","教育版"],
+ ["lt.reaction.fire","実験の反応（火）","🔥","実験","教育版"]
+);
+MUS.push(
+ ["music.game.water","水中のBGM","水の中みたい","曲による","#3A9AD0","ゲームBGM"],
+ ["music.game.lush_caves","緑の洞窟のBGM","ふしぎ・やさしい","曲による","#6FBF4A","ゲームBGM"],
+ ["music.game.deep_dark","ディープダークのBGM","こわい・しずか","曲による","#1E3A40","ゲームBGM"],
+ ["music.game.meadow","草原のBGM","のどか","曲による","#9FD86A","ゲームBGM"],
+ ["music.overworld.cherry_grove","桜の林のBGM","やさしい・春","曲による","#F0A6C8","ゲームBGM",0,"new"],
+ ["music.game.credits","エンドロールのBGM","おわり・感動","曲による","#E0C85A","ゲームBGM"]
+);
+for(const [arr,gi] of [[MOBS,3],[ITEMS,3],[BLOCKS,2],[SND,4],[MUS,5]]){
+  const order=[...new Set(arr.map(r=>r[gi]))];arr.sort((a,b)=>order.indexOf(a[gi])-order.indexOf(b[gi]));
+}
 
 /* ====================== 追加データ（v3） ====================== */
 /* ---- スポーン状態（summon の最後 / event で使う） ---- */
@@ -2395,17 +2734,18 @@ function wireVis(vis,card){
     card.addEventListener("focusin",()=>hovered.add(s));card.addEventListener("focusout",()=>hovered.delete(s))}
 }
 
+/* IDは「_」「:」「.」の後ろで折り返す（単語の途中で切れにくくする） */
+function idParts(t){const out=[];for(const p of t.split(/(?<=[_:.,])/)){out.push(p);out.push(h("wbr"))}out.pop();return out}
 function makeCard(o,def,hooks){
   const vis=o.mkVis();
-  const left=o.star?h("span",{class:"bd star"},"★ おすすめ"):null;
+  if(o.star)vis.append(h("span",{class:"sdot",title:"おすすめ","aria-label":"おすすめ"},"★"));
   const right=o.type==="ench"?h("span",{class:"bd lv"},"最大Lv."+o.max):tagBadge(o.tag);
-  vis.append(badgeRow(left,right));
   let extra=null;
   if(o.lv)extra=lvLines(o.lv.fn,o.type==="ench"?o.max:undefined);
   if(o.lvText)extra=h("div",{class:"lvl"},...o.lvText.map(([a,b])=>h("div",{},h("b",{},a+" "),b)));
   const isRule=def&&def.use==="x";
   const main=h("button",{class:"card-main",type:"button","aria-pressed":"false"},vis,
-    h("div",{class:"body"},h("div",{class:"nm"},o.name),h("div",{class:"id"+(o.shown.length>26?" long":"")},o.shown),o.desc?h("div",{class:"ds"},o.desc):null,extra));
+    h("div",{class:"body"},h("div",{class:"nm"},h("span",{},o.name),right),h("div",{class:"id"+(o.shown.length>22?" long":o.shown.length>12?" mid":"")},...idParts(o.shown)),o.desc?h("div",{class:"ds",title:o.desc},o.desc):null,extra));
   const copyB=h("button",{class:"mini",type:"button","aria-label":o.name+" の"+(isRule?"ルール":"ID")+"をコピー"},"コピー");
   const zoomB=h("button",{class:"mini",type:"button","aria-label":o.name+" を拡大"},"拡大");
   const card=h("div",{class:"card","data-on":"false"},main,h("div",{class:"card-foot"},copyB,zoomB));
@@ -2597,6 +2937,14 @@ function makeEditor(o){
   paint();
   return ed;
 }
+
+/* ====================== カードの大きさ（小・中・大） ====================== */
+let CS="m";try{CS=localStorage.getItem("zukan-cs")||"m"}catch(e){}
+function applyCS(){document.body.classList.remove("cs-s","cs-m","cs-l");document.body.classList.add("cs-"+CS);
+  document.querySelectorAll(".szb").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===CS?"true":"false"))}
+function sizeSet(){return h("span",{class:"sizeset",role:"group","aria-label":"カードの大きさ"},h("span",{class:"szl"},"大きさ"),
+  ...[["s","小"],["m","中"],["l","大"]].map(([k,l])=>h("button",{class:"chip szb",type:"button","data-s":k,"aria-pressed":k===CS?"true":"false",
+    onclick:()=>{CS=k;try{localStorage.setItem("zukan-cs",k)}catch(e){}applyCS()}},l)))}
 
 /* ====================== 小さな部品 ====================== */
 function chatRow(cmd,what){
@@ -2956,7 +3304,7 @@ function renderCmd(c){
     lst.reset=()=>{fGroup=null;fStar=false;q="";search.value="";draw()};
     sec.append(h("h3",{"data-toc":def.title.replace(/（.*$/,"")},def.title,count));
     if(def.lead)sec.append(h("p",{class:"lead",style:"margin:-4px 0 10px"},def.lead));
-    sec.append(h("div",{class:"finder"},search,filters),grid);
+    sec.append(h("div",{class:"finder"},search,filters,sizeSet()),grid);
     draw();
   });
   const d0=defs[0];
@@ -3130,6 +3478,7 @@ try{mode=localStorage.getItem("zukan-theme")||"auto"}catch(e){}
 const applyTheme=()=>{if(mode==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",mode);tb.textContent="画面の明るさ："+lab[mode]};
 tb.addEventListener("click",()=>{mode=modes[(modes.indexOf(mode)+1)%3];try{localStorage.setItem("zukan-theme",mode)}catch(e){}applyTheme()});
 applyTheme();
+applyCS();
 $("#zpToggle").addEventListener("click",()=>{document.body.classList.toggle("hide-zp");updateZT();if(!document.body.classList.contains("hide-zp"))ZP.list.forEach(q=>q.refit())});
 const uiT=$("#uiToggle");
 uiT.addEventListener("click",()=>{const on=document.body.classList.toggle("hide-ui");uiT.setAttribute("aria-pressed",on?"true":"false");uiT.textContent=on?"⬇ タブとメーカーを出す":"⬆ タブとメーカーをかくす"});
